@@ -1,4 +1,39 @@
 package co.edu.uniquindio.unicine.entidades;
 
-public class Horario {
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public class Horario implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
+    private Integer codigo;
+
+    @Column(nullable = false)
+    private LocalDate dia;
+
+    @Column(nullable = false)
+    private LocalTime hora;
+
+    @OneToMany(mappedBy = "horario")
+    private List<Funcion> funcion;
+
+    public Horario(LocalDate dia, LocalTime hora) {
+        this.dia = dia;
+        this.hora = hora;
+    }
 }
