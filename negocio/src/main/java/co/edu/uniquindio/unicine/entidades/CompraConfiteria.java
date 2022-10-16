@@ -25,6 +25,7 @@ public class CompraConfiteria implements Serializable {
     @Column(nullable = false)
     private Float precio;
 
+    @Positive
     @Column(nullable = false)
     private Integer unidades;
 

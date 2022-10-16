@@ -1,9 +1,6 @@
 package co.edu.uniquindio.unicine.entidades;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Positive;
@@ -37,6 +34,7 @@ public class DistribucionSillas implements Serializable {
     @Column(nullable = false)
     private Integer columnas;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "distribucionSillas")
     private List<Sala> salas;
 

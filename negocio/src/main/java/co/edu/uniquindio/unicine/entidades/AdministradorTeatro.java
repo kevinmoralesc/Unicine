@@ -14,6 +14,7 @@ import java.util.List;
 @ToString(callSuper = true)
 public class AdministradorTeatro extends Persona implements Serializable {
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "administrador")
     private List<Teatro> teatros;
 

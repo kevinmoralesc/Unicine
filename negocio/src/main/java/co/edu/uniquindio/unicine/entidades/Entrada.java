@@ -26,16 +26,20 @@ public class Entrada implements Serializable {
 
     @Positive
     @Column(nullable = false)
-    private int fila;
+    private Integer fila;
 
     @Positive
     @Column(nullable = false)
-    private int columna;
+    private Integer columna;
 
     @ManyToOne
     @JoinColumn(nullable = false)
     private Compra compra;
 
-
-
+    public Entrada(Double precio, Integer fila, Integer columna, Compra compra) {
+        this.precio = precio;
+        this.fila = fila;
+        this.columna = columna;
+        this.compra = compra;
+    }
 }

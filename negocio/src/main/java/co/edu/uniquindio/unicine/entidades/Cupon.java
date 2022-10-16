@@ -22,7 +22,7 @@ public class Cupon implements Serializable {
     private Integer codigo;
 
     @Column(nullable = false)
-    private Float descripcion;
+    private String descripcion;
 
     @Positive
     @Column(nullable = false)
@@ -34,10 +34,11 @@ public class Cupon implements Serializable {
     @Column(nullable = false)
     private String criterio;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "cupon")
     private List<CuponCliente> cuponClientes;
 
-    public Cupon(Float descripcion, Float descuento, LocalDate fechaVencimiento, String criterio) {
+    public Cupon(String descripcion, Float descuento, LocalDate fechaVencimiento, String criterio) {
         this.descripcion = descripcion;
         this.descuento = descuento;
         this.fechaVencimiento = fechaVencimiento;

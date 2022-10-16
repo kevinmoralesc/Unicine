@@ -2,11 +2,13 @@ package co.edu.uniquindio.unicine.test;
 
 import co.edu.uniquindio.unicine.entidades.Cliente;
 import co.edu.uniquindio.unicine.repo.ClienteRepo;
+import org.aspectj.apache.bcel.util.ClassPath;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,79 +22,44 @@ public class ClienteTest {
     private ClienteRepo clienteRepo;
 
     @Test
+    @Sql("classpath:dataset.sql")
     public void registrar(){
-
         ArrayList<String> telefonos = new ArrayList<>();
         telefonos.add("312219");
-        Cliente cliente = new Cliente("Pepito","pepe@email.com","123","ruta","Activo",telefonos);
+        Cliente cliente = new Cliente("Pepito","pepe@email.com","123","ruta",true,telefonos);
         Cliente guardado = clienteRepo.save(cliente);
-
         Assertions.assertNotNull(guardado);
     }
 
     @Test
+    @Sql("classpath:dataset.sql")
     public void eliminar(){
-
-        ArrayList<String> telefonos = new ArrayList<>();
-        telefonos.add("312219");
-        Cliente cliente = new Cliente("Pepito","pepe@email.com","123","ruta","Activo",telefonos);
-        cliente.setCodigo(1);
-        Cliente guardado = clienteRepo.save(cliente);
-
-        clienteRepo.delete(cliente);
-
-        Optional <Cliente> buscado = clienteRepo.findById(1);
-
-        Assertions.assertNull(buscado.orElse(null));
+        Cliente buscado = clienteRepo.findById(1).orElse(null);
+        clienteRepo.delete(buscado);
+        Assertions.assertNull(clienteRepo.findById(1).orElse(null));
     }
 
     @Test
+    @Sql("classpath:dataset.sql")
     public void actualizar(){
-        ArrayList<String> telefonos = new ArrayList<>();
-        telefonos.add("312219");
-        Cliente cliente = new Cliente("Pepito","pepe@email.com","123","ruta","Activo",telefonos);
-        cliente.setCodigo(1);
-        Cliente guardado = clienteRepo.save(cliente);
-
-        guardado.setCorreo("pepe_nuevo@email.com");
-
-        Cliente clienteNuevo = clienteRepo.save(guardado);
-
+        Cliente buscado = clienteRepo.findById(4).orElse(null);
+        buscado.setCorreo("pepe_nuevo@email.com");
+        Cliente clienteNuevo = clienteRepo.save(buscado);
         Assertions.assertEquals("pepe_nuevo@email.com", clienteNuevo.getCorreo());
-
     }
 
     @Test
+    @Sql("classpath:dataset.sql")
     public void obtener(){
-
-        ArrayList<String> telefonos = new ArrayList<>();
-        telefonos.add("312219");
-        Cliente cliente = new Cliente("Pepito","pepe@email.com","123","ruta","Activo",telefonos);
-
-        Cliente guardado = clienteRepo.save(cliente);
-
-
-        Optional <Cliente> buscado = clienteRepo.findById(12);
-
-        System.out.println(buscado.orElse(null));
-
+        Optional <Cliente> buscado = clienteRepo.findById(4);
+        Assertions.assertNotNull(buscado.orElse(null));
     }
 
     @Test
+    @Sql("classpath:dataset.sql")
     public void listar(){
-
-        ArrayList<String> telefonos = new ArrayList<>();
-        telefonos.add("312219");
-        Cliente cliente = new Cliente("Pepito","pepe@email.com","123","ruta","Activo",telefonos);
-
-        clienteRepo.save(cliente);
-
-        Cliente cliente1 = new Cliente("luis","luis@email.com","123","ruta","Activo",telefonos);
-        clienteRepo.save(cliente1);
-
         List<Cliente> lista = clienteRepo.findAll();
-        System.out.println(lista);
-
+        lista.forEach(System.out::println);
     }
 
 }

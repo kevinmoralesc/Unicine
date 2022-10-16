@@ -19,7 +19,7 @@ public class Cliente extends Persona implements Serializable {
     @Column(nullable = false)
     private String urlFoto;
     @Column(nullable = false)
-    private String estado;
+    private boolean estado;
     @ElementCollection
     private List<String> telefonos;
 
@@ -31,7 +31,7 @@ public class Cliente extends Persona implements Serializable {
     @OneToMany(mappedBy = "cliente")
     private List<CuponCliente> cuponClientes;
 
-    public Cliente(String nombre, String correo, String password, String urlFoto, String estado, List<String> telefonos) {
+    public Cliente(String nombre, String correo, String password, String urlFoto, boolean estado, List<String> telefonos) {
         super(nombre, correo, password);
         this.urlFoto = urlFoto;
         this.estado = estado;

@@ -1,9 +1,6 @@
 package co.edu.uniquindio.unicine.entidades;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -28,6 +25,7 @@ public class Sala implements Serializable {
     @JoinColumn(nullable = false)
     private Teatro teatro;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "sala")
     private List<Funcion> funciones;
 
@@ -35,8 +33,9 @@ public class Sala implements Serializable {
     @JoinColumn(nullable = false)
     private DistribucionSillas distribucionSillas;
 
-    public Sala(String nombre, Teatro teatro) {
+    public Sala(String nombre, Teatro teatro, DistribucionSillas distribucionSillas) {
         this.nombre = nombre;
         this.teatro = teatro;
+        this.distribucionSillas = distribucionSillas;
     }
 }

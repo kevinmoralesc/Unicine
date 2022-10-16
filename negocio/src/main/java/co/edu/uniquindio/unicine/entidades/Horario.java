@@ -1,9 +1,6 @@
 package co.edu.uniquindio.unicine.entidades;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -35,6 +32,7 @@ public class Horario implements Serializable {
     @Column(nullable = false)
     private LocalTime horaFin;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "horario")
     private List<Funcion> funcion;
 

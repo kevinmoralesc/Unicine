@@ -1,9 +1,6 @@
 package co.edu.uniquindio.unicine.entidades;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -21,8 +18,9 @@ public class CuponCliente implements Serializable {
     private Integer codigo;
 
     @Column(nullable = false)
-    private String estado;
+    private Boolean estado;
 
+    @ToString.Exclude
     @OneToOne(mappedBy = "cuponCliente")
     private Compra compra;
 
@@ -34,7 +32,7 @@ public class CuponCliente implements Serializable {
     @JoinColumn(nullable = false)
     private Cupon cupon;
 
-    public CuponCliente(String estado, Compra compra, Cliente cliente, Cupon cupon) {
+    public CuponCliente(Boolean estado, Compra compra, Cliente cliente, Cupon cupon) {
         this.estado = estado;
         this.compra = compra;
         this.cliente = cliente;

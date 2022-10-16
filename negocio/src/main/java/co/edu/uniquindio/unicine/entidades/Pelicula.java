@@ -1,9 +1,6 @@
 package co.edu.uniquindio.unicine.entidades;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -38,16 +35,17 @@ public class Pelicula implements Serializable {
     private List<Genero> generos;
 
     @Column(nullable = false, length = 20)
-    private String estado;
+    private Boolean estado;
 
     @Column(nullable = false)
     private String reparto;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "pelicula")
     private List<Funcion> funciones;
 
 
-    public Pelicula(String nombre, String sinopsis, String urlTrailer, String urlImagen,List<Genero> generos, String estado, String reparto) {
+    public Pelicula(String nombre, String sinopsis, String urlTrailer, String urlImagen,List<Genero> generos, Boolean estado, String reparto) {
         this.nombre = nombre;
         this.sinopsis = sinopsis;
         this.urlTrailer = urlTrailer;

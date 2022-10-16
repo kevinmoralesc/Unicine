@@ -1,9 +1,6 @@
 package co.edu.uniquindio.unicine.entidades;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Positive;
@@ -34,9 +31,11 @@ public class Compra implements Serializable {
     @Column(nullable = false)
     private Float valorTotal;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "compra")
     private List<Entrada> entradas;
 
+    @ToString.Exclude
     @OneToOne
     private CuponCliente cuponCliente;
 
@@ -48,6 +47,7 @@ public class Compra implements Serializable {
     @JoinColumn(nullable = false)
     private Cliente cliente;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "compra")
     private List<CompraConfiteria> compraConfiterias;
 

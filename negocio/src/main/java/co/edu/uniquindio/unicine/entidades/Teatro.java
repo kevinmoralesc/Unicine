@@ -32,6 +32,7 @@ public class Teatro implements Serializable {
     @JoinColumn(nullable = false)
     private AdministradorTeatro administrador;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "teatro")
     private List<Sala> salas;
 

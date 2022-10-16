@@ -1,10 +1,7 @@
 package co.edu.uniquindio.unicine.entidades;
 
 import jdk.jfr.Enabled;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Positive;
@@ -23,10 +20,8 @@ public class Confiteria implements Serializable {
     @EqualsAndHashCode.Include
     private Integer codigo;
 
-
     @Column(nullable = false,length = 25)
     private String nombre;
-
 
     @Positive
     @Column(nullable = false)
@@ -35,6 +30,7 @@ public class Confiteria implements Serializable {
     @Column(nullable = false)
     private String url_imagen;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "confiteria")
     private List<CompraConfiteria> compraConfiterias;
 
