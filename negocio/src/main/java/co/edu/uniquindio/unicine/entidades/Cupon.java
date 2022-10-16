@@ -5,7 +5,9 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Positive;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -19,29 +21,21 @@ public class Cupon implements Serializable {
     @EqualsAndHashCode.Include
     private Integer codigo;
 
+    @Column(nullable = false)
+    private Float descripcion;
+
     @Positive
     @Column(nullable = false)
     private Float descuento;
 
     @Column(nullable = false)
-    private LocalDateTime fechaVencimiento;
+    private LocalDate fechaVencimiento;
 
     @Column(nullable = false)
-    private boolean estado;
+    private String criterio;
 
-    @OneToOne(mappedBy = "cupon")
-    private Compra compra;
+    @OneToMany(mappedBy = "cupon")
+    private List<CuponCliente> cuponClientes;
 
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    private Cliente cliente;
 
-    @Builder
-
-    public Cupon(Float descuento, LocalDateTime fechaVencimiento, boolean estado, Cliente cliente) {
-        this.descuento = descuento;
-        this.fechaVencimiento = fechaVencimiento;
-        this.estado = estado;
-        this.cliente = cliente;
-    }
 }

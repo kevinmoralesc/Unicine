@@ -29,11 +29,19 @@ public class Horario implements Serializable {
     @Column(nullable = false)
     private LocalTime hora;
 
+    @Column(nullable = false)
+    private LocalTime horaInicio;
+
+    @Column(nullable = false)
+    private LocalTime horaFin;
+
     @OneToMany(mappedBy = "horario")
     private List<Funcion> funcion;
 
-    public Horario(LocalDate dia, LocalTime hora) {
+    public Horario(LocalDate dia, LocalTime hora, LocalTime horaInicio, LocalTime horaFin) {
         this.dia = dia;
         this.hora = hora;
+        this.horaInicio = horaInicio;
+        this.horaFin = horaFin;
     }
 }

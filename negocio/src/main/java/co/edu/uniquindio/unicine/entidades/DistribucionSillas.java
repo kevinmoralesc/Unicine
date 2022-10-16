@@ -8,34 +8,42 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.Positive;
 import java.io.Serializable;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Entrada implements Serializable {
+public class DistribucionSillas implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Integer codigo;
 
-    @Positive
     @Column(nullable = false)
-    private Double precio;
-
-    @Positive
-    @Column(nullable = false)
-    private int fila;
+    private String urlEsquema;
 
     @Positive
     @Column(nullable = false)
-    private int columna;
+    private Integer totalSillas;
 
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    private Compra compra;
+    @Positive
+    @Column(nullable = false)
+    private Integer filas;
 
+    @Positive
+    @Column(nullable = false)
+    private Integer columnas;
 
+    @OneToMany(mappedBy = "distribucionSillas")
+    private List<Sala> salas;
 
+    public DistribucionSillas(String urlEsquema, Integer totalSillas, Integer filas, Integer columnas) {
+        this.urlEsquema = urlEsquema;
+        this.totalSillas = totalSillas;
+        this.filas = filas;
+        this.columnas = columnas;
+    }
 }

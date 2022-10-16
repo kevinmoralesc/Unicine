@@ -5,11 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -20,6 +19,24 @@ public class Sala implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-
     private Integer codigo;
+
+    @Column(nullable = false,length = 50)
+    private String nombre;
+
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Teatro teatro;
+
+    @OneToMany(mappedBy = "sala")
+    private List<Funcion> funciones;
+
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private DistribucionSillas distribucionSillas;
+
+    public Sala(String nombre, Teatro teatro) {
+        this.nombre = nombre;
+        this.teatro = teatro;
+    }
 }
