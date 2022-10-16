@@ -51,12 +51,13 @@ public class Compra implements Serializable {
     @OneToMany(mappedBy = "compra")
     private List<CompraConfiteria> compraConfiterias;
 
-    public Compra(MedioPago medioPago, LocalDateTime fecha, Float valorTotal, CuponCliente cuponCliente, Funcion funcion, Cliente cliente ){
+    public Compra(MedioPago medioPago, LocalDateTime fecha,List<Entrada> entradas, CuponCliente cuponCliente, Funcion funcion, Cliente cliente, List<CompraConfiteria> compraConfiterias) {
         this.medioPago = medioPago;
         this.fecha = fecha;
-        this.valorTotal = valorTotal;
+        this.entradas = entradas;
         this.cuponCliente = cuponCliente;
         this.funcion = funcion;
         this.cliente = cliente;
+        this.compraConfiterias = compraConfiterias;
     }
 }

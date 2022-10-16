@@ -11,17 +11,17 @@ import java.io.Serializable;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString
 public class Persona implements Serializable {
 
     @Id
     @EqualsAndHashCode.Include
-    @Column(nullable = false,length = 15)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer codigo;
 
-    //@Column(nullable = false,length = 40)
-    //private String nombre;
+    @Column(nullable = false,length = 40)
+    private String nombre;
 
     @Column(nullable = false,length = 25)
     private String correo;
@@ -29,5 +29,9 @@ public class Persona implements Serializable {
     @Column(nullable = false,length = 20)
     private String password;
 
-
+    public Persona(String nombre, String correo, String password) {
+        this.nombre = nombre;
+        this.correo = correo;
+        this.password = password;
+    }
 }

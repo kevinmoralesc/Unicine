@@ -11,11 +11,13 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@ToString
+@ToString(callSuper = true)
 public class AdministradorTeatro extends Persona implements Serializable {
 
     @OneToMany(mappedBy = "administrador")
     private List<Teatro> teatros;
 
+    public AdministradorTeatro(String nombre, String correo, String password) {
+        super(nombre, correo, password);
+    }
 }
