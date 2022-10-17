@@ -20,7 +20,7 @@ public class DistribucionSillas implements Serializable {
     private Integer codigo;
 
     @Column(nullable = false)
-    private String urlEsquema;
+    private String esquema;
 
     @Positive
     @Column(nullable = false)
@@ -38,8 +38,8 @@ public class DistribucionSillas implements Serializable {
     @OneToMany(mappedBy = "distribucionSillas")
     private List<Sala> salas;
 
-    public DistribucionSillas(String urlEsquema, Integer totalSillas, Integer filas, Integer columnas) {
-        this.urlEsquema = urlEsquema;
+    public DistribucionSillas(String esquema, Integer totalSillas, Integer filas, Integer columnas) {
+        this.esquema = esquema;
         this.totalSillas = totalSillas;
         this.filas = filas;
         this.columnas = columnas;

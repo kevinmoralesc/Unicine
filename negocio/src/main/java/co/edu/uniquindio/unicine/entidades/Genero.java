@@ -7,5 +7,6 @@ public enum Genero {
     CIENCIA_FICCION,
     ANIMADA,
     DRAMA,
-    TERROR
+    TERROR,
+    SUSPENSO
 }

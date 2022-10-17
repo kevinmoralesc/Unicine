@@ -13,6 +13,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString
 public class Horario implements Serializable {
 
     @Id
@@ -21,25 +22,25 @@ public class Horario implements Serializable {
     private Integer codigo;
 
     @Column(nullable = false)
-    private LocalDate dia;
+    private String dia;
 
     @Column(nullable = false)
     private LocalTime hora;
 
     @Column(nullable = false)
-    private LocalTime horaInicio;
+    private LocalDate fechaInicio;
 
     @Column(nullable = false)
-    private LocalTime horaFin;
+    private LocalDate fechaFin;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "horario")
     private List<Funcion> funcion;
 
-    public Horario(LocalDate dia, LocalTime hora, LocalTime horaInicio, LocalTime horaFin) {
+    public Horario(String dia, LocalTime hora, LocalDate fechaInicio, LocalDate fechaFin) {
         this.dia = dia;
         this.hora = hora;
-        this.horaInicio = horaInicio;
-        this.horaFin = horaFin;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
     }
 }
