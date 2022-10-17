@@ -31,6 +31,7 @@ public class Cliente extends Persona implements Serializable {
     @OneToMany(mappedBy = "cliente")
     private List<CuponCliente> cuponClientes;
 
+    @Builder
     public Cliente(String nombre, String correo, String password, String urlFoto, boolean estado, List<String> telefonos) {
         super(nombre, correo, password);
         this.urlFoto = urlFoto;

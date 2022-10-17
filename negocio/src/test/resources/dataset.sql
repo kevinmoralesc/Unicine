@@ -15,21 +15,26 @@ insert into ciudad values (1,"Armenia");
 insert into ciudad values (2,"Pereira");
 insert into ciudad values (3,"Manizales");
 insert into ciudad values (4,"Cali");
+insert into ciudad values (5,"Bogota");
 
 insert into administrador_teatro values (1,"admin1@email.com","Admnin1","916165");
 insert into administrador_teatro values (2,"admin2@email.com","Admnin2","494949");
 insert into administrador_teatro values (3,"admin3@email.com","Admnin3","564949");
+insert into administrador_teatro values (4,"admin4@email.com","Admnin4","858585");
+insert into administrador_teatro values (5,"admin5@email.com","Admnin5","585858");
 
 insert into teatro values (1,"Carrera 33 # 2-3","7314346",1,1);
 insert into teatro values (2,"Unicentro Local 301","6269495",1,1);
 insert into teatro values (3,"Parque arboleda","8654575",3,2);
 insert into teatro values (4,"Calle 3 # 12-4 Esquina","46461894",2,3);
+insert into teatro values (5,"Carrera 13 - 25","46461894",1,1);
 
 insert into pelicula values (1,1, "Inside Out", "Actores", "Los sentimientos tienen vida","imagen","trailer");
-insert into pelicula values (2,1, "Harry Potter", "Actores", "Un niño puede usar magia","imagen","trailer");
+insert into pelicula values (2,1, "Harry Potter y la piedra filosofal", "Actores", "Un niño puede usar magia","imagen","trailer");
 insert into pelicula values (3,1, "El conjuro", "Actores", "Una familia se muda a una casa y pasan cosas","imagen","trailer");
 insert into pelicula values (4,0, "Wakanda Forever", "Actores", "Una nueva era en wakanda","imagen","trailer");
 insert into pelicula values (5,1, "Avatar", "Actores", "Un plagio de los pitufos","imagen","trailer");
+insert into pelicula values (6,1, "Harry Potter y el misterio del principe", "Actores", "Un niño puede usar magia","imagen","trailer");
 
 insert into pelicula_generos values (1, "ANIMADA");
 insert into pelicula_generos values (2, "DRAMA");
@@ -49,6 +54,8 @@ insert into confiteria values (7, "Combo perro", 35000,"imagen");
 insert into distribucion_sillas values (1, 5, "ruta", 5, 25);
 insert into distribucion_sillas values (2, 10, "ruta", 10, 100);
 insert into distribucion_sillas values (3, 5, "ruta", 15, 75);
+insert into distribucion_sillas values (4, 8, "ruta", 10, 80);
+insert into distribucion_sillas values (5, 9, "ruta", 12, 108);
 
 insert into sala values (1, "Sala A XD", 2, 2);
 insert into sala values (2, "Sala B", 1, 2);
@@ -74,6 +81,7 @@ insert into cupon values (1, "10", "0", 1, "2022-10-10");
 insert into cupon values (2, "5", "0", 2, "2022-11-09");
 insert into cupon values (3, "8", "0", 3, "2022-11-12");
 insert into cupon values (4, "15", "0", 4, "2022-11-25");
+insert into cupon values (5, "30", "0", 4, "2022-11-25");
 
 insert into cupon_cliente values (1, 0, 1, 2);
 insert into cupon_cliente values (2, 0, 4, 1);

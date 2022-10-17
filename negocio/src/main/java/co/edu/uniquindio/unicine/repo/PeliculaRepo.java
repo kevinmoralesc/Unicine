@@ -1,9 +1,27 @@
 package co.edu.uniquindio.unicine.repo;
 
+import co.edu.uniquindio.unicine.dto.HorarioSalaDTO;
+import co.edu.uniquindio.unicine.entidades.Genero;
 import co.edu.uniquindio.unicine.entidades.Pelicula;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface PeliculaRepo extends JpaRepository<Pelicula,Integer> {
+
+    @Query("select p from Pelicula p where p.nombre like concat('%',:nombre,'%') and p.estado = :estado ")
+    List<Pelicula> buscarPelicula (String nombre, Boolean estado);
+    @Query("select new co.edu.uniquindio.unicine.dto.HorarioSalaDTO(f.horario, f.sala)  from Pelicula p join p.funciones f where p.codigo = :codigoPelicula and f.sala.teatro.codigo = :codigoTeatro")
+    List<HorarioSalaDTO> listarHorarios (Integer codigoPelicula, Integer codigoTeatro);
+
+    @Query("select p from Pelicula p join p.generos g where g = :generoPelicula order by p.nombre asc ")
+    List<Pelicula> listarPeliculas (Genero generoPelicula);
+
+    @Query("select p from Pelicula p where :generoPelicula member of p.generos order by p.nombre asc ")
+    List<Pelicula> listarPeliculas2 (Genero generoPelicula);
+
+
 }

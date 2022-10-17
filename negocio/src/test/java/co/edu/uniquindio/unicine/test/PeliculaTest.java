@@ -1,7 +1,7 @@
 package co.edu.uniquindio.unicine.test;
 
-import co.edu.uniquindio.unicine.entidades.Teatro;
-import co.edu.uniquindio.unicine.repo.TeatroRepo;
+import co.edu.uniquindio.unicine.entidades.Pelicula;
+import co.edu.uniquindio.unicine.repo.PeliculaRepo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -10,18 +10,21 @@ import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
 
+
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class TeatroTest {
+public class PeliculaTest {
 
     @Autowired
-    private TeatroRepo teatroRepo;
+    private PeliculaRepo peliculaRepo;
 
     @Test
     @Sql("classpath:dataset.sql")
-    public void obtenerTeatroCiudad() {
+    public void buscarPelicula(){
 
-        List<Teatro> teatrosCiudad = teatroRepo.listar("Armenia");
-        teatrosCiudad.forEach(System.out::println);
+        List<Pelicula> peliculas = peliculaRepo.buscarPelicula("Harry Potter",true);
+        peliculas.forEach(System.out::println);
+
     }
+
 }

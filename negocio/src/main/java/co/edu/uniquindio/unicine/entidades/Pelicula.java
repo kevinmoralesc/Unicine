@@ -19,7 +19,7 @@ public class Pelicula implements Serializable {
     @EqualsAndHashCode.Include
     private Integer codigo;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 100)
     private String nombre;
 
     @Column(nullable = false)
@@ -33,6 +33,7 @@ public class Pelicula implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @ElementCollection
+    @Column(nullable = false)
     private List<Genero> generos;
 
     @Column(nullable = false, length = 20)

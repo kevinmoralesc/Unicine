@@ -22,7 +22,7 @@ public class Entrada implements Serializable {
 
     @Positive
     @Column(nullable = false)
-    private Double precio;
+    private Float precio;
 
     @Positive
     @Column(nullable = false)
@@ -36,7 +36,7 @@ public class Entrada implements Serializable {
     @JoinColumn(nullable = false)
     private Compra compra;
 
-    public Entrada(Double precio, Integer fila, Integer columna, Compra compra) {
+    public Entrada(Float precio, Integer fila, Integer columna, Compra compra) {
         this.precio = precio;
         this.fila = fila;
         this.columna = columna;

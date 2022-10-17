@@ -2,17 +2,14 @@ package co.edu.uniquindio.unicine.test;
 
 import co.edu.uniquindio.unicine.entidades.Cliente;
 import co.edu.uniquindio.unicine.entidades.Compra;
-import co.edu.uniquindio.unicine.entidades.Cupon;
 import co.edu.uniquindio.unicine.entidades.CuponCliente;
 import co.edu.uniquindio.unicine.repo.ClienteRepo;
-import org.aspectj.apache.bcel.util.ClassPath;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -71,7 +68,7 @@ public class ClienteTest {
     @Test
     @Sql("classpath:dataset.sql")
     public void obtenerPorCorreo(){
-       Cliente cliente = clienteRepo.findByCorreo("luis@email.com");
+       Cliente cliente = clienteRepo.findByCorreo("luis@email.com").orElse(null);
        Assertions.assertNotNull(cliente);
     }
 

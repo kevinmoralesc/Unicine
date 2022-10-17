@@ -3,7 +3,6 @@ package co.edu.uniquindio.unicine.test;
 import co.edu.uniquindio.unicine.entidades.Compra;
 import co.edu.uniquindio.unicine.entidades.Entrada;
 import co.edu.uniquindio.unicine.repo.CompraRepo;
-import co.edu.uniquindio.unicine.repo.FuncionRepo;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

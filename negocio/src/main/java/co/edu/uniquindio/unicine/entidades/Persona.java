@@ -1,8 +1,10 @@
 package co.edu.uniquindio.unicine.entidades;
 
+import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.io.Serializable;
 
 
@@ -23,7 +25,9 @@ public class Persona implements Serializable {
     @Column(nullable = false,length = 40)
     private String nombre;
 
-    @Column(nullable = false,length = 25)
+    @NotNull
+    @Email
+    @Column(nullable = false,length = 200)
     private String correo;
 
     @ToString.Exclude

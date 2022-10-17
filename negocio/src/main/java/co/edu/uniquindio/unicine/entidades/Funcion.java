@@ -21,7 +21,7 @@ public class Funcion implements Serializable {
 
     @Positive
     @Column(nullable = false)
-    private Double precio;
+    private Float precio;
 
     @ManyToOne
     @JoinColumn(nullable = false)
@@ -39,7 +39,7 @@ public class Funcion implements Serializable {
     @OneToMany(mappedBy = "funcion")
     private List<Compra> compras;
 
-    public Funcion(Double precio, Sala sala, Horario horario, Pelicula pelicula) {
+    public Funcion(Float precio, Sala sala, Horario horario, Pelicula pelicula) {
         this.precio = precio;
         this.sala = sala;
         this.horario = horario;
