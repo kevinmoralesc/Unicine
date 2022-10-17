@@ -2,6 +2,7 @@ package co.edu.uniquindio.unicine.servicios;
 
 import co.edu.uniquindio.unicine.entidades.Cliente;
 import co.edu.uniquindio.unicine.entidades.Compra;
+import co.edu.uniquindio.unicine.entidades.Pelicula;
 import co.edu.uniquindio.unicine.repo.ClienteRepo;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +12,12 @@ import java.util.Optional;
 @Service
 public class ClienteServicioImpl implements ClienteServicio{
 
-    private ClienteRepo clienteRepo;
+    private final ClienteRepo clienteRepo;
+    private final EmailServicio emailServicio;
 
-    public ClienteServicioImpl(ClienteRepo clienteRepo) {
+    public ClienteServicioImpl(ClienteRepo clienteRepo, EmailServicio emailServicio) {
         this.clienteRepo = clienteRepo;
+        this.emailServicio = emailServicio;
     }
 
     @Override
@@ -48,7 +51,7 @@ public class ClienteServicioImpl implements ClienteServicio{
         if(correoExiste){
             throw new Exception("El correo ya esta en uso");
         }
-
+        emailServicio.enviarEmail("Registro en unicine", "Hola, debe ir al siguiente enlace para activar la cuenta", cliente.getCorreo());
         return clienteRepo.save(cliente);
     }
 
@@ -97,11 +100,23 @@ public class ClienteServicioImpl implements ClienteServicio{
 
     @Override
     public Compra hacerCompra(Compra compra) throws Exception{
+
+        emailServicio.enviarEmail("Se ha realizado una compra", "Hola, ha comprado x entradas para ver la pelicula x ....", compra.getCliente().getCorreo());
         return null;
     }
 
     @Override
     public boolean redirCupon(Integer codigoCupon) throws Exception{
+        return false;
+    }
+
+    @Override
+    public List<Pelicula> buscarPelicula(String nombre) {
+        return null;
+    }
+
+    @Override
+    public boolean cambiarPassword(Integer codigo) throws Exception {
         return false;
     }
 }
