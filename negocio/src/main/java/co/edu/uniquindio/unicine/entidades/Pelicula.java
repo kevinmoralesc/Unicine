@@ -47,6 +47,7 @@ public class Pelicula implements Serializable {
     private List<Funcion> funciones;
 
 
+    @Builder
     public Pelicula(String nombre, String sinopsis, String urlTrailer, String urlImagen,List<Genero> generos, Boolean estado, String reparto) {
         this.nombre = nombre;
         this.sinopsis = sinopsis;

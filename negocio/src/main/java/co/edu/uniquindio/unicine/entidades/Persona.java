@@ -34,6 +34,7 @@ public class Persona implements Serializable {
     @Column(nullable = false,length = 20)
     private String password;
 
+
     public Persona(String nombre, String correo, String password) {
         this.nombre = nombre;
         this.correo = correo;

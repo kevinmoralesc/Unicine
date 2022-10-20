@@ -27,6 +27,7 @@ public class AdminTeatroServicioImpl implements AdminTeatroServicio {
         this.teatroRepo = teatroRepo;
     }
 
+    //--------------------------------------- Gestion Funcion --------------------------------------------------
     @Override
     public Horario crearHorario(Horario horario) {
         return null;
@@ -46,6 +47,8 @@ public class AdminTeatroServicioImpl implements AdminTeatroServicio {
     public void eliminarHorario(Integer codigoHorario) throws Exception {
 
     }
+
+    //--------------------------------------- Gestion Funcion --------------------------------------------------
 
     @Override
     public Funcion crearFuncion(Funcion funcion) {
@@ -72,6 +75,8 @@ public class AdminTeatroServicioImpl implements AdminTeatroServicio {
         return null;
     }
 
+    //--------------------------------------- Gestion Sala -----------------------------------------------------
+
     @Override
     public Sala crearSala(Sala sala) {
         return null;
@@ -96,6 +101,8 @@ public class AdminTeatroServicioImpl implements AdminTeatroServicio {
     public Sala obtenerSala(Integer codigo) throws Exception {
         return null;
     }
+
+    //--------------------------------------- Gestion Teatro ---------------------------------------------------
 
     @Override
     public Teatro crearTeatro(Teatro teatro) {

@@ -81,6 +81,18 @@ public class ClienteServicioTest {
 
     }
 
+    @Test
+    @Sql("classpath:dataset.sql")
+    public void loginTest(){
+        try {
+            Cliente cliente = clienteServicio.login("luis@email.com","efe34");
+            Assertions.assertNotNull(cliente);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
 
 
 

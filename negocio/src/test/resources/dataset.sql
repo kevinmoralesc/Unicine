@@ -17,11 +17,18 @@ insert into ciudad values (3,"Manizales");
 insert into ciudad values (4,"Cali");
 insert into ciudad values (5,"Bogota");
 
-insert into administrador_teatro values (1,"admin1@email.com","Admnin1","916165");
-insert into administrador_teatro values (2,"admin2@email.com","Admnin2","494949");
-insert into administrador_teatro values (3,"admin3@email.com","Admnin3","564949");
-insert into administrador_teatro values (4,"admin4@email.com","Admnin4","858585");
-insert into administrador_teatro values (5,"admin5@email.com","Admnin5","585858");
+insert into administrador_teatro values (1,"adminTeatro1@email.com","AdmninT1","grfrf");
+insert into administrador_teatro values (2,"adminTeatro2@email.com","AdmninT2","frfsee");
+insert into administrador_teatro values (3,"adminTeatro3@email.com","AdmninT3","jkfgfj");
+insert into administrador_teatro values (4,"adminTeatro4@email.com","AdmninT4","bgbtdn");
+insert into administrador_teatro values (5,"adminTeatro5@email.com","AdmninT5","ugjj365");
+
+insert into administrador values (1,"kevinMoralesc1234@gmail.com","Admnin1","916165");
+insert into administrador values (2,"admin2@email.com","Admnin2","494949");
+insert into administrador values (3,"admin3@email.com","Admnin3","564949");
+insert into administrador values (4,"admin4@email.com","Admnin4","858585");
+insert into administrador values (5,"admin5@email.com","Admnin5","585858");
+
 
 insert into teatro values (1,"Carrera 33 # 2-3","7314346",1,1);
 insert into teatro values (2,"Unicentro Local 301","6269495",1,1);

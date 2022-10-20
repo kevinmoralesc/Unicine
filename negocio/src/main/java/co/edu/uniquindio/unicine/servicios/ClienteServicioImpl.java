@@ -15,6 +15,8 @@ public class ClienteServicioImpl implements ClienteServicio{
     private final ClienteRepo clienteRepo;
     private final EmailServicio emailServicio;
 
+    //--------------------------------------- Gestion Cliente -------------------------------------------------
+
     public ClienteServicioImpl(ClienteRepo clienteRepo, EmailServicio emailServicio) {
         this.clienteRepo = clienteRepo;
         this.emailServicio = emailServicio;
@@ -48,9 +50,7 @@ public class ClienteServicioImpl implements ClienteServicio{
 
         boolean correoExiste = esRepetido(cliente.getCorreo());
 
-        if(correoExiste){
-            throw new Exception("El correo ya esta en uso");
-        }
+
         emailServicio.enviarEmail("Registro en unicine", "Hola, debe ir al siguiente enlace para activar la cuenta", cliente.getCorreo());
         return clienteRepo.save(cliente);
     }
@@ -92,6 +92,9 @@ public class ClienteServicioImpl implements ClienteServicio{
     public List<Cliente> listarCliente(){
         return clienteRepo.findAll();
     }
+
+
+    //---------------------------------------------- Compra ----------------------------------------------------
 
     @Override
     public List<Compra> listarHistorial(Integer codigoCliente) throws Exception {

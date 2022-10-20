@@ -7,19 +7,32 @@ import java.util.List;
 
 public interface AdminServicio {
 
+
+    void cambiarPassword(String correo) throws Exception;
+
+    //--------------------------------------- Gestion Ciudad --------------------------------------------------
+
     Ciudad crearCiudad(Ciudad ciudad);
 
     Ciudad obtenerCiudad (Integer codigo) throws Exception;
 
+    List<Ciudad> listarCiudades();
+
+
+    //--------------------------------------- Gestion Pelicula ------------------------------------------------
+
     Pelicula crearPelicula(Pelicula pelicula);
 
-    Pelicula ActualizarPelicula(Pelicula pelicula) throws Exception;
+    Pelicula actualizarPelicula(Pelicula pelicula) throws Exception;
 
     void eliminarPelicula(Integer codigo) throws Exception;
 
     List<Pelicula> listarPeliculas();
 
     Pelicula obtenerPelicula(Integer codigo) throws Exception;
+
+
+    //--------------------------------------- Gestion Cupon ---------------------------------------------------
 
     Cupon crearCupon(Cupon cupon);
 
@@ -31,6 +44,9 @@ public interface AdminServicio {
 
     Cupon obtenerCupon(Integer codigo) throws Exception ;
 
+
+    //--------------------------------------- Gestion Confiteria -----------------------------------------------
+
     Confiteria crearConfiteria(Confiteria confiteria);
 
     Confiteria actualizarConfiteria(Confiteria confiteria) throws Exception;
@@ -40,6 +56,9 @@ public interface AdminServicio {
     List<Confiteria> listarConfiteria();
 
     Confiteria obtenerConfiteria(Integer codigo) throws Exception;
+
+
+    //--------------------------------------- Gestion Adminteatro ---------------------------------------------
 
     AdministradorTeatro crearAdminTeatro(AdministradorTeatro administradorTeatro);
 
