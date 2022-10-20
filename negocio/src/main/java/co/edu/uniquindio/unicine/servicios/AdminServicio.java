@@ -8,7 +8,11 @@ import java.util.List;
 public interface AdminServicio {
 
 
-    void cambiarPassword(String correo) throws Exception;
+    void recuperarPassword(String correo) throws Exception;
+
+    Administrador actualizarPassword(Administrador administrador,String passwordNueva,String passwordActual)throws Exception;
+
+    Administrador obtenerAdministrador(Integer codigo) throws Exception;
 
     //--------------------------------------- Gestion Ciudad --------------------------------------------------
 
