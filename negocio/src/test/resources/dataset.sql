@@ -23,7 +23,7 @@ insert into administrador_teatro values (3,"adminTeatro3@email.com","AdmninT3","
 insert into administrador_teatro values (4,"adminTeatro4@email.com","AdmninT4","bgbtdn");
 insert into administrador_teatro values (5,"adminTeatro5@email.com","AdmninT5","ugjj365");
 
-insert into administrador values (1,"admin1@email.com","Admnin1","916165");
+insert into administrador values (1,"kevinMoralesc1234@gmail.com","Admnin1","916165");
 insert into administrador values (2,"admin2@email.com","Admnin2","494949");
 insert into administrador values (3,"admin3@email.com","Admnin3","564949");
 insert into administrador values (4,"admin4@email.com","Admnin4","858585");

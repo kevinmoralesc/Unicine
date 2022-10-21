@@ -11,6 +11,7 @@ import co.edu.uniquindio.unicine.repo.TeatroRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AdminTeatroServicioImpl implements AdminTeatroServicio {
@@ -106,26 +107,45 @@ public class AdminTeatroServicioImpl implements AdminTeatroServicio {
 
     @Override
     public Teatro crearTeatro(Teatro teatro) {
-        return null;
+        return teatroRepo.save(teatro);
     }
 
     @Override
     public Teatro actualizarTeatro(Teatro teatro) throws Exception {
-        return null;
+
+        Optional<Teatro> guardado = teatroRepo.findById(teatro.getCodigo());
+
+        if(guardado.isEmpty()){
+            throw new Exception("El Teatro no existe");
+        }
+        return teatroRepo.save(teatro);
     }
 
     @Override
     public void eliminarTeatro(Integer codigoTeatro) throws Exception {
 
+        Optional<Teatro> guardado = teatroRepo.findById(codigoTeatro);
+
+        if(guardado.isEmpty()){
+            throw new Exception("El Teatro no existe");
+        }
+
+        teatroRepo.delete(guardado.get());
     }
 
     @Override
     public List<Teatro> listarTeatros() {
-        return null;
+        return teatroRepo.findAll();
     }
 
     @Override
     public Teatro obtenerTeatro(Integer codigo) throws Exception {
-        return null;
+
+        Optional<Teatro> teatro = teatroRepo.findById(codigo);
+
+        if (teatro.isEmpty()){
+            throw new Exception("No existe un Teatro con ese codigo");
+        }
+        return teatro.get();
     }
 }

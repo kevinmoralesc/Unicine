@@ -49,6 +49,8 @@ public class ClienteServicioImpl implements ClienteServicio{
     public Cliente registrarCliente(Cliente cliente) throws Exception {
 
         boolean correoExiste = esRepetido(cliente.getCorreo());
+
+
         emailServicio.enviarEmail("Registro en unicine", "Hola, debe ir al siguiente enlace para activar la cuenta", cliente.getCorreo());
         return clienteRepo.save(cliente);
     }

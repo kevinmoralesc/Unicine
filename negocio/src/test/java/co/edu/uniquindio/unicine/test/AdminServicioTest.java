@@ -22,10 +22,10 @@ public class AdminServicioTest {
 
     @Test
     @Sql("classpath:dataset.sql")
-    public void recuperarPassword()  {
+    public void cambiarPassword()  {
 
         try {
-            adminServicio.recuperarPassword("admin1@email.com");
+            adminServicio.cambiarPassword("kevinmoralesc1234@gmail.com");
 
         }catch (Exception e){
 
@@ -34,21 +34,7 @@ public class AdminServicioTest {
         }
 
     }
-    @Test
-    @Sql("classpath:dataset.sql")
-    public void actualizarPassword()  {
-        
-        try {
-            Administrador administrador = adminServicio.obtenerAdministrador(1);
-            adminServicio.actualizarPassword(administrador,"1234569","916165");
-            Assertions.assertEquals("916165",administrador.getPassword());
-        }catch (Exception e){
 
-            throw new RuntimeException(e);
-
-        }
-
-    }
     //------------------------------------------------- Ciudad -------------------------------------------------
 
     @Test
