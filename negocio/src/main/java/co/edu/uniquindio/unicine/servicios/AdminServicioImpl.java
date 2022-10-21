@@ -29,7 +29,17 @@ public class AdminServicioImpl implements AdminServicio {
     }
 
     @Override
-    public void cambiarPassword(String correo) throws Exception {
+    public Administrador loginAdmin(String correo, String password) throws Exception {
+        Administrador administrador = adminRepo.comprobarAutenticacion(correo,password);
+
+        if(administrador == null){
+            throw new Exception("Los datos de autenticación son incorrectos");
+        }
+        return administrador;
+    }
+
+    @Override
+    public void recuperarPassword(String correo) throws Exception {
 
         boolean correoExiste = esRepetido(correo);
 
@@ -39,6 +49,50 @@ public class AdminServicioImpl implements AdminServicio {
         Optional<Administrador> administrador = adminRepo.findByCorreo(correo);
         emailServicio.enviarEmail("Cambio de contraseña unicine", "Hola, debe ir al siguiente enlace para ingresar la nueva contraseña", (administrador.get()).getCorreo());
     }
+
+    @Override
+    public Administrador actualizarPassword(Administrador administrador, String passwordNueva, String passwordActual) throws Exception {
+
+        Optional<Administrador> guardado = adminRepo.findById(administrador.getCodigo());
+
+        if(guardado.isEmpty()){
+
+            throw new Exception("El administrador no existe");
+
+        }else{
+            if(administrador.getPassword().equals(passwordActual)) {
+                if (administrador.getPassword().equals(passwordNueva)) {
+
+                    throw new Exception("Ingrese una contraseña distinta a la actual");
+
+                }
+            }else{
+
+                throw new Exception("Ingrese la contraseña correcta");
+            }
+        }
+
+
+        return adminRepo.save(administrador);
+
+    }
+
+    @Override
+    public Administrador obtenerAdministrador(Integer codigo) throws Exception {
+
+        Optional<Administrador> administrador = adminRepo.findById(codigo);
+
+        if(administrador.isEmpty()){
+
+            throw new Exception("No hay un administrador con ese codigo");
+
+        }
+
+        return administrador.get();
+
+    }
+
+
 
     private boolean esRepetido(String correo){
         return adminRepo.findByCorreo(correo).orElse(null) == null;

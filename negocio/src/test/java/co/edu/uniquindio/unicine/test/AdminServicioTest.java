@@ -20,13 +20,41 @@ public class AdminServicioTest {
     @Autowired
     private AdminServicio adminServicio;
 
+
     @Test
     @Sql("classpath:dataset.sql")
-    public void cambiarPassword()  {
+    public void loginTest(){
+        try {
+            Administrador administrador = adminServicio.loginAdmin("admin1@email.com","916165");
+            Assertions.assertNotNull(administrador);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+    @Test
+    @Sql("classpath:dataset.sql")
+    public void recuperarPassword()  {
 
         try {
-            adminServicio.cambiarPassword("kevinmoralesc1234@gmail.com");
+            adminServicio.recuperarPassword("admin1@email.com");
+            Assertions.assertTrue(true);
+        }catch (Exception e){
 
+            throw new RuntimeException(e);
+
+        }
+
+    }
+
+    @Test
+    @Sql("classpath:dataset.sql")
+    public void actualizarPassword()  {
+
+        try {
+            Administrador administrador = adminServicio.obtenerAdministrador(1);
+            adminServicio.actualizarPassword(administrador,"1234569","916165");
+            Assertions.assertEquals("916165",administrador.getPassword());
         }catch (Exception e){
 
             throw new RuntimeException(e);
