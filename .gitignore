@@ -1,8 +1,4 @@
 /.idea/
-/negocio/build/
 *.class
 /.gradle/
 /src/
-/*/bin/
-/*/build/
-/build/
