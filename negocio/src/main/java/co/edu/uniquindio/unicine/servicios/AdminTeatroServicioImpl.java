@@ -28,25 +28,32 @@ public class AdminTeatroServicioImpl implements AdminTeatroServicio {
         this.teatroRepo = teatroRepo;
     }
 
-    //--------------------------------------- Gestion Funcion --------------------------------------------------
+    //--------------------------------------- Gestion Horario --------------------------------------------------
     @Override
-    public Horario crearHorario(Horario horario) {
-        return null;
-    }
+    public Horario crearHorario(Horario horario) { return horarioRepo.save(horario); }
 
     @Override
-    public List<Horario> listarHorarios() {
-        return null;
-    }
+    public List<Horario> listarHorarios() { return horarioRepo.findAll(); }
 
     @Override
     public Horario obtenerHorario(Integer codigo) throws Exception {
-        return null;
+
+        Optional<Horario> guardado = horarioRepo.findById(codigo);
+
+        if(guardado.isEmpty()){
+            throw new Exception("El codigo del horario no se encuentra registrado");
+        }
+        return guardado.get();
     }
 
     @Override
     public void eliminarHorario(Integer codigoHorario) throws Exception {
 
+        Optional<Horario> guardado = horarioRepo.findById(codigoHorario);
+
+        if (guardado.isEmpty()){ throw new Exception("El horario no existe"); }
+
+        horarioRepo.delete(guardado.get());
     }
 
     //--------------------------------------- Gestion Funcion --------------------------------------------------

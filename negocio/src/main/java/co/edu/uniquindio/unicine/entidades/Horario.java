@@ -36,7 +36,7 @@ public class Horario implements Serializable {
     @ToString.Exclude
     @OneToMany(mappedBy = "horario")
     private List<Funcion> funcion;
-
+    @Builder
     public Horario(String dia, LocalTime hora, LocalDate fechaInicio, LocalDate fechaFin) {
         this.dia = dia;
         this.hora = hora;
