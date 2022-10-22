@@ -28,6 +28,8 @@ public class AdminServicioImpl implements AdminServicio {
         this.emailServicio = emailServicio;
     }
 
+    //------------------------------------------------- Admin -------------------------------------------------
+
     @Override
     public Administrador loginAdmin(String correo, String password) throws Exception {
         Administrador administrador = adminRepo.comprobarAutenticacion(correo,password);
@@ -41,7 +43,7 @@ public class AdminServicioImpl implements AdminServicio {
     @Override
     public void recuperarPassword(String correo) throws Exception {
 
-        boolean correoExiste = esRepetido(correo);
+        boolean correoExiste = esRepetidoAdmin(correo);
 
         if(correoExiste){
             throw new Exception("El correo no esta registrado");
@@ -51,17 +53,17 @@ public class AdminServicioImpl implements AdminServicio {
     }
 
     @Override
-    public Administrador actualizarPassword(Administrador administrador, String passwordNueva, String passwordActual) throws Exception {
+    public boolean actualizarPassword(Integer codigo, String passwordNueva, String passwordActual) throws Exception {
 
-        Optional<Administrador> guardado = adminRepo.findById(administrador.getCodigo());
+        Optional<Administrador> guardado = adminRepo.findById(codigo);
 
         if(guardado.isEmpty()){
 
             throw new Exception("El administrador no existe");
 
         }else{
-            if(administrador.getPassword().equals(passwordActual)) {
-                if (administrador.getPassword().equals(passwordNueva)) {
+            if(guardado.get().getPassword().equals(passwordActual)) {
+                if (guardado.get().getPassword().equals(passwordNueva)) {
 
                     throw new Exception("Ingrese una contraseña distinta a la actual");
 
@@ -71,10 +73,8 @@ public class AdminServicioImpl implements AdminServicio {
                 throw new Exception("Ingrese la contraseña correcta");
             }
         }
-
-
-        return adminRepo.save(administrador);
-
+        guardado.get().setPassword(passwordNueva);
+        return true;
     }
 
     @Override
@@ -94,14 +94,46 @@ public class AdminServicioImpl implements AdminServicio {
 
 
 
-    private boolean esRepetido(String correo){
+    private boolean esRepetidoAdmin(String correo){
         return adminRepo.findByCorreo(correo).orElse(null) == null;
     }
 
-    //--------------------------------------- Gestion Ciudad --------------------------------------------------
+    private boolean esRepetidoAdminTeatro(String correo){
+        return administradorTeatroRepo.findByCorreo(correo).orElse(null) == null;
+    }
+
+    //------------------------------------------- Gestion Ciudad -----------------------------------------------
     @Override
     public Ciudad crearCiudad(Ciudad ciudad) {
         return ciudadRepo.save(ciudad);
+    }
+
+    @Override
+    public Ciudad actualizarCiudad(Ciudad ciudad) throws Exception {
+        Optional<Ciudad> guardada = ciudadRepo.findById(ciudad.getCodigo());
+
+        if(guardada.isEmpty()){
+
+            throw new Exception("La ciudad no existe");
+
+        }
+
+        return  ciudadRepo.save(ciudad);
+    }
+
+    @Override
+    public void eliminarCiudad(Integer codigo) throws Exception {
+
+        Optional<Ciudad> guardada = ciudadRepo.findById(codigo);
+
+        if(guardada.isEmpty()){
+
+            throw new Exception("La ciudad no existe");
+
+        }
+
+        ciudadRepo.delete(guardada.get());
+
     }
 
     @Override
@@ -283,7 +315,15 @@ public class AdminServicioImpl implements AdminServicio {
     //--------------------------------------- Gestion Adminteatro ---------------------------------------------
 
     @Override
-    public AdministradorTeatro crearAdminTeatro(AdministradorTeatro administradorTeatro) { return administradorTeatroRepo.save(administradorTeatro);}
+    public AdministradorTeatro crearAdminTeatro(AdministradorTeatro administradorTeatro) throws Exception {
+
+        boolean correoExiste = esRepetidoAdminTeatro(administradorTeatro.getCorreo());
+
+        if(correoExiste == false){
+            throw new Exception("El correo ya esta registrado");
+        }
+           return administradorTeatroRepo.save(administradorTeatro);
+    }
 
     @Override
     public AdministradorTeatro actualizarAdminTeatro(AdministradorTeatro administradorTeatro) throws Exception {

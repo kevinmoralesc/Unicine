@@ -7,11 +7,12 @@ import java.util.List;
 
 public interface AdminServicio {
 
-
+    //------------------------------------------------- Admin -------------------------------------------------
     Administrador loginAdmin(String correo, String password) throws Exception;
+
     void recuperarPassword(String correo) throws Exception;
 
-    Administrador actualizarPassword(Administrador administrador, String passwordNueva, String passwordActual) throws Exception;
+    boolean actualizarPassword(Integer codigo, String passwordNueva, String passwordActual) throws Exception;
 
     Administrador obtenerAdministrador(Integer codigo) throws Exception;
 
@@ -19,6 +20,10 @@ public interface AdminServicio {
     //--------------------------------------- Gestion Ciudad --------------------------------------------------
 
     Ciudad crearCiudad(Ciudad ciudad);
+
+    Ciudad actualizarCiudad(Ciudad ciudad) throws Exception;
+
+    void eliminarCiudad(Integer codigo) throws Exception;
 
     Ciudad obtenerCiudad (Integer codigo) throws Exception;
 
@@ -66,7 +71,7 @@ public interface AdminServicio {
 
     //--------------------------------------- Gestion Adminteatro ---------------------------------------------
 
-    AdministradorTeatro crearAdminTeatro(AdministradorTeatro administradorTeatro);
+    AdministradorTeatro crearAdminTeatro(AdministradorTeatro administradorTeatro) throws Exception;
 
     AdministradorTeatro actualizarAdminTeatro(AdministradorTeatro administradorTeatro) throws Exception;
 

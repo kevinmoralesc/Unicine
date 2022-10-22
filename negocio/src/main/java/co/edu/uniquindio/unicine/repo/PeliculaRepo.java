@@ -12,8 +12,10 @@ import java.util.List;
 @Repository
 public interface PeliculaRepo extends JpaRepository<Pelicula,Integer> {
 
+    @Query("select p from Pelicula p where p.nombre like concat('%',:nombre,'%')")
+    List<Pelicula> buscarPelicula (String nombre);
     @Query("select p from Pelicula p where p.nombre like concat('%',:nombre,'%') and p.estado = :estado ")
-    List<Pelicula> buscarPelicula (String nombre, Boolean estado);
+    List<Pelicula> buscarPeliculaEstado (String nombre, Boolean estado);
     @Query("select new co.edu.uniquindio.unicine.dto.HorarioSalaDTO(f.horario, f.sala)  from Pelicula p join p.funciones f where p.codigo = :codigoPelicula and f.sala.teatro.codigo = :codigoTeatro")
     List<HorarioSalaDTO> listarHorarios (Integer codigoPelicula, Integer codigoTeatro);
 

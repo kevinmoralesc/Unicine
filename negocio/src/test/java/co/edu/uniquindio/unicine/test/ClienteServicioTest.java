@@ -1,6 +1,9 @@
 package co.edu.uniquindio.unicine.test;
 
+import co.edu.uniquindio.unicine.entidades.Administrador;
 import co.edu.uniquindio.unicine.entidades.Cliente;
+import co.edu.uniquindio.unicine.entidades.Compra;
+import co.edu.uniquindio.unicine.entidades.Pelicula;
 import co.edu.uniquindio.unicine.servicios.ClienteServicio;
 import co.edu.uniquindio.unicine.servicios.EmailServicio;
 import org.junit.jupiter.api.Assertions;
@@ -22,6 +25,7 @@ public class ClienteServicioTest {
     @Autowired
     private EmailServicio emailServicio;
 
+    //-------------------------------------------- Gestion Cliente ---------------------------------------------
     @Test
     @Sql("classpath:dataset.sql")
     public void registrarClienteTest(){
@@ -31,7 +35,7 @@ public class ClienteServicioTest {
             Cliente nuevo = clienteServicio.registrarCliente(cliente);
             Assertions.assertNotNull(nuevo);
         } catch (Exception e) {
-            Assertions.assertTrue(false);
+            throw new RuntimeException(e);
         }
     }
 
@@ -47,6 +51,35 @@ public class ClienteServicioTest {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Test
+    @Sql("classpath:dataset.sql")
+    public void activarCuentaClienteTest(){
+
+        try {
+            Cliente cliente = clienteServicio.obtenerCliente(3);
+            Cliente nuevo = clienteServicio.activarCuentaCliente(cliente);
+            Assertions.assertEquals(true,nuevo.isEstado());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    @Sql("classpath:dataset.sql")
+    public void cambiarPassword()  {
+
+        try {
+            Cliente cliente = clienteServicio.obtenerCliente(1);
+            clienteServicio.cambiarPassword(cliente.getCodigo(),"1234569","1dsd34");
+            Assertions.assertEquals("1234569",cliente.getPassword());
+        }catch (Exception e){
+
+            throw new RuntimeException(e);
+
+        }
+
     }
 
     @Test
@@ -72,12 +105,21 @@ public class ClienteServicioTest {
     @Sql("classpath:dataset.sql")
     public void listarClienteTest(){
         List<Cliente> lista = clienteServicio.listarCliente();
-        lista.forEach(System.out::println);
+        Assertions.assertEquals(6,lista.size());
     }
 
     @Test
     public void enviarCorreoTest(){
         emailServicio.enviarEmail("Prueba de envío","Este es un mensaje", "kevinmoralesc1234@gmail.com");
+
+    }
+
+    @Test
+    @Sql("classpath:dataset.sql")
+    public void buscarPelicula(){
+
+        List<Pelicula> peliculas = clienteServicio.buscarPelicula("Harry Potter");
+        Assertions.assertEquals(2,peliculas.size());
 
     }
 
@@ -93,9 +135,21 @@ public class ClienteServicioTest {
 
     }
 
+    @Test
+    @Sql("classpath:dataset.sql")
+    public void historialComprasTest() {
+
+        try {
+            List<Compra> compras = clienteServicio.listarHistorial(1);
+            Assertions.assertEquals(2,compras.size());
+
+        }catch (Exception e){
+
+            throw new RuntimeException(e);
+
+        }
 
 
-
-
+    }
 
 }

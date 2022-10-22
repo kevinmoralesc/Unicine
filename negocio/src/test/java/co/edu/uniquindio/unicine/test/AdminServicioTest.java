@@ -21,6 +21,8 @@ public class AdminServicioTest {
     private AdminServicio adminServicio;
 
 
+    //------------------------------------------------- Admin -------------------------------------------------
+
     @Test
     @Sql("classpath:dataset.sql")
     public void loginTest(){
@@ -53,8 +55,8 @@ public class AdminServicioTest {
 
         try {
             Administrador administrador = adminServicio.obtenerAdministrador(1);
-            adminServicio.actualizarPassword(administrador,"1234569","916165");
-            Assertions.assertEquals("916165",administrador.getPassword());
+            adminServicio.actualizarPassword(administrador.getCodigo(),"1234569","916165");
+            Assertions.assertEquals("1234569",administrador.getPassword());
         }catch (Exception e){
 
             throw new RuntimeException(e);
@@ -86,6 +88,39 @@ public class AdminServicioTest {
 
         }
 
+    }
+
+    @Test
+    @Sql("classpath:dataset.sql")
+    public void actualizarCiudadTest(){
+
+        try {
+            Ciudad ciudad = adminServicio.obtenerCiudad(1);
+            ciudad.setNombre("Nuevo nombre");
+            Ciudad nueva = adminServicio.actualizarCiudad(ciudad);
+            Assertions.assertEquals("Nuevo nombre", nueva.getNombre());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @Test
+    @Sql("classpath:dataset.sql")
+    public void eliminarCiudadTest() {
+
+        try {
+            adminServicio.eliminarCiudad(1);
+
+        } catch (Exception e) {
+            Assertions.assertTrue(false);
+        }
+
+        try {
+            Ciudad ciudad = adminServicio.obtenerCiudad(1);
+
+        } catch (Exception e) {
+
+            Assertions.assertTrue(true);
+        }
     }
 
     @Test
@@ -148,7 +183,7 @@ public class AdminServicioTest {
         }
 
         try {
-            Pelicula cupon = adminServicio.obtenerPelicula(1);
+            Pelicula pelicula = adminServicio.obtenerPelicula(1);
 
         } catch (Exception e) {
 
@@ -307,9 +342,13 @@ public class AdminServicioTest {
     @Sql("classpath:dataset.sql")
     public void crearAdministradorTeatroTest(){
 
-        AdministradorTeatro administradorTeatro = new AdministradorTeatro("andres","andres@email.com","4444");
-        AdministradorTeatro nuevo = adminServicio.crearAdminTeatro(administradorTeatro);
-        Assertions.assertEquals(nuevo,administradorTeatro);
+        AdministradorTeatro administradorTeatro = new AdministradorTeatro("andres","adminTeatro6@email.com","4444");
+        try {
+            AdministradorTeatro nuevo = adminServicio.crearAdminTeatro(administradorTeatro);
+            Assertions.assertEquals(nuevo,administradorTeatro);
+        }catch (Exception e){
+            throw  new RuntimeException(e);
+        }
     }
 
     @Test
