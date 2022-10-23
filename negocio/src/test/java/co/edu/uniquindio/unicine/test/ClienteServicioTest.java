@@ -2,6 +2,7 @@ package co.edu.uniquindio.unicine.test;
 
 import co.edu.uniquindio.unicine.entidades.*;
 import co.edu.uniquindio.unicine.servicios.AdminServicio;
+import co.edu.uniquindio.unicine.servicios.AdminTeatroServicio;
 import co.edu.uniquindio.unicine.servicios.ClienteServicio;
 import co.edu.uniquindio.unicine.servicios.EmailServicio;
 import org.junit.jupiter.api.Assertions;
@@ -11,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +28,9 @@ public class ClienteServicioTest {
 
     @Autowired
     private AdminServicio adminServicio;
+
+    @Autowired
+    private AdminTeatroServicio adminTeatroServicio;
 
     //-------------------------------------------- Gestion Cliente ---------------------------------------------
     @Test
@@ -172,5 +177,45 @@ public class ClienteServicioTest {
 
 
     }
+
+    @Test
+    @Sql("classpath:dataset.sql")
+    public void hacerCompraTest() {
+        try {
+            Funcion funcion = adminTeatroServicio.obtenerFuncion(1);
+            Cliente cliente = clienteServicio.obtenerCliente(1);
+            CuponCliente cuponCliente = cliente.getCuponClientes().get(1);
+            Entrada entrada = new Entrada(1000.0F,1,2);
+            List<Entrada> entradas = new ArrayList<>();
+            entradas.add(entrada);
+
+            Compra compra = Compra.builder().medioPago(MedioPago.PSE).entradas(entradas).cliente(cliente).cuponCliente(cuponCliente).funcion(funcion).build();
+            Compra nueva = clienteServicio.hacerCompra(compra);
+
+            Assertions.assertEquals(compra,nueva);
+
+        }catch (Exception e){
+            throw  new RuntimeException(e);
+        }
+
+
+
+    }
+
+    @Test
+    @Sql("classpath:dataset.sql")
+    public void recuperarPassword()  {
+
+        try {
+            clienteServicio.recuperarPassword("juan@email.com");
+            Assertions.assertTrue(true);
+        }catch (Exception e){
+
+            throw new RuntimeException(e);
+
+        }
+
+    }
+
 
 }

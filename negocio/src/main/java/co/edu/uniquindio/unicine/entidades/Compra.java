@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Positive;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class Compra implements Serializable {
     private MedioPago medioPago;
 
     @Column(nullable = false)
-    private LocalDateTime fecha;
+    private LocalDate fecha;
 
     @Positive
     @Column(nullable = false)
@@ -52,9 +53,10 @@ public class Compra implements Serializable {
     @OneToMany(mappedBy = "compra")
     private List<CompraConfiteria> compraConfiterias;
 
-    public Compra(MedioPago medioPago, LocalDateTime fecha,List<Entrada> entradas, CuponCliente cuponCliente, Funcion funcion, Cliente cliente, List<CompraConfiteria> compraConfiterias) {
+    @Builder
+    public Compra(MedioPago medioPago, List<Entrada> entradas, CuponCliente cuponCliente, Funcion funcion, Cliente cliente, List<CompraConfiteria> compraConfiterias) {
         this.medioPago = medioPago;
-        this.fecha = fecha;
+        this.fecha = LocalDate.now();
         this.entradas = entradas;
         this.cuponCliente = cuponCliente;
         this.funcion = funcion;
