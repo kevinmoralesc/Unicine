@@ -38,6 +38,7 @@ public class DistribucionSillas implements Serializable {
     @OneToMany(mappedBy = "distribucionSillas")
     private List<Sala> salas;
 
+    @Builder
     public DistribucionSillas(String esquema, Integer totalSillas, Integer filas, Integer columnas) {
         this.esquema = esquema;
         this.totalSillas = totalSillas;
