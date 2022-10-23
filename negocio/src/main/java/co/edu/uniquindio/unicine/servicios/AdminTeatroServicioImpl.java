@@ -15,12 +15,9 @@ public class AdminTeatroServicioImpl implements AdminTeatroServicio {
     private final FuncionRepo funcionRepo;
     private final SalaRepo salaRepo;
     private final TeatroRepo teatroRepo;
-
     private final CiudadRepo ciudadRepo;
-
     private final DistribucionSillasRepo distribucionSillasRepo;
     private final EmailServicio emailServicio;
-
     public AdminTeatroServicioImpl(AdministradorTeatroRepo adminTeatroRepo, HorarioRepo horarioRepo, FuncionRepo funcionRepo, SalaRepo salaRepo, TeatroRepo teatroRepo, CiudadRepo ciudadRepo, DistribucionSillasRepo distribucionSillasRepo, EmailServicio emailServicio) {
         this.adminTeatroRepo = adminTeatroRepo;
         this.horarioRepo = horarioRepo;
@@ -33,7 +30,6 @@ public class AdminTeatroServicioImpl implements AdminTeatroServicio {
     }
 
     //------------------------------------------------- Admin Teatro -------------------------------------------------
-
     @Override
     public AdministradorTeatro loginAdmin(String correo, String password) throws Exception {
         AdministradorTeatro administradorTeatro = adminTeatroRepo.comprobarAutenticacion(correo, password);
@@ -43,7 +39,6 @@ public class AdminTeatroServicioImpl implements AdminTeatroServicio {
         }
         return administradorTeatro;
     }
-
     @Override
     public void recuperarPassword(String correo) throws Exception {
         boolean correoExiste = esRepetidoAdminTeatro(correo);
@@ -56,7 +51,6 @@ public class AdminTeatroServicioImpl implements AdminTeatroServicio {
         emailServicio.enviarEmail("Cambio de contraseña unicine", "Hola, debe ir al siguiente enlace para ingresar la nueva contraseña", (administradorTeatro.get()).getCorreo());
 
     }
-
     @Override
     public boolean actualizarPassword(Integer codigo, String passwordNueva, String passwordActual) throws Exception {
         Optional<AdministradorTeatro> guardado = adminTeatroRepo.findById(codigo);
@@ -78,9 +72,9 @@ public class AdminTeatroServicioImpl implements AdminTeatroServicio {
             }
         }
         guardado.get().setPassword(passwordNueva);
+        adminTeatroRepo.save(guardado.get());
         return true;
     }
-
     @Override
     public AdministradorTeatro obtenerAdministradorTeatro(Integer codigo) throws Exception {
         Optional<AdministradorTeatro> administradorTeatro = adminTeatroRepo.findById(codigo);
@@ -93,14 +87,38 @@ public class AdminTeatroServicioImpl implements AdminTeatroServicio {
 
         return administradorTeatro.get();
     }
-
     private boolean esRepetidoAdminTeatro(String correo){
         return adminTeatroRepo.findByCorreo(correo).orElse(null) == null;
     }
+
     //--------------------------------------- Gestion Horario --------------------------------------------------
     @Override
-    public Horario crearHorario(Horario horario) { return horarioRepo.save(horario); }
+    public Horario crearHorario(Horario horario) throws Exception{
 
+        Horario guardado = horarioRepo.comprobarExistencia(horario.getDia(), horario.getHora());
+
+        if(horario.getFechaFin().isAfter(horario.getFechaInicio())){
+            if (guardado == null){
+                return horarioRepo.save(horario);
+            }else{
+                throw new Exception("Ya se encuentra registrado");
+            }
+        }else{
+            throw new Exception("La fecha de fin no es posterior a la de inicio");
+        }
+    }
+    @Override
+    public Horario actualizarHorario(Horario horario) throws Exception{
+
+        Optional<Horario> guardado = horarioRepo.findById(horario.getCodigo());
+
+        if (!guardado.isEmpty()){
+            if(horario.getFechaFin().isAfter(horario.getFechaInicio())){
+                return horarioRepo.save(horario);
+            }else{ throw new Exception("La fecha de fin no es posterior a la de inicio"); }
+
+        }else{ throw new Exception("El horario no existe"); }
+    }
     @Override
     public List<Horario> listarHorarios() { return horarioRepo.findAll(); }
 
@@ -129,36 +147,50 @@ public class AdminTeatroServicioImpl implements AdminTeatroServicio {
 
     @Override
     public Funcion crearFuncion(Funcion funcion) {
-        return null;
+        return funcionRepo.save(funcion);
     }
 
     @Override
     public Funcion actualizarFuncion(Funcion funcion) throws Exception {
-        return null;
+        Optional<Funcion> guardado = funcionRepo.findById(funcion.getCodigo());
+
+        if(guardado.isEmpty()){
+            throw new Exception("La funcion no existe");
+        }
+        return funcionRepo.save(funcion);
     }
 
     @Override
     public void eliminarFuncion(Integer codigoFuncion) throws Exception {
 
+        Optional<Funcion> guardado = funcionRepo.findById(codigoFuncion);
+
+        if (guardado.isEmpty()){ throw new Exception("La función no existe"); }
+
+        funcionRepo.delete(guardado.get());
     }
 
     @Override
     public List<Funcion> listarFunciones() {
-        return null;
+        return funcionRepo.findAll();
     }
 
     @Override
     public Funcion obtenerFuncion(Integer codigo) throws Exception {
-        return null;
+
+        Optional<Funcion> guardado = funcionRepo.findById(codigo);
+
+        if (guardado.isEmpty()){
+            throw new Exception("El codigo de la función no se encuentra registrada");
+        }
+
+        return guardado.get();
     }
 
     //--------------------------------------- Gestion Sala -----------------------------------------------------
 
     @Override
-    public Sala crearSala(Sala sala) {
-
-        return salaRepo.save(sala);
-    }
+    public Sala crearSala(Sala sala) { return salaRepo.save(sala); }
 
     @Override
     public Sala actualizarSala(Sala sala) throws Exception {
@@ -181,14 +213,10 @@ public class AdminTeatroServicioImpl implements AdminTeatroServicio {
     }
 
     @Override
-    public List<Sala> listarSalas() {
-
-        return salaRepo.findAll();
-    }
+    public List<Sala> listarSalas() { return salaRepo.findAll(); }
 
     @Override
     public Sala obtenerSala(Integer codigo) throws Exception {
-
         Optional<Sala> guardado = salaRepo.findById(codigo);
 
         if(guardado.isEmpty()){
@@ -242,7 +270,6 @@ public class AdminTeatroServicioImpl implements AdminTeatroServicio {
         }
         return teatro.get();
     }
-
     //--------------------------------------- Distribución Silla ---------------------------------------------------
     @Override
     public DistribucionSillas obtenerDistribucionSilla(Integer codigo) throws Exception {
@@ -254,7 +281,6 @@ public class AdminTeatroServicioImpl implements AdminTeatroServicio {
         }
         return guardado.get();
     }
-
     //--------------------------------------- Ciudad  ---------------------------------------------------
     @Override
     public Ciudad obtenerCiudad(Integer codigo) throws Exception {

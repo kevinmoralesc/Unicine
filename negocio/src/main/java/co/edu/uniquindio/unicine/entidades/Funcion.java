@@ -39,6 +39,7 @@ public class Funcion implements Serializable {
     @OneToMany(mappedBy = "funcion")
     private List<Compra> compras;
 
+    @Builder
     public Funcion(Float precio, Sala sala, Horario horario, Pelicula pelicula) {
         this.precio = precio;
         this.sala = sala;

@@ -1,6 +1,7 @@
 package co.edu.uniquindio.unicine.test;
 
 import co.edu.uniquindio.unicine.entidades.*;
+import co.edu.uniquindio.unicine.servicios.AdminServicio;
 import co.edu.uniquindio.unicine.servicios.AdminTeatroServicio;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -20,6 +21,9 @@ public class AdminTeatroServicioTest {
 
     @Autowired
     private AdminTeatroServicio adminTeatroServicio;
+
+    @Autowired
+    private AdminServicio adminServicio;
 
     //------------------------------------------------- Admin Teatro -------------------------------------------------
 
@@ -69,16 +73,11 @@ public class AdminTeatroServicioTest {
     @Test
     @Sql("classpath:dataset.sql")
     public void crearTeatroTest() {
-        try {
 
-            AdministradorTeatro administradorTeatro = adminTeatroServicio.obtenerAdministradorTeatro(1);
-            Ciudad ciudad = adminTeatroServicio.obtenerCiudad(1);
-            Teatro teatro = Teatro.builder().direccion("Carrera 33 # 2-3").telefono("7314346").administrador(administradorTeatro).ciudad(ciudad).build();
-            Teatro nuevo = adminTeatroServicio.crearTeatro(teatro);
-            Assertions.assertEquals(nuevo, teatro);
-        }catch (Exception e){
-            throw new RuntimeException(e);
-        }
+
+        Teatro teatro = Teatro.builder().direccion("Carrera 33 # 2-3").telefono("7314346").build();
+        Teatro nuevo = adminTeatroServicio.crearTeatro(teatro);
+        Assertions.assertEquals(nuevo, teatro);
     }
 
     @Test
@@ -119,10 +118,24 @@ public class AdminTeatroServicioTest {
     @Test
     @Sql("classpath:dataset.sql")
     public void crearHorarioTest(){
-
-        Horario horario = Horario.builder().dia("LJV").fechaFin(LocalDate.parse("2022-11-11")).fechaInicio(LocalDate.parse("2022-10-11")).hora(LocalTime.parse("13:00")).build();
-        Horario nuevo   = adminTeatroServicio.crearHorario(horario);
-        Assertions.assertEquals(nuevo, horario);
+        try {
+            Horario horario = Horario.builder().dia("LJV").fechaFin(LocalDate.parse("2022-11-11")).fechaInicio(LocalDate.parse("2022-10-11")).hora(LocalTime.parse("13:00")).build();
+            Horario nuevo   = adminTeatroServicio.crearHorario(horario);
+            Assertions.assertEquals(nuevo, horario);
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+    @Test
+    @Sql("classpath:dataset.sql")
+    public void actualizarHorarioTest(){
+        try {
+            Horario guardado = adminTeatroServicio.obtenerHorario(1);
+            guardado.setDia("LVSD");
+            Assertions.assertEquals("LVSD", guardado.getDia());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     @Test
     @Sql("classpath:dataset.sql")
@@ -161,9 +174,66 @@ public class AdminTeatroServicioTest {
         }
 
     }
+    //--------------------------------------- Función --------------------------------------------------
+    @Test
+    @Sql("classpath:dataset.sql")
+    public void crearFuncionTest(){
+        try {
+            Pelicula pelicula = adminServicio.obtenerPelicula(1);
+            Horario horario = adminTeatroServicio.obtenerHorario(1);
+            Sala sala = adminTeatroServicio.obtenerSala(1);
+            Funcion funcion = Funcion.builder().precio(9700F).horario(horario).pelicula(pelicula).sala(sala).build();
+            Funcion nuevo = adminTeatroServicio.crearFuncion(funcion);
+            Assertions.assertEquals(nuevo, funcion);
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+    @Test
+    @Sql("classpath:dataset.sql")
+    public void actualizarFuncionTest(){
+        try {
+            Funcion funcion = adminTeatroServicio.obtenerFuncion(1);
+            funcion.setPrecio(10000F);
+            Funcion nuevo = adminTeatroServicio.actualizarFuncion(funcion);
+            Assertions.assertEquals(10000, nuevo.getPrecio());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @Test
+    @Sql("classpath:dataset.sql")
+    public void eliminarFuncionTest(){
+        try {
+            adminTeatroServicio.eliminarFuncion(1);
+        }catch (Exception e){
+            Assertions.assertTrue(false);
+        }
+
+        try {
+            adminTeatroServicio.obtenerFuncion(1);
+        }catch (Exception e){
+            Assertions.assertTrue(true);
+        }
+    }
+    @Test
+    @Sql("classpath:dataset.sql")
+    public void obtenerFuncionTest(){
+        try {
+            Funcion funcion = adminTeatroServicio.obtenerFuncion(1);
+            Assertions.assertTrue(true);
+        }catch (Exception e){
+            throw new RuntimeException();
+        }
+    }
+    @Test
+    @Sql("classpath:dataset.sql")
+    public void listarFuncionTest(){
+        List<Funcion> funcionList = adminTeatroServicio.listarFunciones();
+        Assertions.assertEquals(6, funcionList.size());
+    }
 
     //--------------------------------------- Sala --------------------------------------------------
-
     @Test
     @Sql("classpath:dataset.sql")
     public void crearSalaTest(){
@@ -177,45 +247,36 @@ public class AdminTeatroServicioTest {
         }catch (Exception e){
             throw new RuntimeException(e);
         }
-
     }
-
     @Test
     @Sql("classpath:dataset.sql")
     public void obtenerSalaTest(){
-
         try {
             Sala sala = adminTeatroServicio.obtenerSala(1);
             Assertions.assertTrue(true);
         }catch (Exception e){
             throw new RuntimeException();
         }
-
     }
-
     @Test
     @Sql("classpath:dataset.sql")
     public void listarSalaTest(){
         List<Sala> salaList = adminTeatroServicio.listarSalas();
         Assertions.assertEquals(6, salaList.size());
     }
-
     @Test
     @Sql("classpath:dataset.sql")
     public void eliminarSalaTest(){
-
         try {
             adminTeatroServicio.eliminarSala(1);
         }catch (Exception e){
             Assertions.assertTrue(false);
         }
-
         try {
             adminTeatroServicio.obtenerSala(1);
         }catch (Exception e){
             Assertions.assertTrue(true);
         }
-
     }
     @Test
     @Sql("classpath:dataset.sql")

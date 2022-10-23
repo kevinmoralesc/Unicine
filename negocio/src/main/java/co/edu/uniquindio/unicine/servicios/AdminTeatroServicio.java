@@ -6,22 +6,20 @@ import java.util.List;
 
 public interface AdminTeatroServicio {
 
-    //------------------------------------------------- Admin Teatro ------------------------------------------
+    //-------------------------------------------- Admin Teatro ------------------------------------------
+
     AdministradorTeatro loginAdmin(String correo, String password) throws Exception;
-
     void recuperarPassword(String correo) throws Exception;
-
     boolean actualizarPassword(Integer codigo, String passwordNueva, String passwordActual) throws Exception;
-
     AdministradorTeatro obtenerAdministradorTeatro(Integer codigo) throws Exception;
 
     //--------------------------------------- Gestion Horario -------------------------------------------------
 
-    Horario crearHorario(Horario horario);
+    Horario crearHorario(Horario horario) throws Exception;
     List<Horario> listarHorarios();
     Horario obtenerHorario(Integer codigo) throws Exception;
     void eliminarHorario(Integer codigoHorario) throws Exception;
-
+    Horario actualizarHorario(Horario horario) throws Exception;
 
     //--------------------------------------- Gestion Funcion --------------------------------------------------
 
@@ -48,6 +46,7 @@ public interface AdminTeatroServicio {
     List<Teatro> listarTeatros();
     Teatro obtenerTeatro(Integer codigo) throws Exception;
 
+    //--------------------------------------- DistribucionSillas  ---------------------------------------------------
     DistribucionSillas obtenerDistribucionSilla(Integer codigo) throws Exception;
 
     //--------------------------------------- Ciudad  ---------------------------------------------------
