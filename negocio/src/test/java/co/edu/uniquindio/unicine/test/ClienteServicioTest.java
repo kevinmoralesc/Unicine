@@ -1,9 +1,7 @@
 package co.edu.uniquindio.unicine.test;
 
-import co.edu.uniquindio.unicine.entidades.Administrador;
-import co.edu.uniquindio.unicine.entidades.Cliente;
-import co.edu.uniquindio.unicine.entidades.Compra;
-import co.edu.uniquindio.unicine.entidades.Pelicula;
+import co.edu.uniquindio.unicine.entidades.*;
+import co.edu.uniquindio.unicine.servicios.AdminServicio;
 import co.edu.uniquindio.unicine.servicios.ClienteServicio;
 import co.edu.uniquindio.unicine.servicios.EmailServicio;
 import org.junit.jupiter.api.Assertions;
@@ -14,6 +12,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
 @Transactional
@@ -25,6 +24,9 @@ public class ClienteServicioTest {
     @Autowired
     private EmailServicio emailServicio;
 
+    @Autowired
+    private AdminServicio adminServicio;
+
     //-------------------------------------------- Gestion Cliente ---------------------------------------------
     @Test
     @Sql("classpath:dataset.sql")
@@ -33,6 +35,7 @@ public class ClienteServicioTest {
         Cliente cliente = Cliente.builder().nombre("Juanito").password("1234").correo("juanito@email.com").urlFoto("ruta").build();
         try {
             Cliente nuevo = clienteServicio.registrarCliente(cliente);
+            System.out.println(cliente);
             Assertions.assertNotNull(nuevo);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -58,9 +61,18 @@ public class ClienteServicioTest {
     public void activarCuentaClienteTest(){
 
         try {
+
             Cliente cliente = clienteServicio.obtenerCliente(3);
-            Cliente nuevo = clienteServicio.activarCuentaCliente(cliente);
-            Assertions.assertEquals(true,nuevo.isEstado());
+            clienteServicio.activarCuentaCliente(cliente);
+
+            Assertions.assertEquals(true,cliente.isEstado());
+
+            Cupon cuponRegristro = adminServicio.obtenerCupon(4);
+            CuponCliente cuponCliente = CuponCliente.builder().estado(true).cliente(cliente).cupon(cuponRegristro).build();
+            clienteServicio.asisgnarCupon(cliente.getCodigo(),cuponCliente);
+            cliente.getCuponClientes().forEach(System.out::println);
+            Assertions.assertEquals(2,cliente.getCuponClientes().size());
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -116,9 +128,18 @@ public class ClienteServicioTest {
 
     @Test
     @Sql("classpath:dataset.sql")
-    public void buscarPelicula(){
+    public void buscarPeliculaGenero(){
 
         List<Pelicula> peliculas = clienteServicio.buscarPelicula("Harry Potter");
+        Assertions.assertEquals(2,peliculas.size());
+
+    }
+
+    @Test
+    @Sql("classpath:dataset.sql")
+    public void buscarPelicula(){
+
+        List<Pelicula> peliculas = clienteServicio.buscarPeliculaGenero("Harry Potter", Genero.CIENCIA_FICCION);
         Assertions.assertEquals(2,peliculas.size());
 
     }

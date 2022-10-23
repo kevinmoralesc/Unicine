@@ -33,6 +33,7 @@ public class CuponCliente implements Serializable {
     @JoinColumn(nullable = false)
     private Cupon cupon;
 
+    @Builder
     public CuponCliente(Boolean estado, Compra compra, Cliente cliente, Cupon cupon) {
         this.estado = estado;
         this.compra = compra;

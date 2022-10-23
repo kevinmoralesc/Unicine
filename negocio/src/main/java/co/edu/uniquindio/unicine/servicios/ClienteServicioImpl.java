@@ -1,10 +1,10 @@
 package co.edu.uniquindio.unicine.servicios;
 
 import co.edu.uniquindio.unicine.entidades.*;
-import co.edu.uniquindio.unicine.repo.ClienteRepo;
-import co.edu.uniquindio.unicine.repo.PeliculaRepo;
+import co.edu.uniquindio.unicine.repo.*;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,14 +14,25 @@ public class ClienteServicioImpl implements ClienteServicio{
     private final ClienteRepo clienteRepo;
     private final PeliculaRepo peliculaRepo;
     private final EmailServicio emailServicio;
+    private final CuponRepo cuponRepo;
 
-    //--------------------------------------- Gestion Cliente -------------------------------------------------
+    private final CompraRepo compraRepo;
+    private final FuncionRepo funcionRepo;
+    private final CuponClienteRepo cuponClienteRepo;
 
-    public ClienteServicioImpl(ClienteRepo clienteRepo, PeliculaRepo peliculaRepo, EmailServicio emailServicio) {
+    public ClienteServicioImpl(ClienteRepo clienteRepo, PeliculaRepo peliculaRepo, EmailServicio emailServicio, CuponRepo cuponRepo, CompraRepo compraRepo, FuncionRepo funcionRepo, CuponClienteRepo cuponClienteRepo) {
         this.clienteRepo = clienteRepo;
         this.peliculaRepo = peliculaRepo;
         this.emailServicio = emailServicio;
+        this.cuponRepo = cuponRepo;
+        this.compraRepo = compraRepo;
+        this.funcionRepo = funcionRepo;
+        this.cuponClienteRepo = cuponClienteRepo;
     }
+
+    //--------------------------------------- Gestion Cliente -------------------------------------------------
+
+
 
     @Override
     public Cliente obtenerCliente(Integer codigoCliente) throws Exception {
@@ -76,9 +87,16 @@ public class ClienteServicioImpl implements ClienteServicio{
         return clienteRepo.save(cliente);
     }
 
-    public void asisgnarCuponRegistro(Cliente cliente,CuponCliente cuponRegistro){
+    @Override
+    public CuponCliente asisgnarCupon(Integer codigo, CuponCliente cuponCliente) throws Exception{
 
-        cliente.getCuponClientes().add(cuponRegistro);
+        Optional<Cliente> cliente = clienteRepo.findById(codigo);
+        if(cliente.isEmpty()){
+
+            throw new Exception("no existe el cliente");
+        }
+
+        return cuponClienteRepo.save(cuponCliente);
 
     }
 
@@ -126,7 +144,7 @@ public class ClienteServicioImpl implements ClienteServicio{
 
         if(guardado.isEmpty()){
 
-            throw new Exception("El administrador no existe");
+            throw new Exception("El Cliente no existe");
 
         }else{
             if(guardado.get().getPassword().equals(passwordActual)) {
@@ -143,6 +161,22 @@ public class ClienteServicioImpl implements ClienteServicio{
 
         guardado.get().setPassword(passwordNueva);
         return true;
+    }
+
+    @Override
+    public void recuperarPassword(String correo) throws Exception {
+
+        boolean correoExiste = esRepetidoCliente(correo);
+
+        if(correoExiste){
+            throw new Exception("El correo no esta registrado");
+        }
+        Optional<Cliente> cliente = clienteRepo.findByCorreo(correo);
+        emailServicio.enviarEmail("Cambio de contraseña unicine", "Hola, debe ir al siguiente enlace para ingresar la nueva contraseña", (cliente.get()).getCorreo());
+    }
+
+    private boolean esRepetidoCliente(String correo){
+        return clienteRepo.findByCorreo(correo).orElse(null) == null;
     }
 
 
@@ -164,23 +198,13 @@ public class ClienteServicioImpl implements ClienteServicio{
     }
 
     @Override
-    public Compra hacerCompra(Compra compra) throws Exception{
-
-        Optional<Cliente> guardado = clienteRepo.findById(compra.getCliente().getCodigo());
-
-        if(guardado.isEmpty()){
-
-            throw new Exception("El cliente no existe");
-
-        }
-
-
-        emailServicio.enviarEmail("Se ha realizado una compra", "Hola, ha comprado x entradas para ver la pelicula x ....", compra.getCliente().getCorreo());
+    public Compra hacerCompra(Compra compra) throws Exception {
         return null;
     }
 
+
     @Override
-    public boolean redirCupon(Integer codigoCupon) throws Exception{
+    public boolean redimirCupon(CuponCliente cuponCliente, LocalDateTime fechaCompra){
         return false;
     }
 
@@ -188,6 +212,15 @@ public class ClienteServicioImpl implements ClienteServicio{
     public List<Pelicula> buscarPelicula(String nombre) {
 
         List<Pelicula> peliculas = peliculaRepo.buscarPelicula(nombre);
+
+        return peliculas;
+
+    }
+
+    @Override
+    public List<Pelicula> buscarPeliculaGenero(String nombre,Genero genero) {
+
+        List<Pelicula> peliculas = peliculaRepo.buscarPeliculaGenero(nombre,genero);
 
         return peliculas;
 
