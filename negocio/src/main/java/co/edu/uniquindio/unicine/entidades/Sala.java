@@ -32,7 +32,7 @@ public class Sala implements Serializable {
     @ManyToOne
     @JoinColumn(nullable = false)
     private DistribucionSillas distribucionSillas;
-
+    @Builder
     public Sala(String nombre, Teatro teatro, DistribucionSillas distribucionSillas) {
         this.nombre = nombre;
         this.teatro = teatro;

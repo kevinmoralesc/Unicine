@@ -22,7 +22,7 @@ public class PeliculaTest {
     @Sql("classpath:dataset.sql")
     public void buscarPelicula(){
 
-        List<Pelicula> peliculas = peliculaRepo.buscarPelicula("Harry Potter",true);
+        List<Pelicula> peliculas = peliculaRepo.buscarPelicula("Harry Potter");
         peliculas.forEach(System.out::println);
 
     }
