@@ -25,4 +25,7 @@ public interface FuncionRepo extends JpaRepository<Funcion,Integer> {
 
 
 
+
+
+
 }

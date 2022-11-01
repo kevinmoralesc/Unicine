@@ -28,4 +28,5 @@ public interface PeliculaRepo extends JpaRepository<Pelicula,Integer> {
     List<Pelicula> listarPeliculas2 (Genero generoPelicula);
 
 
+
 }
