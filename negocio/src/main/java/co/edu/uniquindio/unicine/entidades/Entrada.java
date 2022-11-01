@@ -36,10 +36,9 @@ public class Entrada implements Serializable {
     @JoinColumn(nullable = false)
     private Compra compra;
 
-    public Entrada(Float precio, Integer fila, Integer columna, Compra compra) {
+    public Entrada(Float precio, Integer fila, Integer columna) {
         this.precio = precio;
         this.fila = fila;
         this.columna = columna;
-        this.compra = compra;
     }
 }

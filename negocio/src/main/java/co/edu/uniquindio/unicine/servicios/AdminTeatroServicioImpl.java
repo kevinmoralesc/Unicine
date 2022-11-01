@@ -146,8 +146,13 @@ public class AdminTeatroServicioImpl implements AdminTeatroServicio {
     //--------------------------------------- Gestion Funcion --------------------------------------------------
 
     @Override
-    public Funcion crearFuncion(Funcion funcion) {
-        return funcionRepo.save(funcion);
+    public Funcion crearFuncion(Funcion funcion) throws Exception{
+        Funcion guardado = funcionRepo.comprobarFuncion(funcion.getHorario(), funcion.getSala());
+        if (guardado == null){
+            return funcionRepo.save(funcion);
+        }else {
+            throw new Exception("Ya se encuentra registrado");
+        }
     }
 
     @Override
@@ -190,7 +195,14 @@ public class AdminTeatroServicioImpl implements AdminTeatroServicio {
     //--------------------------------------- Gestion Sala -----------------------------------------------------
 
     @Override
-    public Sala crearSala(Sala sala) { return salaRepo.save(sala); }
+    public Sala crearSala(Sala sala) throws Exception{
+        Sala guardado = salaRepo.comprobarSala(sala.getTeatro(), sala.getNombre());
+        if (guardado == null){
+            return salaRepo.save(sala);
+        }else {
+            throw new Exception("Ya se encuentra registrado");
+        }
+    }
 
     @Override
     public Sala actualizarSala(Sala sala) throws Exception {
@@ -228,8 +240,14 @@ public class AdminTeatroServicioImpl implements AdminTeatroServicio {
     //--------------------------------------- Gestion Teatro ---------------------------------------------------
 
     @Override
-    public Teatro crearTeatro(Teatro teatro) {
-        return teatroRepo.save(teatro);
+    public Teatro crearTeatro(Teatro teatro) throws Exception{
+        //Optional<Ciudad> ciudad = ciudadRepo.findById(teatro.getCiudad().getCodigo());
+        Teatro guardado = teatroRepo.comprobarExistencia(teatro.getCiudad(), teatro.getDireccion());
+        if (guardado == null){
+            return teatroRepo.save(teatro);
+        }else {
+            throw new Exception("Ya se encuentra registrado");
+        }
     }
 
     @Override
@@ -270,7 +288,39 @@ public class AdminTeatroServicioImpl implements AdminTeatroServicio {
         }
         return teatro.get();
     }
-    //--------------------------------------- Distribución Silla ---------------------------------------------------
+    //--------------------------------------- Gestion Distribución Silla ---------------------------------------------------
+    @Override
+    public DistribucionSillas crearDistribucionSilla(DistribucionSillas distribucionSillas) throws Exception{
+        DistribucionSillas guardado = distribucionSillasRepo.comprobarDistribucion(distribucionSillas.getColumnas(), distribucionSillas.getEsquema(), distribucionSillas.getFilas(), distribucionSillas.getTotalSillas());
+        if (guardado == null){
+            return distribucionSillasRepo.save(distribucionSillas);
+        }else {
+            throw new Exception("Ya se encuentra registrado");
+        }
+    }
+    @Override
+    public DistribucionSillas actualizarDistribucionSilla(DistribucionSillas distribucionSillas) throws Exception{
+        Optional<DistribucionSillas> guardado = distribucionSillasRepo.findById(distribucionSillas.getCodigo());
+
+        if(guardado.isEmpty()){
+            throw new Exception("La distribucion no existe");
+        }
+        return distribucionSillasRepo.save(distribucionSillas);
+    }
+    @Override
+    public void eliminarDistribucionSilla(Integer codigoDistribucionSilla) throws Exception{
+        Optional<DistribucionSillas> guardado = distribucionSillasRepo.findById(codigoDistribucionSilla);
+
+        if(guardado.isEmpty()){
+            throw new Exception("La distribución no existe");
+        }
+
+        distribucionSillasRepo.delete(guardado.get());
+    }
+    @Override
+    public List<DistribucionSillas> listarDistribucionSilla(){
+        return distribucionSillasRepo.findAll();
+    }
     @Override
     public DistribucionSillas obtenerDistribucionSilla(Integer codigo) throws Exception {
 
@@ -281,7 +331,7 @@ public class AdminTeatroServicioImpl implements AdminTeatroServicio {
         }
         return guardado.get();
     }
-    //--------------------------------------- Ciudad  ---------------------------------------------------
+    //--------------------------------------- Gestion Ciudad  ---------------------------------------------------
     @Override
     public Ciudad obtenerCiudad(Integer codigo) throws Exception {
 

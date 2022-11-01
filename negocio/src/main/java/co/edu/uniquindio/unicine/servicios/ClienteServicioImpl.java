@@ -4,6 +4,7 @@ import co.edu.uniquindio.unicine.entidades.*;
 import co.edu.uniquindio.unicine.repo.*;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -16,15 +17,19 @@ public class ClienteServicioImpl implements ClienteServicio{
     private final EmailServicio emailServicio;
     private final CuponRepo cuponRepo;
 
+    private final CompraConfiteriaRepo compraConfiteriaRepo;
+    private final EntradaRepo entradaRepo;
     private final CompraRepo compraRepo;
     private final FuncionRepo funcionRepo;
     private final CuponClienteRepo cuponClienteRepo;
 
-    public ClienteServicioImpl(ClienteRepo clienteRepo, PeliculaRepo peliculaRepo, EmailServicio emailServicio, CuponRepo cuponRepo, CompraRepo compraRepo, FuncionRepo funcionRepo, CuponClienteRepo cuponClienteRepo) {
+    public ClienteServicioImpl(ClienteRepo clienteRepo, PeliculaRepo peliculaRepo, EmailServicio emailServicio, CuponRepo cuponRepo, CompraConfiteriaRepo compraConfiteriaRepo, EntradaRepo entradaRepo, CompraRepo compraRepo, FuncionRepo funcionRepo, CuponClienteRepo cuponClienteRepo) {
         this.clienteRepo = clienteRepo;
         this.peliculaRepo = peliculaRepo;
         this.emailServicio = emailServicio;
         this.cuponRepo = cuponRepo;
+        this.compraConfiteriaRepo = compraConfiteriaRepo;
+        this.entradaRepo = entradaRepo;
         this.compraRepo = compraRepo;
         this.funcionRepo = funcionRepo;
         this.cuponClienteRepo = cuponClienteRepo;
@@ -197,14 +202,157 @@ public class ClienteServicioImpl implements ClienteServicio{
         return compras;
     }
 
+    /**
+     *
+     * @param compra
+     * @return
+     * @throws Exception
+     */
     @Override
     public Compra hacerCompra(Compra compra) throws Exception {
-        return null;
+        Cliente cliente            = obtenerCliente(compra.getCliente().getCodigo());
+        Funcion funcion            = compra.getFuncion();
+        String factura = "";
+        double total               = 0.0;
+        double descuentoCupon           = 1.0;
+        Double subTotalConfiterias = 0.0;
+        Double subTotalEntradas    = 0.0;
+        double valorFuncion        = 0.0;
+
+        if(funcion != null){
+            if(compra.getMedioPago() != null) {
+                if (verificarEstadoEntradas(compra.getEntradas(), funcion.getHorario())) {
+                    if (redimirCupon(compra.getCuponCliente(), compra.getFecha())) {
+                        descuentoCupon = (100 - (compra.getCuponCliente().getCupon().getDescuento())) / 100;
+                        compra.getCuponCliente().setEstado(false);
+                    }
+                    subTotalEntradas = obtenerSubtotalEntradas(compra.getEntradas());
+                    subTotalConfiterias = obtenerSubtotalConfiterias(compra.getCompraConfiterias());
+                    valorFuncion = funcion.getPrecio();
+                    total = (subTotalEntradas + subTotalConfiterias + valorFuncion) * descuentoCupon;
+                    compra.setValorTotal((float) total);
+                    asignarElementosCompra(compra,compra.getCuponCliente(),compra.getFuncion(),compra.getCliente(),compra.getCompraConfiterias(),compra.getEntradas());
+                    factura = realizarFacturaCompra(compra);
+                    System.out.println(factura);
+                    emailServicio.enviarEmail("Compra Unicine", "Informacion compra: \n" + factura, cliente.getCorreo());
+                    return compraRepo.save(compra);
+
+                } else {
+                    throw new Exception("Las sillas elegidas ya estan ocupadas");
+                }
+            }
+            else{
+                throw new Exception("Medio de pago inexistente o no soportado");
+            }
+        }
+        else{
+            throw new Exception("La funcion no existe");
+        }
+    }
+
+    private void asignarElementosCompra(Compra compra, CuponCliente cuponCliente, Funcion funcion, Cliente cliente, List<CompraConfiteria> compraConfiterias, List<Entrada> entradas) {
+
+        funcion.getCompras().add(compra);
+        cuponClienteRepo.save(compra.getCuponCliente());
+
+        cuponCliente.setCompra(compra);
+        funcionRepo.save(funcion);
+
+        cliente.getCompras().add(compra);
+        clienteRepo.save(cliente);
+
+        for (CompraConfiteria compraConfiteria : compraConfiterias) {
+            compraConfiteria.setCompra(compra);
+            compraConfiteriaRepo.save(compraConfiteria);
+        }
+
+        for (Entrada entrada : entradas) {
+            entrada.setCompra(compra);
+            entradaRepo.save(entrada);
+        }
+    }
+
+    private String realizarFacturaCompra(Compra compra) {
+
+        String mensaje ="";
+
+        mensaje += "" + compra.getFecha()+"\n";
+        mensaje += "" + compra.getCliente().getCorreo()+"\n";
+        mensaje += "Pelicula : " + compra.getFuncion().getPelicula()+"\n";
+        mensaje += "Hora funcion :" + compra.getFuncion().getHorario().getHora()+"\n";
+        mensaje += "Entradas :" + compra.getEntradas().size()+"\n";
+        mensaje += "Confiterias :" + compra.getEntradas().size()+"\n";
+
+        if(compra.getCuponCliente() != null){
+
+            mensaje += "Total a pagar con cupon :" + compra.getValorTotal()+"\n";
+            mensaje += "Cantidad ahorrada :" + (obtenerSubtotalConfiterias(compra.getCompraConfiterias())+obtenerSubtotalEntradas(compra.getEntradas())-compra.getValorTotal())+"\n";
+
+
+        }else{
+
+            mensaje += "Total a pagar :" + compra.getValorTotal()+"\n";
+        }
+
+        return mensaje;
+
+    }
+
+    private Double obtenerSubtotalConfiterias(List<CompraConfiteria> compraConfiterias) {
+
+        double valor = 0;
+
+        for (CompraConfiteria compraConfiteria : compraConfiterias) {
+
+            valor += compraConfiteria.getPrecio();
+        }
+        return valor;
+    }
+
+    private Double obtenerSubtotalEntradas(List<Entrada> entradas) {
+
+        double valor = 0;
+
+        for (Entrada entrada : entradas) {
+
+            valor += entrada.getPrecio();
+        }
+
+        return valor;
     }
 
 
+    private boolean verificarEstadoEntradas(List<Entrada> entradas, Horario horario) {
+
+        for (Entrada entrada : entradas) {
+
+            if(entradaRepo.obtenerCompra(entrada).getFuncion().getHorario().equals(horario) == true){
+
+                if(entrada.getCompra() != null){
+
+                    return false;
+
+                }
+            }
+        }
+        return true;
+    }
+
+
+
     @Override
-    public boolean redimirCupon(CuponCliente cuponCliente, LocalDateTime fechaCompra){
+    public boolean redimirCupon(CuponCliente cuponCliente, LocalDate fechaCompra){
+
+        if(cuponCliente.getEstado() == true){
+
+            if(fechaCompra.isAfter(cuponCliente.getCupon().getFechaVencimiento())){
+
+                return false;
+            }
+
+            return true;
+
+        }
         return false;
     }
 

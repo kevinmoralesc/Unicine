@@ -23,7 +23,7 @@ public interface AdminTeatroServicio {
 
     //--------------------------------------- Gestion Funcion --------------------------------------------------
 
-    Funcion crearFuncion(Funcion funcion);
+    Funcion crearFuncion(Funcion funcion) throws Exception;
     Funcion actualizarFuncion(Funcion funcion) throws Exception;
     void eliminarFuncion(Integer codigoFuncion) throws Exception;
     List<Funcion> listarFunciones();
@@ -32,7 +32,7 @@ public interface AdminTeatroServicio {
 
     //--------------------------------------- Gestion Sala -----------------------------------------------------
 
-    Sala crearSala(Sala sala);
+    Sala crearSala(Sala sala) throws Exception;
     Sala actualizarSala(Sala sala) throws Exception;
     void eliminarSala(Integer codigo) throws Exception;
     List<Sala> listarSalas();
@@ -40,13 +40,17 @@ public interface AdminTeatroServicio {
 
 
     //--------------------------------------- Gestion Teatro ---------------------------------------------------
-    Teatro crearTeatro(Teatro teatro);
+    Teatro crearTeatro(Teatro teatro) throws Exception;
     Teatro actualizarTeatro(Teatro teatro) throws Exception;
     void eliminarTeatro(Integer codigoTeatro) throws Exception;
     List<Teatro> listarTeatros();
     Teatro obtenerTeatro(Integer codigo) throws Exception;
 
     //--------------------------------------- DistribucionSillas  ---------------------------------------------------
+    DistribucionSillas crearDistribucionSilla(DistribucionSillas distribucionSillas) throws Exception;
+    DistribucionSillas actualizarDistribucionSilla(DistribucionSillas distribucionSillas) throws Exception;
+    void eliminarDistribucionSilla(Integer codigoDistribucionSilla) throws Exception;
+    List<DistribucionSillas> listarDistribucionSilla();
     DistribucionSillas obtenerDistribucionSilla(Integer codigo) throws Exception;
 
     //--------------------------------------- Ciudad  ---------------------------------------------------
