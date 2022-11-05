@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Crear Teatro</title>
+</h:head>
+<h:body>
+    <p:panel header="Crear Teatro">
+        <h:form>
+            <h:panelGrid columns="3" cellpadding="5">
+                <p:outputLabel for="direccion_teatro" value="Direccion: " />
+                <p:inputText id="direccion_teatro" value="#{teatroBean.teatro.direccion}" required="true"/>
+                <p:message for = "direccion_teatro"/>
+
+                <p:outputLabel for="telefono_teatro" value="Telefono:" />
+                <p:inputText id="telefono_teatro" value="#{teatroBean.teatro.telefono}" required="true" />
+                <p:message for = "telefono_teatro"/>
+
+                <p:outputLabel for="administrador_codigo" value="Administrador:" />
+                <p:inputText id="administrador_codigo" value="#{teatroBean.teatro.administrador}" required="true" />
+                <p:message for = "administrador_codigo"/>
+
+                <p:outputLabel for="ciudad_codigo" value="Ciudad:" />
+                <p:inputText id="ciudad_codigo" value="#{teatroBean.teatro.ciudad}" required="true" />
+                <p:message for = "ciudad_codigo"/>
+                
+            </h:panelGrid>
+            <p:commandButton value="Crear Teatro" action="#{teatroBean.crearTeatro}" update="@form" />
+            <p:growl for = "mensaje_bean" showDetail="true"/>
+        </h:form>
+    </p:panel>
+</h:body>
+</html>

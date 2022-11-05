@@ -9,9 +9,33 @@
 <h:head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <h:outputStylesheet name="bootstrap.min.css " library="css" />
+    <h:outputScript name="bootstrap.bundle.min.js" library="js"/>
     <title>Página de Inicio</title>
 </h:head>
 <h:body>
-    <h1>#{inicioBean.mensaje}</h1>
+    <p:panel header="Inicio">
+        <h1> Página de Inicio</h1>
+        <div id="barra_nav">
+            <ul>
+                <li> <a href="/cliente/registro.xhtml"> Registro </a> </li>
+                <li> <a href="/admin/crear_pelicula.xhtml"> Crear Pelicula </a> </li>
+                <li> <a href="/admin/crear_confiteria.xhtml"> Crear Confiteria </a> </li>
+                <li> <a href="/admin/crear_cupon.xhtml"> Crear Cupon </a> </li>
+                <li> <a href="/admin_teatro/crear_salas.xhtml"> Crear Salas </a> </li>
+                <li> <a href="/admin_teatro/crear_funciones.xhtml"> Crear Funciones </a> </li>
+                <li> <a href="/admin_teatro/crear_teatro.xhtml"> Crear Teatro </a> </li>
+            </ul>
+        </div>
+
+        <div>
+            <h:form>
+                <div class="input-search ui-inputgroup">
+                    <p:inputText placeholder="¿Qué película está buscando?" required="true" value="#{busquedaBean.busqueda}" />
+                    <p:commandButton update="@form" icon="pi pi-search" action="#{busquedaBean.buscar}" />
+                </div>
+            </h:form>
+        </div>
+    </p:panel>
 </h:body>
 </html>

@@ -73,8 +73,9 @@ public class ClienteServicioImpl implements ClienteServicio{
             throw new Exception("El correo ya se encuentra registrado");
 
         }
-        emailServicio.enviarEmail("Registro en unicine", "Hola, debe ir al siguiente enlace para activar la cuenta", cliente.getCorreo());
-        return clienteRepo.save(cliente);
+        Cliente registro = clienteRepo.save(cliente);
+        //emailServicio.enviarEmail("Registro en unicine", "Hola, debe ir al siguiente enlace para activar la cuenta", cliente.getCorreo());
+        return registro;
     }
 
     @Override

@@ -11,12 +11,6 @@ import java.io.Serializable;
 @ViewScoped
 public class InicioBean implements Serializable {
 
-    @Getter @Setter
-    private String mensaje = "Mi primera página en JSF";
-    public String getMensaje() {
-        return mensaje;
-    }
-    public void setMensaje(String mensaje) {
-        this.mensaje = mensaje;
-    }
+
+
 }

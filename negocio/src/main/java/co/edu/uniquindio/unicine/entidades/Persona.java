@@ -2,6 +2,7 @@ package co.edu.uniquindio.unicine.entidades;
 
 import com.sun.istack.NotNull;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -23,15 +24,18 @@ public class Persona implements Serializable {
     private Integer codigo;
 
     @Column(nullable = false,length = 40)
+    @Length(max = 40)
     private String nombre;
 
     @NotNull
     @Email
     @Column(nullable = false,length = 200)
+    @Length(max = 200)
     private String correo;
 
     @ToString.Exclude
     @Column(nullable = false,length = 20)
+    @Length(max = 20)
     private String password;
 
 
