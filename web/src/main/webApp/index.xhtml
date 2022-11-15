@@ -11,31 +11,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <h:outputStylesheet name="bootstrap.min.css " library="css" />
     <h:outputScript name="bootstrap.bundle.min.js" library="js"/>
+    <h:outputStylesheet name="styles.css" library="css"/>
     <title>Página de Inicio</title>
 </h:head>
 <h:body>
-    <p:panel header="Inicio">
-        <h1> Página de Inicio</h1>
-        <div id="barra_nav">
-            <ul>
-                <li> <a href="/cliente/registro.xhtml"> Registro </a> </li>
-                <li> <a href="/admin/crear_pelicula.xhtml"> Crear Pelicula </a> </li>
-                <li> <a href="/admin/crear_confiteria.xhtml"> Crear Confiteria </a> </li>
-                <li> <a href="/admin/crear_cupon.xhtml"> Crear Cupon </a> </li>
-                <li> <a href="/admin_teatro/crear_salas.xhtml"> Crear Salas </a> </li>
-                <li> <a href="/admin_teatro/crear_funciones.xhtml"> Crear Funciones </a> </li>
-                <li> <a href="/admin_teatro/crear_teatro.xhtml"> Crear Teatro </a> </li>
-            </ul>
-        </div>
+    <div id="barra_nav">
+        <header>
+            <div class="text-bg-dark">
+                <div class="container">
+                    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3">
+                        <a href="/" class="d-flex align-items-center col-md-3 md-2 md-md-0 text-white text-decoration-none">
 
-        <div>
-            <h:form>
-                <div class="input-search ui-inputgroup">
-                    <p:inputText placeholder="¿Qué película está buscando?" required="true" value="#{busquedaBean.busqueda}" />
-                    <p:commandButton update="@form" icon="pi pi-search" action="#{busquedaBean.buscar}" />
+                            <span class="fs-4">Unicine</span>
+                        </a>
+
+                        <ul class="nav col-12 col-lg-auto mb-2 justify-content-center md-md-0">
+                            <li>
+                                <a href="#" class="nav-link text-secondary">
+                                    Inicio
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/admin/crear_pelicula.xhtml" class="nav-link text-white">
+                                    Crear pelicula
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/admin_teatro/crear_salas.xhtml" class="nav-link text-white">
+                                    Crear sala
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/admin_teatro/crear_teatro.xhtml" class="nav-link text-white">
+                                    Crear teatro
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link text-white">
+                                    Perfil
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="col-md-3 text-end"> </div>
+                    </div>
                 </div>
-            </h:form>
+            </div>
+            <div class="px-3 py-2 border-bottom mb-3">
+                <div class="container d-flex flex-wrap justify-content-center">
+                    <h:form styleClass="col-12 col-lg-auto mb-2 mb-lg-auto">
+                        <div class="input-search ui-inputgroup">
+                            <p:inputText placeholder="¿Qué película está buscando?" required="true" value="#{busquedaBean.busqueda}" styleClass="form_busqueda" />
+                            <p:commandButton update="@form" icon="pi pi-search" action="#{busquedaBean.buscar}" />
+                        </div>
+                    </h:form>
+                    <div class="text-end">
+                        <button type="button" class="btn btn-light text-dark me-2">Login</button>
+                        <p:linkButton value="Registro" href="/registro.xhtml" styleClass="text-decoration-none" />
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <div class="container">
+        <div>
+            <h1>En cartelera</h1>
+            <div>
+
+            </div>
         </div>
-    </p:panel>
+        <div>
+            <h1>Proximamente</h1>
+            <div>
+
+            </div>
+        </div>
+    </div>
 </h:body>
 </html>
