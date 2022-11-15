@@ -46,15 +46,21 @@ public class TeatroBean implements Serializable {
 
     public void crearTeatro(){
         try {
-            //Esto debe borrar cuando se implemente la sesion
-            AdministradorTeatro administradorTeatro = adminServicio.obtenerAdminTeatro(1);
-            teatro.setAdministrador(administradorTeatro);
-            //Nos ayuda para actualizar las listas
-            Teatro registro = adminTeatroServicio.crearTeatro(teatro);
-            teatros.add(registro);
-            teatro = new Teatro();
-            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "Alerta", "Teatro creado correctamente");
-            FacesContext.getCurrentInstance().addMessage("mensaje_bean", fm);
+            if(!editar) {
+                //Esto debe borrar cuando se implemente la sesion
+                AdministradorTeatro administradorTeatro = adminServicio.obtenerAdminTeatro(1);
+                teatro.setAdministrador(administradorTeatro);
+                //Nos ayuda para actualizar las listas
+                Teatro registro = adminTeatroServicio.crearTeatro(teatro);
+                teatros.add(registro);
+                teatro = new Teatro();
+                FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "Alerta", "Teatro creado correctamente");
+                FacesContext.getCurrentInstance().addMessage("mensaje_bean", fm);
+            }else {
+                adminTeatroServicio.actualizarTeatro(teatro);
+                FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "Alerta", "Teatro actualizado correctamente");
+                FacesContext.getCurrentInstance().addMessage("mensaje_bean", fm);
+            }
         }catch (Exception e){
             FacesMessage fm  = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", e.getMessage());
             FacesContext.getCurrentInstance().addMessage("mensaje_bean", fm);
@@ -81,8 +87,15 @@ public class TeatroBean implements Serializable {
             return teatrosSeleccionados.size() == 1 ? "Borrar 1 elemento": "Borrar "+teatrosSeleccionados.size()+" elementos";
         }
     }
+    public String getMensajeCrear(){
+        return editar ? "Editar Teatro" : "Crear Teatro";
+    }
     public void seleccionarTeatro(Teatro teatroSeleccionado){
         this.teatro = teatroSeleccionado;
         editar = true;
+    }
+    public void crearTeatroDialigo(){
+        this.teatro = new Teatro();
+        editar = false;
     }
 }
