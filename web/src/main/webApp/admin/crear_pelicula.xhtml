@@ -9,10 +9,14 @@
 <h:head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <h:outputStylesheet name="bootstrap.min.css" library="css" />
+    <h:outputScript name="bootstrap.bundle.min.js" library="js"/>
+    <h:outputStylesheet name="styles.css" library="css"/>
     <title>Crear Nueva Pelicula</title>
 </h:head>
 <h:body>
     <p:panel header="Creación Pelicula">
+
         <h:form>
             <h:panelGrid columns="3" cellpadding="5">
                 <p:outputLabel for="nombre_pelicula" value="Nombre: " />
@@ -34,6 +38,12 @@
                 <p:outputLabel for="url_trailer" value="Trailer:" />
                 <p:inputText id="url_trailer" value="#{peliculaBean.pelicula.urlTrailer}" required="true" />
                 <p:message for = "url_trailer"/>
+
+                <p:outputLabel for="generos_peli" value="Generos:" />
+                <p:selectManyCheckbox id="generos_peli" value="#{peliculaBean.pelicula.generos}" layout="grid" columns="3">
+                    <f:selectItems value="#{peliculaBean.generos}"/>
+                </p:selectManyCheckbox>
+                <p:message for = "generos_peli"/>
 
             </h:panelGrid>
             <p:commandButton value="Crear Pelicula" action="#{peliculaBean.crearPelicula}" icon="pi pi-plus-circle" update="@form" />

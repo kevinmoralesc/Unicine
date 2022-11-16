@@ -1,5 +1,6 @@
 package co.edu.uniquindio.unicine.bean;
 
+import co.edu.uniquindio.unicine.entidades.Genero;
 import co.edu.uniquindio.unicine.entidades.Pelicula;
 import co.edu.uniquindio.unicine.servicios.AdminServicio;
 import co.edu.uniquindio.unicine.servicios.AdminTeatroServicio;
@@ -13,6 +14,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 @ViewScoped
@@ -20,13 +23,14 @@ public class PeliculaBean implements Serializable {
 
     @Getter @Setter
     private Pelicula pelicula;
-
     @Autowired
     private AdminServicio adminServicio;
-
+    @Getter @Setter
+    private List<Genero> generos;
     @PostConstruct
     public void init(){
         pelicula = new Pelicula();
+        generos = Arrays.asList(Genero.values());
     }
 
     public String crearPelicula(){
