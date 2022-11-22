@@ -5,73 +5,96 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
+
 <ui:composition template="/WEB-INF/template.xhtml">
+    <ui:define name="title">Proceso Compra</ui:define>
     <ui:define name="content">
-        <div class="container">
-            <div class="row mt-4 mb-4">
-                <div class="col-4 detalle-infopelicula">
-                    <div class="shadow p-3" >
-                        <img class="poster-peli" src="#{detallePeliculaBean.pelicula.imagenPrincipal}" alt="Poster pelicula"/>
-                        <h4>Nombre</h4>
-                        <p>#{detallePeliculaBean.pelicula.nombre}</p>
-                        <h4>Reparto</h4>
-                        <p>#{detallePeliculaBean.pelicula.reparto}</p>
-                        <h4>Sinopsis</h4>
-                        <p>#{detallePeliculaBean.pelicula.sinopsis}</p>
-                        <h4>Generos</h4>
-                        <div class="d-inline-block mb-2"></div> <p:repeat value="#{detallePeliculaBean.pelicula.generos}" var="generos">
-                        <p:chip label="#{generos}" styleClass="me-2"/></p:repeat>
-                    </div>
-                </div>
-                <div class="col-8 funciones-peli">
-                    <div class="shadow">
-                        <iframe width="736" height="320" src="#{detallePeliculaBean.pelicula.urlTrailer}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="true"></iframe>
-                        <div class="p-3">
-                            <h:form>
-                                <h:panelGrid>
-                                    <p:selectOneMenu id="ciudad_origen" value="#{detallePeliculaBean.ciudad}" converter="#{ciudadConverter}">
-                                        <f:selectItem itemLabel="Seleccione una ciudad" noSelectionOption="true" itemValue="#{null}"/>
-                                        <f:selectItems value="#{detallePeliculaBean.ciudades}" var="ciudad" itemLabel="#{ciudad.nombre}" itemValue="#{ciudad}"/>
-                                        <p:ajax event = "change" listener="#{detallePeliculaBean.listarFunciones}" update="funciones, lista_teatros"/>
-                                    </p:selectOneMenu>
-                                </h:panelGrid>
+        <div class="container mt-4 mb-4">
+            <h5>#{compraBean.funcion.codigo}</h5>
+            <p:panel header="Seleccionar sillas">
+                <h:form id="sillas">
+                    <div class="text-center" ><h5> PANTALLA </h5> </div>
+                    <p:dataTable id="mat-sillas" value="#{compraBean.filas}" var="fila" rows="#{compraBean.distribucionSillas.filas}">
+
+                        <p:columns id="columnas" var="col" value="#{compraBean.columnas}">
+                            <h:panelGrid id="item-silla" columns="1" styleClass="ui-noborder text-center #{compraBean.buscarSilla(fila, col) ? 'silla-elegida' : '' } ">
+                                <p:ajax event="click" listener="#{compraBean.seleccionarSilla(fila, col)}" update="sillas:mat-sillas:#{fila}:columnas:#{col}:item-silla, detalles_compra"></p:ajax>
+                                <p class="mb-0"> #{fila}#{col}</p>
+                                <i class="pi pi-box" />
+                            </h:panelGrid>
+                        </p:columns>
+
+                    </p:dataTable>
+                </h:form>
+            </p:panel>
+
+            <div class="container mt-4 mb-4">
+                <p:panel header="Seleccionar confites">
+                    <div class="d-flex" >
+                        <p:repeat value="#{compraBean.confiterias}" var="confite" varStatus="pos" >
+                            <h:form style="padding-right: 50px">
+                                <div class="col-auto d-none d-lg-block row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative text-center img-confiteria">
+                                    <p>#{confite.nombre}</p>
+                                    <img class="imagen-confiteria " src="#{confite.imagenPrincipal}" alt="#{confite.nombre}"/>
+                                    <p>#{confite.precio}</p>
+                                    <div class="justify-content-center" >
+                                        <p:commandButton action="#{compraBean.restarUnidades(pos.index)}" update="contador, detalles_compra" styleClass="d-inline-block rounded-button ui-button-info " icon="pi pi-plus" />
+                                        <p jsf:id="contador" class="d-inline-block" >#{compraBean.obtenerUnidadesConfites(pos.index)}</p>
+                                        <p:commandButton action="#{compraBean.sumarUnidades(pos.index)}" update="contador, detalles_compra" styleClass="d-inline-block rounded-button ui-button-info" icon="pi pi-plus" />
+                                    </div>
+                                </div>
                             </h:form>
-
-                            <div class="lista_funciones">
-                                <h:form id="funciones" styleClass="mt-3" >
-                                    <p:repeat value="#{detallePeliculaBean.fechas}" var="fecha" varStatus="pos">
-                                        <p:commandButton value="#{detallePeliculaBean.diasSemana.get(fecha.dayOfWeek.ordinal())} #{fecha}" styleClass="boton-horarios-funciones-detalle-pelicula"></p:commandButton>
-                                    </p:repeat>
-                                </h:form>
-
-                                <p:accordionPanel id="lista_teatros" value="#{detallePeliculaBean.teatros}" var="teatro">
-                                    <p:tab title="#{teatro.direccion}">
-                                        <p:repeat value="#{teatro.salas}" var="sala">
-                                            <div class="mb-4">
-                                                <h:form>
-                                                    <div class="shadow-sm p-4">
-                                                        <p>#{sala.nombre}: </p>
-                                                        <p:repeat value="#{detallePeliculaBean.funciones}" var="funcion">
-                                                            <p:commandButton value="#{funcion.horario.hora}" action="#{detallePeliculaBean.redirectToProcesoCompra(funcion.codigo)}"></p:commandButton>
-                                                        </p:repeat>
-                                                    </div>
-                                                </h:form>
-                                            </div>
-                                        </p:repeat>
-                                    </p:tab>
-                                </p:accordionPanel>
-
-
-                            </div>
-
-                        </div>
+                        </p:repeat>
                     </div>
-
-                </div>
+                </p:panel>
             </div>
 
+            <div class="container mt-4 mb-4">
+                <h:form id="detalles_compra">
+                    <p:panel header="Detalles compra">
+                        <h5> Entrada/s:</h5>
+                        #{compraBean.obtenerDetalleEntradas()}
+
+                        <p:separator></p:separator>
+
+                        <h5> Confitería/s:</h5>
+                        #{compraBean.obtenerDetalleConfites()}
+
+                    </p:panel>
+                </h:form>
+            </div>
+
+            <div class="container mt-4 mb-4">
+                <h:form id="finalizar_compra">
+                    <p:panel header="Finalizar compra">
+                        <h:panelGrid columns="3" cellpadding="5">
+                            <p:outputLabel for="nombre_cliente" value="Nombre cliente:"/>
+                            <p:inputText id="nombre_cliente" value="#{compraBean.cliente.nombre}" disabled="true"/>
+                            <p:message for="nombre_cliente"/>
+
+                            <p:outputLabel for="correo_cliente" value="Correo cliente:"/>
+                            <p:inputText id="correo_cliente" value="#{compraBean.cliente.correo}" disabled="true"/>
+                            <p:message for="correo_cliente"/>
+
+                            <p:outputLabel for="redimir_cupon" value="Redimir cupón:"/>
+                            <p:inputText id="redimir_cupon" value="#{compraBean.codigoCupon}"/>
+                            <p:message for="redimir_cupon"/>
+
+                            <p:outputLabel for="medio_pago" value="Medio de pago: "/>
+                            <p:selectOneMenu id="medio_pago" value="#{compraBean.medioPago}" required="true">
+                                <f:selectItem itemLabel="Seleccione un medio de pago" noSelectionOption="true" value="#{null}"/>
+                                <f:selectItems value="#{compraBean.medioPagos}" />
+                            </p:selectOneMenu>
+                            <p:message for="medio_pago" />
+
+                        </h:panelGrid>
+                        <p:commandButton value="Finalizar Compra" action="#{compraBean.hacerCompra()}" icon="pi pi-check" iconPos="right"/>
+                    </p:panel>
+                </h:form>
+            </div>
 
         </div>
 

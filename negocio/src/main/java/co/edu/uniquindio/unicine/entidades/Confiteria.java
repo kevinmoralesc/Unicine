@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Positive;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Getter
@@ -27,8 +28,9 @@ public class Confiteria implements Serializable {
     @Column(nullable = false)
     private Double precio;
 
+    @ElementCollection
     @Column(nullable = false)
-    private String url_imagen;
+    private Map<String, String> imagen;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "confiteria")
@@ -38,6 +40,16 @@ public class Confiteria implements Serializable {
     public Confiteria(String nombre, Double precio, String url_imagen) {
         this.nombre = nombre;
         this.precio = precio;
-        this.url_imagen = url_imagen;
+    }
+
+    public String getImagenPrincipal(){
+
+        if (!imagen.isEmpty()){
+            String primera = imagen.keySet().toArray()[0].toString();
+            return imagen.get(primera);
+        }
+
+        return "";
+
     }
 }

@@ -188,6 +188,16 @@ public class AdminServicioImpl implements AdminServicio {
     }
 
     @Override
+    public List<Pelicula> listarPeliculasProximas(Integer codigo, EstadoPelicula estadoPelicula) {
+        return peliculaRepo.listarPeliculasEstado(codigo,estadoPelicula);
+    }
+
+    @Override
+    public List<Pelicula> listarPeliculasCartelera(Integer codigo, EstadoPelicula estadoPelicula) {
+        return peliculaRepo.listarPeliculasEstado(codigo,estadoPelicula);
+    }
+
+    @Override
     public List<Pelicula> listarPeliculas() {
         return peliculaRepo.findAll();}
 

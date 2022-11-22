@@ -1,9 +1,6 @@
 package co.edu.uniquindio.unicine.entidades;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Positive;
@@ -36,6 +33,7 @@ public class Entrada implements Serializable {
     @JoinColumn(nullable = false)
     private Compra compra;
 
+    @Builder
     public Entrada(Float precio, Integer fila, Integer columna) {
         this.precio = precio;
         this.fila = fila;

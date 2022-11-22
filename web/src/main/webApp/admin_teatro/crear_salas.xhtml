@@ -4,34 +4,81 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-<h:head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Crear Salas</title>
-</h:head>
-<h:body>
-    <p:panel header="Crear Salas">
-        <h:form>
-            <h:panelGrid columns="3" cellpadding="5">
 
-                <p:outputLabel for="nombre_sala" value="Nombre: " />
-                <p:inputText id="nombre_sala" value="#{salaBean.sala.nombre}" required="true"/>
-                <p:message for = "nombre_sala"/>
+<ui:composition template="/WEB-INF/template.xhtml">
+    <ui:define name="content">
+        <h:form id="form_datatable">
+            <p:toolbar>
+                <p:toolbarGroup>
+                    <p:commandButton value="Agregar" icon="pi pi-plus" styleClass="ui-button-success me-3" action="#{salaBean.botonAgregarEditar}" oncomplete="PF('crear_sala').show()" update="dialog_crear"/>
+                    <p:commandButton id="btn_borrar" value="#{salaBean.textoBtnBorrar}" icon="pi pi-trash" disabled="#{salaBean.salasSeleccionadas.size()==0}"  styleClass="ui-button-danger" action="#{salaBean.eliminarSala}" update="form_datatable:datatable_crud_sala,@this"/>
+                </p:toolbarGroup>
+            </p:toolbar>
 
-                <p:outputLabel for="distribucion_sillas" value="Distribucion Sillas: " />
-                <p:inputText id="distribucion_sillas" value="#{salaBean.sala.distribucionSillas}" required="true"/>
-                <p:message for = "distribucion_sillas"/>
+            <p:dataTable id="datatable_crud_sala" value="#{salaBean.salas}" var="sala" paginator="true" rows="10" rowKey="#{sala.codigo}"
+                         paginatorPosition="bottom" rowSelectMode="add" selection="#{salaBean.salasSeleccionadas}">
+                <p:column selectionMode="multiple" exportable="false"/>
 
-                <p:outputLabel for="teatro_codigo" value="Teatro: " />
-                <p:inputText id="teatro_codigo" value="#{salaBean.sala.teatro}" required="true"/>
-                <p:message for = "teatro_codigo"/>
+                <p:ajax event="rowSelect" update="form_datatable:btn_borrar" />
+                <p:ajax event="rowUnselect" update="form_datatable:btn_borrar" />
+                <p:ajax event="rowSelectCheckbox" update="form_datatable:btn_borrar" />
+                <p:ajax event="rowUnselectCheckbox" update="form_datatable:btn_borrar" />
+                <p:ajax event="toggleSelect" update="form_datatable:btn_borrar" />
 
-            </h:panelGrid>
-            <p:commandButton value="Crear Sala" action="#{salaBean.crearSala}" update="@form" />
-            <p:growl for = "mensaje_bean" showDetail="true"/>
+                <p:column headerText="Nombre">
+                    <h:outputText value="#{sala.nombre}"/>
+                </p:column>
+
+                <p:column headerText="Distribucion Sillas">
+                    <h:outputText value="#{sala.distribucionSillas.codigo}"/>
+                </p:column>
+
+                <p:column headerText="Teatro">
+                    <h:outputText value="#{sala.teatro.direccion}"/>
+                </p:column>
+
+
+                <p:column headerText="">
+                    <p:commandButton value="Editar" styleClass="edit-button rounded-buttom ui-button-success" icon="pi pi-pencil" action="#{salaBean.seleccionarSala(sal)}" oncomplete="PF('crear_sala').show()" update="dialog_crear"/>
+                </p:column>
+
+            </p:dataTable>
         </h:form>
-    </p:panel>
-</h:body>
+
+        <p:dialog id="dialog_crear" widgetVar="crear_sala" modal="true" header="#{salaBean.mensajeCrear}" showEffect="fade">
+            <h:form>
+                <h:panelGrid columns="3" cellpadding="5">
+
+                    <p:outputLabel for="nombre_sala" value="Nombre: " />
+                    <p:inputText id="nombre_sala" size="34" value="#{salaBean.sala.nombre}"  required="true"/>
+                    <p:message for = "nombre_sala"/>
+
+                    <p:outputLabel for="distribucion_sillas" value="Distibucion sillas: " />
+
+                    <p:selectOneMenu id="distribucion_sillas" value="#{salaBean.sala.distribucionSillas}" converter="#{distribucionSillasConverter}">
+                        <f:selectItem itemLabel="Seleccione una distribucion de sillas" noSelectionOption="true" itemValue="#{null}"/>
+                        <f:selectItems value="#{salaBean.distribucionSillas}" var="distribucionSillas" itemLabel="#{distribucionSillas.codigo}" itemValue="#{distribucionSillas}"/>
+                    </p:selectOneMenu>
+                    <p:message for = "distribucion_sillas"/>
+
+                    <p:outputLabel for="Teatro" value="Teatro: " />
+
+                    <p:selectOneMenu id="Teatro" value="#{salaBean.sala.teatro}"  converter="#{teatroConverter}" >
+                        <f:selectItem itemLabel="Seleccione un teatro" noSelectionOption="true" itemValue="#{null}"/>
+                        <f:selectItems value="#{salaBean.teatros}" var="teatros" itemLabel="#{teatros.direccion}" itemValue="#{teatros}"/>
+                    </p:selectOneMenu>
+                    <p:message for = "distribucion_sillas"/>
+
+
+                </h:panelGrid>
+                <p:commandButton icon="pi pi-save" action="#{salaBean.crearSala}" value="#{salaBean.mensaje2Crear}" update="form_datatable:datatable_crud_sala"/>
+                <p:growl id="mensaje_bean" showDetail="true"/>
+            </h:form>
+        </p:dialog>
+
+    </ui:define>
+</ui:composition>
 </html>

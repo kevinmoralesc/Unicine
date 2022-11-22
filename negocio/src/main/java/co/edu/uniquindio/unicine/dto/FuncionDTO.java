@@ -11,8 +11,6 @@ import lombok.ToString;
 public class FuncionDTO {
 
     private String nombrePelicula;
-    private boolean estadoPelicula;
-    private String rutaImagen;
     private Integer numeroSala;
     private String direccionTeatro;
     private String nombreCiudad;

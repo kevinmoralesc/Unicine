@@ -12,15 +12,17 @@ public class AdminTeatroServicioImpl implements AdminTeatroServicio {
 
     private final AdministradorTeatroRepo adminTeatroRepo;
     private final HorarioRepo horarioRepo;
+    private final PeliculaRepo peliculaRepo;
     private final FuncionRepo funcionRepo;
     private final SalaRepo salaRepo;
     private final TeatroRepo teatroRepo;
     private final CiudadRepo ciudadRepo;
     private final DistribucionSillasRepo distribucionSillasRepo;
     private final EmailServicio emailServicio;
-    public AdminTeatroServicioImpl(AdministradorTeatroRepo adminTeatroRepo, HorarioRepo horarioRepo, FuncionRepo funcionRepo, SalaRepo salaRepo, TeatroRepo teatroRepo, CiudadRepo ciudadRepo, DistribucionSillasRepo distribucionSillasRepo, EmailServicio emailServicio) {
+    public AdminTeatroServicioImpl(AdministradorTeatroRepo adminTeatroRepo, HorarioRepo horarioRepo, PeliculaRepo peliculaRepo, FuncionRepo funcionRepo, SalaRepo salaRepo, TeatroRepo teatroRepo, CiudadRepo ciudadRepo, DistribucionSillasRepo distribucionSillasRepo, EmailServicio emailServicio) {
         this.adminTeatroRepo = adminTeatroRepo;
         this.horarioRepo = horarioRepo;
+        this.peliculaRepo = peliculaRepo;
         this.funcionRepo = funcionRepo;
         this.salaRepo = salaRepo;
         this.teatroRepo = teatroRepo;
@@ -341,5 +343,25 @@ public class AdminTeatroServicioImpl implements AdminTeatroServicio {
             throw new Exception("El codigo de la Ciudad no Existe");
         }
         return guardado.get();
+    }
+
+    @Override
+    public List<Funcion> obtenerFuncionesCiudad(Integer codigoCiudad, Integer codigoPelicula)  throws Exception{
+
+        List<Funcion> funciones;
+
+        if(codigoCiudad != null ){
+            if(codigoPelicula != null){
+
+                funciones = peliculaRepo.listarPeliculaCiudad(codigoCiudad,codigoPelicula);
+
+            }else{
+                throw new Exception("El codigo de la Pelicula no Existe");
+            }
+        }else{
+            throw new Exception("El codigo de la Ciudad no Existe");
+        }
+
+        return  funciones;
     }
 }

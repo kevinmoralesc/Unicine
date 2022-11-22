@@ -55,4 +55,5 @@ public interface AdminTeatroServicio {
 
     //--------------------------------------- Ciudad  ---------------------------------------------------
     Ciudad obtenerCiudad(Integer codigo) throws Exception;
+    List<Funcion> obtenerFuncionesCiudad(Integer codigoCiudad, Integer codigoPelicula) throws Exception;
 }

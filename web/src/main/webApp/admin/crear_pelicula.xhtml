@@ -6,49 +6,150 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-<h:head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <h:outputStylesheet name="bootstrap.min.css" library="css" />
-    <h:outputScript name="bootstrap.bundle.min.js" library="js"/>
-    <h:outputStylesheet name="styles.css" library="css"/>
-    <title>Crear Nueva Pelicula</title>
-</h:head>
-<h:body>
-    <p:panel header="Creación Pelicula">
 
+<ui:composition template="/WEB-INF/template.xhtml">
+<ui:define name="content">
+
+    <h:form id="crud_pelicula">
+
+            <p:toolbar >
+                <p:toolbarGroup>
+                    <p:commandButton value="Agregar" icon="pi pi-plus" styleClass="ui-button-success me-3"
+                                     action="#{peliculaBean.botonAgregarEditar}" update="dialogo_crear" oncomplete="PF('crear_pelicula').show()"/>
+                    <p:commandButton id="btn_borrar" value="#{peliculaBean.textoBtnBorrar}" icon="pi pi-trash"
+                                     disabled="#{peliculaBean.peliculasSeleccionadas.size()==0}"
+                                     styleClass="ui-button-danger"
+                                     action="#{peliculaBean.eliminarPelicula}" update="crud_pelicula:lista,@this"/>
+                </p:toolbarGroup>
+            </p:toolbar>
+
+            <p:dataTable  id="lista" value="#{peliculaBean.peliculas}" var="pelicula" paginator="true" rows="10"
+                          rowKey="#{pelicula.codigo}" paginatorPosition="bottom" rowSelectMode="add"
+                          selection="#{peliculaBean.peliculasSeleccionadas}">
+
+                <p:ajax event="rowSelect" update="crud_pelicula:btn_borrar"/>
+                <p:ajax event="rowUnselect" update="crud_pelicula:btn_borrar"/>
+                <p:ajax event="rowSelectCheckbox" update="crud_pelicula:btn_borrar"/>
+                <p:ajax event="rowUnselectCheckbox" update="crud_pelicula:btn_borrar"/>
+                <p:ajax event="toggleSelect" update="crud_pelicula:btn_borrar"/>
+
+                <p:column selectionMode="multiple" exportable="false" />
+
+                <p:column headerText="Codigo">
+                    <h:outputText value="#{pelicula.codigo}"/>
+                </p:column>
+
+                <p:column headerText="Nombre">
+                    <h:outputText value="#{pelicula.nombre}"/>
+                </p:column>
+
+                <p:column headerText="Reparto">
+                    <h:outputText value="#{pelicula.reparto}"/>
+                </p:column>
+
+                <p:column headerText="Sipnosis">
+                    <h:outputText value="#{pelicula.sinopsis}"/>
+                </p:column>
+
+                <p:column headerText="Trailer">
+                    <h:outputText value="#{pelicula.urlTrailer}"/>
+                </p:column>
+
+                <p:column headerText="Generos">
+                    <h:outputText value="#{pelicula.generos}"/>
+                </p:column>
+
+
+                <p:column headerText="">
+                    <p:commandButton styleClass="edit-button rounded-buttom ui-button-success"
+                                     icon="pi pi-pencil" action="#{peliculaBean.seleccionarSPelicula(pelicula)}"
+                                     oncomplete="PF('crear_pelicula').show()" update="dialogo_actualizar"/>
+                </p:column>
+
+
+            </p:dataTable>
+        </h:form>
+
+
+    <p:dialog id="dialogo_actualizar" widgetVar="crear_pelicula" modal="true" header="#{peliculaBean.mensajeCrear}" showEffect="fade">
         <h:form>
             <h:panelGrid columns="3" cellpadding="5">
+
+                <p:outputLabel for="nombre_pelicula_actualizar" value="Nombre: " />
+                <p:inputText id="nombre_pelicula_actualizar" size="97" value="#{peliculaBean.pelicula.nombre}" required="true"/>
+                <p:message for = "nombre_pelicula_actualizar"/>
+
+                <p:outputLabel for="reparto_pelicula_actualizar" value="Reparto:" />
+                <p:inputTextarea id="reparto_pelicula_actualizar" rows="2" cols="100" value="#{peliculaBean.pelicula.reparto}" required="true"  />
+                <p:message for = "reparto_pelicula_actualizar"/>
+
+                <p:outputLabel for="sinopsis_pelicula_actualizar" value="Sinopsis:" />
+                <p:inputTextarea id="sinopsis_pelicula_actualizar" rows="2" cols="100" value="#{peliculaBean.pelicula.sinopsis}" required="true"  />
+                <p:message for = "sinopsis_pelicula_actualizar"/>
+
+                <p:outputLabel for="imagen_pelicula_actualizar" value="Imágenes" />
+                <p:fileUpload id="imagen_pelicula_actualizar" listener="#{peliculaBean.subirImagen}" mode="advanced"
+                              multiple="true" sizeLimit="1000000" fileLimit="2"
+                              allowTypes="/(\.|\/)(gif|jpe?g|png)$/" required="true" />
+                <p:message for = "imagen_pelicula_actualizar"/>
+
+                <p:outputLabel for="url_trailer_actualizar" value="Trailer:" />
+                <p:inputText id="url_trailer_actualizar" size="97" value="#{peliculaBean.pelicula.urlTrailer}" required="true" />
+                <p:message for = "url_trailer_actualizar"/>
+
+            </h:panelGrid>
+            <p:commandButton value="#{peliculaBean.mensajeCrear}" action="#{peliculaBean.crearPelicula()}" icon="pi-pi-plus-circle"
+                             update="@form,crud_pelicula:lista" />
+            <p:growl for="mensaje_bean" showDetail="true"/>
+
+<!--            <p:outputLabel for="generos_peli_actualizar" value="Generos:" />-->
+<!--            <p:selectManyCheckbox id="generos_peli_actualizar" value="#{peliculaBean.pelicula.generos}" layout="grid" columns="6">-->
+<!--                <f:selectItems value="#{peliculaBean.pelicula.generos}" var="genero" itemLabel="#{genero}" itemValue="#{genero}"/>-->
+<!--            </p:selectManyCheckbox>-->
+<!--            <p:message for="generos_peli_actualizar"/>-->
+
+        </h:form>
+        </p:dialog>
+
+    <p:dialog id="dialogo_crear" widgetVar="crear_pelicula" modal="true" header="#{peliculaBean.mensajeCrear}" showEffect="fade">
+        <h:form>
+            <h:panelGrid columns="3" cellpadding="5">
+
                 <p:outputLabel for="nombre_pelicula" value="Nombre: " />
-                <p:inputText id="nombre_pelicula" value="#{peliculaBean.pelicula.nombre}" required="true"/>
+                <p:inputText id="nombre_pelicula" size="97" value="#{peliculaBean.pelicula.nombre}" required="true"/>
                 <p:message for = "nombre_pelicula"/>
 
                 <p:outputLabel for="reparto_pelicula" value="Reparto:" />
-                <p:inputTextarea id="reparto_pelicula" rows="6" value="#{peliculaBean.pelicula.reparto}" required="true"  />
+                <p:inputTextarea id="reparto_pelicula" rows="2" cols="100" value="#{peliculaBean.pelicula.reparto}" required="true"  />
                 <p:message for = "reparto_pelicula"/>
 
                 <p:outputLabel for="sinopsis_pelicula" value="Sinopsis:" />
-                <p:inputTextarea id="sinopsis_pelicula" rows="6" value="#{peliculaBean.pelicula.sinopsis}" required="true"  />
+                <p:inputTextarea id="sinopsis_pelicula" rows="2" cols="100" value="#{peliculaBean.pelicula.sinopsis}" required="true"  />
                 <p:message for = "sinopsis_pelicula"/>
 
-                <p:outputLabel for="url_imagen" value="Imagen:" />
-                <p:inputText id="url_imagen" value="#{peliculaBean.pelicula.urlImagen}" required="true" />
-                <p:message for = "url_imagen"/>
+                <p:outputLabel for="imagen_pelicula" value="Imágenes" />
+                <p:fileUpload id="imagen_pelicula" listener="#{peliculaBean.subirImagen}" mode="advanced"
+                              multiple="true" sizeLimit="1000000" fileLimit="2"
+                              allowTypes="/(\.|\/)(gif|jpe?g|png)$/" required="true" />
+                <p:message for = "imagen_pelicula"/>
 
                 <p:outputLabel for="url_trailer" value="Trailer:" />
-                <p:inputText id="url_trailer" value="#{peliculaBean.pelicula.urlTrailer}" required="true" />
+                <p:inputText id="url_trailer" size="97" value="#{peliculaBean.pelicula.urlTrailer}" required="true" />
                 <p:message for = "url_trailer"/>
 
                 <p:outputLabel for="generos_peli" value="Generos:" />
-                <p:selectManyCheckbox id="generos_peli" value="#{peliculaBean.pelicula.generos}" layout="grid" columns="3">
-                    <f:selectItems value="#{peliculaBean.generos}"/>
+                <p:selectManyCheckbox id="generos_peli" value="#{peliculaBean.pelicula.generos}" layout="grid" columns="6">
+                    <f:selectItems value="#{peliculaBean.generos}" var="genero" itemLabel="#{genero}" itemValue="#{genero}"/>
                 </p:selectManyCheckbox>
-                <p:message for = "generos_peli"/>
+                <p:message for="generos_peli"/>
 
             </h:panelGrid>
-            <p:commandButton value="Crear Pelicula" action="#{peliculaBean.crearPelicula}" icon="pi pi-plus-circle" update="@form" />
-            <p:growl for = "mensaje_bean" showDetail="true"/>
+            <p:commandButton value="#{peliculaBean.mensajeCrear}" action="#{peliculaBean.crearPelicula()}" icon="pi-pi-plus-circle"
+                             update="@form,crud_pelicula:lista" />
+            <p:growl for="mensaje_bean" showDetail="true"/>
         </h:form>
-    </p:panel>
-</h:body>
+    </p:dialog>
+
+</ui:define>
+</ui:composition>
 </html>

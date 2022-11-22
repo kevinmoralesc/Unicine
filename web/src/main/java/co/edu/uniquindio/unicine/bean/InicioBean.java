@@ -1,6 +1,7 @@
 package co.edu.uniquindio.unicine.bean;
 
 import co.edu.uniquindio.unicine.entidades.Ciudad;
+import co.edu.uniquindio.unicine.entidades.EstadoPelicula;
 import co.edu.uniquindio.unicine.entidades.Pelicula;
 import co.edu.uniquindio.unicine.servicios.AdminServicio;
 import co.edu.uniquindio.unicine.servicios.AdminTeatroServicio;
@@ -46,8 +47,8 @@ public class InicioBean implements Serializable {
     }
     public void elegirCiudad(){
         if(ciudad!=null){
-            peliculasCartelera = adminServicio.listarPeliculas();
-            peliculasProximas = adminServicio.listarPeliculas();
+            peliculasCartelera = adminServicio.listarPeliculasCartelera(ciudad.getCodigo(), EstadoPelicula.CARTELERA);
+            peliculasProximas = adminServicio.listarPeliculasProximas(ciudad.getCodigo(),EstadoPelicula.PROXIMAMENTE);
         }
     }
 }

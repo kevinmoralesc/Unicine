@@ -1,2 +1,6 @@
-package co.edu.uniquindio.unicine.entidades;public enum EstadoPelicula {
+package co.edu.uniquindio.unicine.entidades;
+
+public enum EstadoPelicula {
+    CARTELERA,
+    PROXIMAMENTE
 }

@@ -36,12 +36,19 @@ insert into teatro values (3,"Parque arboleda","8654575",3,2);
 insert into teatro values (4,"Calle 3 # 12-4 Esquina","46461894",2,3);
 insert into teatro values (5,"Carrera 13 - 25","46461894",1,1);
 
-insert into pelicula values (1,1, "Inside Out", "Actores", "Los sentimientos tienen vida","imagen","trailer");
-insert into pelicula values (2,1, "Harry Potter y la piedra filosofal", "Actores", "Un niño puede usar magia","imagen","trailer");
-insert into pelicula values (3,1, "El conjuro", "Actores", "Una familia se muda a una casa y pasan cosas","imagen","trailer");
-insert into pelicula values (4,0, "Wakanda Forever", "Actores", "Una nueva era en wakanda","imagen","trailer");
-insert into pelicula values (5,1, "Avatar", "Actores", "Un plagio de los pitufos","imagen","trailer");
-insert into pelicula values (6,1, "Harry Potter y el misterio del principe", "Actores", "Un niño puede usar magia","imagen","trailer");
+insert into pelicula values (1,"CARTELERA", "Inside Out", "Actores", "Los sentimientos tienen vida","https://www.youtube.com/embed/EB1oBuxD964");
+insert into pelicula values (2,"CARTELERA", "Harry Potter y la piedra filosofal", "Actores", "Un niño puede usar magia","https://www.youtube.com/embed/ZgrCZVjPg9g");
+insert into pelicula values (3,"CARTELERA", "El conjuro", "Actores", "Una familia se muda a una casa y pasan cosas","https://www.youtube.com/embed/chAT_cFcQk0");
+insert into pelicula values (4,"PROXIMAMENTE", "Wakanda Forever", "Actores", "Una nueva era en wakanda","https://www.youtube.com/embed/BPjbiZQmBI4");
+insert into pelicula values (5,"CARTELERA", "Avatar", "Actores", "Un plagio de los pitufos","https://www.youtube.com/embed/96d3jsVWnOE");
+insert into pelicula values (6,"CARTELERA", "Harry Potter y el misterio del principe", "Actores", "Un niño puede usar magia","https://www.youtube.com/embed/CHiGk9bEht8");
+
+insert into pelicula_imagenes values (1,"https://res.cloudinary.com/db8prupa8/image/upload/v1668837835/unicine/peliculas/intensamente_a0f8pt.jpg","unicine/peliculas/intensamente_a0f8pt.jpg");
+insert into pelicula_imagenes values (2,"https://res.cloudinary.com/db8prupa8/image/upload/v1668838516/unicine/peliculas/piedrafilo_yanm3k.jpg","unicine/peliculas/piedrafilo_yanm3k.jpg");
+insert into pelicula_imagenes values (3,"https://res.cloudinary.com/db8prupa8/image/upload/v1668835482/unicine/peliculas/elconjuro_bhey43.jpg","unicine/peliculas/elconjuro_bhey43.jpg");
+insert into pelicula_imagenes values (4,"https://res.cloudinary.com/db8prupa8/image/upload/v1668838394/unicine/peliculas/wakanda_m1qxfc.jpg","unicine/peliculas/wakanda_m1qxfc.jpg");
+insert into pelicula_imagenes values (5,"https://res.cloudinary.com/db8prupa8/image/upload/v1668838801/unicine/peliculas/avatar_b1uoa3.jpg","unicine/peliculas/avatar_b1uoa3.jpg");
+insert into pelicula_imagenes values (6,"https://res.cloudinary.com/db8prupa8/image/upload/v1668835481/unicine/peliculas/19138964.jpg-r_1280_720-f_jpg-q_x-xxyxx_owm5ns.jpg","unicine/peliculas/19138964.jpg-r_1280_720-f_jpg-q_x-xxyxx_owm5ns.jpg");
 
 insert into pelicula_generos values (1, "ANIMADA");
 insert into pelicula_generos values (2, "DRAMA");
@@ -50,13 +57,21 @@ insert into pelicula_generos values (4, "COMEDIA");
 insert into pelicula_generos values (5, "CIENCIA_FICCION");
 insert into pelicula_generos values (5, "ROMANCE");
 
-insert into confiteria values (1, "Combo tu y yo", 45000,"imagen");
-insert into confiteria values (2, "Crispetas grandes", 9000,"imagen");
-insert into confiteria values (3, "Coca Cola grande", 9000,"imagen");
-insert into confiteria values (4, "Combo personal", 20000,"imagen");
-insert into confiteria values (5, "Perro caliente", 9000,"imagen");
-insert into confiteria values (6, "Combo nachos", 40000,"imagen");
-insert into confiteria values (7, "Combo perro", 35000,"imagen");
+insert into confiteria values (1, "Combo tu y yo", 45000);
+insert into confiteria values (2, "Crispetas grandes", 9000);
+insert into confiteria values (3, "Coca Cola grande", 9000);
+insert into confiteria values (4, "Combo personal", 20000);
+insert into confiteria values (5, "Perro caliente", 9000);
+#insert into confiteria values (6, "Combo nachos", 40000);
+#insert into confiteria values (7, "Combo perro", 35000);
+
+insert into confiteria_imagen values (1,"http://res.cloudinary.com/db8prupa8/image/upload/v1669016775/unicine/confiterias/lhfwac8xmjgmuqdx09c7.png","unicine/confiterias/lhfwac8xmjgmuqdx09c7.png");
+insert into confiteria_imagen values (2,"http://res.cloudinary.com/db8prupa8/image/upload/v1669016775/unicine/confiterias/lhfwac8xmjgmuqdx09c7.png","unicine/confiterias/lhfwac8xmjgmuqdx09c7.png");
+insert into confiteria_imagen values (3,"http://res.cloudinary.com/db8prupa8/image/upload/v1669016775/unicine/confiterias/lhfwac8xmjgmuqdx09c7.png","unicine/confiterias/lhfwac8xmjgmuqdx09c7.png");
+insert into confiteria_imagen values (4,"http://res.cloudinary.com/db8prupa8/image/upload/v1669016775/unicine/confiterias/lhfwac8xmjgmuqdx09c7.png","unicine/confiterias/lhfwac8xmjgmuqdx09c7.png");
+insert into confiteria_imagen values (5,"http://res.cloudinary.com/db8prupa8/image/upload/v1669016775/unicine/confiterias/lhfwac8xmjgmuqdx09c7.png","unicine/confiterias/lhfwac8xmjgmuqdx09c7.png");
+#insert into confiteria_imagen values (6,"http://res.cloudinary.com/db8prupa8/image/upload/v1669016775/unicine/confiterias/lhfwac8xmjgmuqdx09c7.png","unicine/confiterias/lhfwac8xmjgmuqdx09c7.png");
+#insert into confiteria_imagen values (7,"http://res.cloudinary.com/db8prupa8/image/upload/v1669016775/unicine/confiterias/lhfwac8xmjgmuqdx09c7.png","unicine/confiterias/lhfwac8xmjgmuqdx09c7.png");
 
 insert into distribucion_sillas values (1, 5, "ruta", 5, 25);
 insert into distribucion_sillas values (2, 10, "ruta", 10, 100);

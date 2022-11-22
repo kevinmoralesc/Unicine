@@ -16,7 +16,6 @@ public interface AdminServicio {
 
     Administrador obtenerAdministrador(Integer codigo) throws Exception;
 
-
     //--------------------------------------- Gestion Ciudad --------------------------------------------------
 
     Ciudad crearCiudad(Ciudad ciudad);
@@ -37,6 +36,9 @@ public interface AdminServicio {
     Pelicula actualizarPelicula(Pelicula pelicula) throws Exception;
 
     void eliminarPelicula(Integer codigo) throws Exception;
+
+    List<Pelicula> listarPeliculasProximas(Integer codigo, EstadoPelicula estadoPelicula);
+    List<Pelicula> listarPeliculasCartelera(Integer codigo, EstadoPelicula estadoPelicula);
 
     List<Pelicula> listarPeliculas();
 

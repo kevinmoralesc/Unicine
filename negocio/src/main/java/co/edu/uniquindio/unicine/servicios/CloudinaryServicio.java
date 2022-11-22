@@ -17,16 +17,16 @@ public class CloudinaryServicio {
     public CloudinaryServicio(){
 
         config = new HashMap<>();
-        config.put("cloud_name", "unicine");
-        config.put("api_key", "458431477415947");
-        config.put("api_secret","U5VPfSyoMgX_cF-JR1ASUxqj5HI");
+        config.put("cloud_name", "db8prupa8");
+        config.put("api_key", "214733377455485");
+        config.put("api_secret","8EaOsyTIzPwVhFsFBmFOZETSAgA");
 
         cloudinary = new Cloudinary(config);
 
     }
 
     public Map subirImagen(File file, String carpeta) throws Exception{
-        Map respuesta = cloudinary.uploader().upload(file, ObjectUtils.asMap("folder",carpeta));
+        Map respuesta = cloudinary.uploader().upload(file, ObjectUtils.asMap("folder",String.format("unicine/%s",carpeta)));
 
         return respuesta;
     }

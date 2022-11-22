@@ -1,6 +1,8 @@
 package co.edu.uniquindio.unicine.repo;
 
 import co.edu.uniquindio.unicine.dto.HorarioSalaDTO;
+import co.edu.uniquindio.unicine.entidades.EstadoPelicula;
+import co.edu.uniquindio.unicine.entidades.Funcion;
 import co.edu.uniquindio.unicine.entidades.Genero;
 import co.edu.uniquindio.unicine.entidades.Pelicula;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -27,6 +29,14 @@ public interface PeliculaRepo extends JpaRepository<Pelicula,Integer> {
     @Query("select p from Pelicula p where :generoPelicula member of p.generos order by p.nombre asc ")
     List<Pelicula> listarPeliculas2 (Genero generoPelicula);
 
+    @Query("select distinct f.pelicula from Funcion f where f.sala.teatro.ciudad.codigo = :codigoCiudad and f.pelicula.estado = :estadoPelicula")
+    List<Pelicula> listarPeliculasEstado(Integer codigoCiudad,EstadoPelicula estadoPelicula);
+
+    @Query("select distinct f.pelicula from Funcion f where f.pelicula.estado = :estadoPelicula")
+    List<Pelicula> listarPeliculasEstado(EstadoPelicula estadoPelicula);
+
+    @Query("select distinct f from Funcion f where f.sala.teatro.ciudad.codigo = :codigoCiudad and f.pelicula.codigo= :codigoPelicula")
+    List<Funcion> listarPeliculaCiudad(Integer codigoCiudad, Integer codigoPelicula);
 
 
 }

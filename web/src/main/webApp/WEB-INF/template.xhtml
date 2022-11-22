@@ -17,13 +17,13 @@
 
     <title>Página de Inicio</title>
 </h:head>
-<h:body>
+<h:body class="text-bg-dark">
     <div id="barra_nav">
         <header>
             <div class="text-bg-dark">
                 <div class="container">
                     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3">
-                        <a href="/" class="d-flex align-items-center col-md-3 md-2 md-md-0 text-white text-decoration-none">
+                        <a href="/" class="d-flex align-items-center md-2 md-md-0 text-white text-decoration-none">
                             <h:graphicImage library="img" name="icono.png" styleClass="img-icono me-3"/>
                             <span class="fs-4">Unicine</span>
                         </a>
@@ -59,6 +59,20 @@
                                     Perfil
                                 </a>
                             </li>
+                            <li>
+                                <a href="/admin_teatro/crear_funciones.xhtml" class="nav-link text-white">
+                                    <i class="pi pi-user"/>
+                                    Gestionar Funciones
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/admin/crear_confiteria.xhtml" class="nav-link text-white">
+                                    <i class="pi pi-user"/>
+                                    Gestionar Confiterias
+                                </a>
+                            </li>
+
+
                         </ul>
                         <div class="col-md-3 text-end"> </div>
                     </div>
@@ -67,13 +81,13 @@
             <div class="px-3 py-2 border-bottom mb-3">
                 <div class="container d-flex flex-wrap justify-content-center">
                     <h:form styleClass="col-12 col-lg-auto mb-2 mb-lg-auto">
-                        <div class="input-search ui-inputgroup">
+                        <div class="input-search ui-inputgroup me-2">
                             <p:inputText placeholder="¿Qué película está buscando?" required="true" value="#{busquedaBean.busqueda}" styleClass="form_busqueda" />
                             <p:commandButton update="@form" icon="pi pi-search" action="#{busquedaBean.buscar}" />
                         </div>
                     </h:form>
                     <div class="text-end">
-                        <button type="button" class="btn btn-light text-dark me-2">Login</button>
+                        <button type="button" class="btn btn-light text-dark me-2 ">Login</button>
                         <p:linkButton value="Registro" href="/registro.xhtml" styleClass="text-decoration-none" />
                     </div>
                 </div>
@@ -81,7 +95,7 @@
         </header>
     </div>
 
-    <div id="contenido">
+    <div id="contenido" class="cuerpo_pagina">
         <ui:insert name="content"></ui:insert>
     </div>
 

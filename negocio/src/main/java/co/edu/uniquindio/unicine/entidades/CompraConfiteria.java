@@ -1,9 +1,6 @@
 package co.edu.uniquindio.unicine.entidades;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Positive;
@@ -23,7 +20,7 @@ public class CompraConfiteria implements Serializable {
 
     @Positive
     @Column(nullable = false)
-    private Float precio;
+    private Double precio;
 
     @Positive
     @Column(nullable = false)
@@ -37,7 +34,8 @@ public class CompraConfiteria implements Serializable {
     @JoinColumn(nullable = false)
     private Confiteria confiteria;
 
-    public CompraConfiteria(Float precio, Integer unidades, Compra compra, Confiteria confiteria) {
+    @Builder
+    public CompraConfiteria(Double precio, Integer unidades, Compra compra, Confiteria confiteria) {
         this.precio = precio;
         this.unidades = unidades;
         this.compra = compra;
