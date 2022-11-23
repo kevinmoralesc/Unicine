@@ -54,6 +54,7 @@ public class ClienteBean implements Serializable{
             if(cliente.getPassword().equals(confirmacionPassword)){
                 cliente.setImagenes(imagenes);
                 clienteServicio.registrarCliente(cliente);
+                System.out.println("funciono");
                 FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "Alerta", "Registro Exitoso!");
                 FacesContext.getCurrentInstance().addMessage("mensaje_bean",fm);
             }else{
@@ -74,7 +75,7 @@ public class ClienteBean implements Serializable{
             imagenes.put(resultado.get("public_id").toString(),resultado.get("url").toString());
 
         }catch (Exception e){
-            FacesMessage fm = new FacesMessage( FacesMessage.SEVERITY_ERROR, "Alerta", e.getMessage()   );
+            FacesMessage fm = new FacesMessage( FacesMessage.SEVERITY_ERROR, "Alerta", "fallo subir imagen"   );
             FacesContext.getCurrentInstance().addMessage("mensaje_Bean",fm);
         }
     }

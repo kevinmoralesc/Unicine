@@ -37,10 +37,6 @@ public class Cliente extends Persona implements Serializable {
     @OneToMany(mappedBy = "cliente")
     private List<CuponCliente> cuponClientes;
 
-    @Column(nullable = false)
-    private String urlFoto;
-
-
     @Builder
     public Cliente(String nombre, String correo, String password, boolean estado, List<String> telefonos,LocalDate fechaNacimiento) {
         super(nombre, correo, password);
