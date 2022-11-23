@@ -34,7 +34,7 @@ public class AdminTeatroServicioImpl implements AdminTeatroServicio {
     //------------------------------------------------- Admin Teatro -------------------------------------------------
     @Override
     public AdministradorTeatro loginAdmin(String correo, String password) throws Exception {
-        AdministradorTeatro administradorTeatro = adminTeatroRepo.comprobarAutenticacion(correo, password);
+        AdministradorTeatro administradorTeatro = adminTeatroRepo.findByCorreoAndPassword(correo, password).orElse(null);
 
         if(administradorTeatro == null){
             throw new Exception("Los datos de autenticación son Incorrectos");

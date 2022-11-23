@@ -140,7 +140,7 @@ public class AdminServicioTest {
     public void crearPeliculaTest(){
 
         Genero[] generos = {Genero.ACCION,Genero.CIENCIA_FICCION};
-        Pelicula pelicula = Pelicula.builder().nombre("Interstellar").generos(Arrays.asList(generos)).reparto("Nombres").estado(true).sinopsis("travesia espacial").urlImagen("ruta").urlTrailer("ruta").build();
+        Pelicula pelicula = Pelicula.builder().nombre("Interstellar").generos(Arrays.asList(generos)).reparto("Nombres").estado(EstadoPelicula.CARTELERA).sinopsis("travesia espacial").urlTrailer("ruta").build();
         Pelicula nueva = adminServicio.crearPelicula(pelicula);
         Assertions.assertEquals(nueva,pelicula);
     }

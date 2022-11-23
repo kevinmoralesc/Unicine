@@ -86,11 +86,11 @@ insert into sala values (4, "Sala 1", 3, 3);
 insert into sala values (5, "Sala 2", 1, 3);
 insert into sala values (6, "Sala 1", 1, 4);
 
-insert into horario values (1, "LMXJVSD", "2022-10-06", "2022-09-16", "20:00");
-insert into horario values (2, "XJVS", "2022-10-06", "2022-09-16", "19:30");
-insert into horario values (3, "VSD", "2022-10-06", "2022-09-16", "22:00");
-insert into horario values (4, "LMXJVSD", "2022-09-30", "2022-09-10", "21:00");
-insert into horario values (5, "LMXJVSD", "2022-10-10", "2022-09-18", "15:00");
+insert into horario values (1, "Lunes", "2022-10-06", "2022-09-16", "20:00");
+insert into horario values (2, "Martes", "2022-10-06", "2022-09-16", "19:30");
+insert into horario values (3, "Miercoles", "2022-10-06", "2022-09-16", "22:00");
+insert into horario values (4, "Jueves", "2022-09-30", "2022-09-10", "21:00");
+insert into horario values (5, "Viernes", "2022-10-10", "2022-09-18", "15:00");
 
 insert into funcion values (1, 8700, 1, 1, 1);
 insert into funcion values (2, 8700, 3, 2, 2);

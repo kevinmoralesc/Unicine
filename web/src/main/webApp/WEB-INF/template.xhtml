@@ -13,65 +13,39 @@
     <h:outputStylesheet name="bootstrap.min.css" library="css"/>
     <h:outputScript name="bootstrap.bundle.min.js" library="js"/>
     <h:outputStylesheet name="styles.css" library="css"/>
-    <h:outputStylesheet name="carousel.css" library="css"/>
-
     <title>Página de Inicio</title>
 </h:head>
-<h:body class="text-bg-dark">
+<h:body>
     <div id="barra_nav">
         <header>
             <div class="text-bg-dark">
                 <div class="container">
                     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3">
-                        <a href="/" class="d-flex align-items-center md-2 md-md-0 text-white text-decoration-none">
+                        <a href="/" class="d-flex align-items-center md-1 md-md-0 text-white text-decoration-none">
                             <h:graphicImage library="img" name="icono.png" styleClass="img-icono me-3"/>
                             <span class="fs-4">Unicine</span>
                         </a>
 
                         <ul class="nav col-12 col-lg-auto mb-2 justify-content-center md-md-0">
-                            <li>
-                                <a href="#" class="nav-link text-secondary">
+                            <li >
+                                <a href="/" class="nav-link text-white">
                                     <i class="pi pi-home"/>
                                     Inicio
                                 </a>
                             </li>
-                            <li>
-                                <a href="/admin/crear_pelicula.xhtml" class="nav-link text-white">
-                                    <i class="pi pi-video"/>
-                                    Gestionar pelicula
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/admin_teatro/crear_salas.xhtml" class="nav-link text-white">
-                                    <i class="pi pi-table"/>
-                                    Gestionar sala
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/admin/crear_teatro.xhtml" class="nav-link text-white">
-                                    <i class="pi pi-list"/>
-                                    Gestionar teatro
-                                </a>
-                            </li>
-                            <li>
+                            <li jsf:rendered="#{seguridadBean.autenticado}">
                                 <a href="#" class="nav-link text-white">
                                     <i class="pi pi-user"/>
                                     Perfil
                                 </a>
                             </li>
-                            <li>
-                                <a href="/admin_teatro/crear_funciones.xhtml" class="nav-link text-white">
-                                    <i class="pi pi-user"/>
-                                    Gestionar Funciones
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/admin/crear_confiteria.xhtml" class="nav-link text-white">
-                                    <i class="pi pi-user"/>
-                                    Gestionar Confiterias
-                                </a>
-                            </li>
 
+                            <li jsf:rendered="#{seguridadBean.autenticado}">
+                                <a href="#" class="nav-link text-white">
+                                    <i class="pi pi-shopping-cart"/> <br/>
+                                    Historial Compra
+                                </a>
+                            </li>
 
                         </ul>
                         <div class="col-md-3 text-end"> </div>
@@ -87,8 +61,14 @@
                         </div>
                     </h:form>
                     <div class="text-end">
-                        <button type="button" class="btn btn-light text-dark me-2 ">Login</button>
-                        <p:linkButton value="Registro" href="/registro.xhtml" styleClass="text-decoration-none" />
+                        <h:form rendered="#{seguridadBean.autenticado}">
+                            <p:outputLabel value="Hola, #{seguridadBean.persona.nombre}" styleClass="me-3"/>
+                            <p:commandButton value="Cerrar sesion" action="#{seguridadBean.cerrarSesion}" styleClass="ui-button-outlined ui-button-primary me-3"/>
+                        </h:form>
+                        <h:form rendered="#{!seguridadBean.autenticado}">
+                            <p:commandButton value="Login" oncomplete="PF('login').show()" styleClass="ui-button-outlined ui-button-secondary me-3"/>
+                            <p:linkButton value="Registro" href="/registro.xhtml" styleClass="text-decoration-none" />
+                        </h:form>
                     </div>
                 </div>
             </div>
@@ -98,6 +78,22 @@
     <div id="contenido" class="cuerpo_pagina">
         <ui:insert name="content"></ui:insert>
     </div>
+
+    <p:dialog header="Iniciar sesión" showEffect="fade" widgetVar="login" modal="true" rendered="#{!seguridadBean.autenticado}" >
+        <h:form >
+            <h:panelGrid columns="3" cellpadding="5">
+                <p:outputLabel for="email_login" value="Email:" />
+                <p:inputText id="email_login" value="#{seguridadBean.correo}" required="true" />
+                <p:message for="email_login" />
+                <p:outputLabel for="password_login" value="Password:" />
+                <p:password id="password_login" value="#{seguridadBean.password}" required="true" />
+                <p:message for="password_login" />
+            </h:panelGrid>
+            <p:commandButton value="Iniciar Sesión" action="#{seguridadBean.iniciarSesionCliente()}" styleClass="mt-4" update="@form" icon="pi pi-sign-in" iconPos="left" />
+            <p:commandButton value="Iniciar sesión como admin" action="#{seguridadBean.iniciarSesionAdmins}" styleClass="mt-4 m-lg-2" update="@form" icon="pi pi-sign-in" iconPos="left" />
+            <p:growl for="login-bean" showDetail="true" />
+        </h:form>
+    </p:dialog>
 
     <div class="container">
         <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">

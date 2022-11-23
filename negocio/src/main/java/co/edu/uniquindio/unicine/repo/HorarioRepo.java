@@ -11,5 +11,5 @@ import java.time.LocalTime;
 public interface HorarioRepo extends JpaRepository<Horario,Integer> {
 
     @Query("select h from Horario h where h.dia = :dia and h.hora = :hora")
-    Horario comprobarExistencia(String dia, LocalTime hora);
+    Horario comprobarExistencia(String dia, String hora);
 }

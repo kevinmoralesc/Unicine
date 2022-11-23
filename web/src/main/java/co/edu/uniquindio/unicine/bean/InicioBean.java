@@ -27,6 +27,9 @@ public class InicioBean implements Serializable {
     private AdminServicio adminServicio;
     @Getter @Setter
     private List<Pelicula> peliculasCartelera;
+
+    @Getter @Setter
+    private List<Pelicula> listaPeliculasCarrusel;
     @Getter @Setter
     private List<Pelicula> peliculasProximas;
     @Getter @Setter
@@ -35,15 +38,52 @@ public class InicioBean implements Serializable {
     private Ciudad ciudad;
     @Getter @Setter
     private List<String> imagenes;
+//    @PostConstruct
+//    public void inicializar(){
+//        imagenes = new ArrayList<>();
+//        imagenes.add("");
+//        imagenes.add("");
+//        imagenes.add("");
+//        peliculasCartelera = new ArrayList<>();
+//        peliculasProximas = new ArrayList<>();
+//        ciudades = adminServicio.listarCiudades();
+//        listaPeliculasCarrusel = new ArrayList<>();
+//    }
+
     @PostConstruct
-    public void inicializar(){
-        imagenes = new ArrayList<>();
-        imagenes.add("");
-        imagenes.add("");
-        imagenes.add("");
-        peliculasCartelera = new ArrayList<>();
-        peliculasProximas = new ArrayList<>();
-        ciudades = adminServicio.listarCiudades();
+    public void init(){
+
+        try {
+            listaPeliculasCarrusel = adminServicio.listarPeliculas();
+            ciudades = adminServicio.listarCiudades();
+            imagenes = new ArrayList<>();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if(ciudad == null) {
+            try {
+                peliculasProximas = clienteServicio.listarPeliculasEstado(EstadoPelicula.PROXIMAMENTE);
+                peliculasCartelera = clienteServicio.listarPeliculasEstado(EstadoPelicula.CARTELERA);
+                ciudades = adminServicio.listarCiudades();
+                agregarImagenesCarrusel();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else{
+            elegirCiudad();
+            agregarImagenesCarrusel();
+        }
+    }
+
+    private void agregarImagenesCarrusel() {
+        for (Pelicula p: listaPeliculasCarrusel) {
+            if(p != null){
+                String ruta = p.getImagenPrincipal();
+                imagenes.add(ruta);
+            }
+        }
     }
     public void elegirCiudad(){
         if(ciudad!=null){

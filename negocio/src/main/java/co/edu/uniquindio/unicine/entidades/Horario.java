@@ -25,7 +25,7 @@ public class Horario implements Serializable {
         private String dia;
 
         @Column(nullable = false)
-        private LocalTime hora;
+        private String hora;
 
         @Column(nullable = false)
         private LocalDate fechaInicio;
@@ -37,7 +37,7 @@ public class Horario implements Serializable {
         @OneToMany(mappedBy = "horario")
         private List<Funcion> funcion;
         @Builder
-        public Horario(String dia, LocalTime hora, LocalDate fechaInicio, LocalDate fechaFin) {
+        public Horario(String dia, String hora, LocalDate fechaInicio, LocalDate fechaFin) {
                 this.dia = dia;
                 this.hora = hora;
                 this.fechaInicio = fechaInicio;

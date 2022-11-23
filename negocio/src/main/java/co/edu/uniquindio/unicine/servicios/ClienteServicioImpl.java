@@ -1,7 +1,9 @@
 package co.edu.uniquindio.unicine.servicios;
 
+import co.edu.uniquindio.unicine.dto.PeliculaFuncion;
 import co.edu.uniquindio.unicine.entidades.*;
 import co.edu.uniquindio.unicine.repo.*;
+import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -64,6 +66,12 @@ public class ClienteServicioImpl implements ClienteServicio{
     }
 
     @Override
+    public List<Pelicula> listarPeliculasEstado(EstadoPelicula estadoPelicula) {
+        return peliculaRepo.listarPeliculasEstado(estadoPelicula);
+    }
+
+
+    @Override
     public Cliente registrarCliente(Cliente cliente) throws Exception {
 
         boolean correoExiste = esRepetido(cliente.getCorreo());
@@ -73,6 +81,8 @@ public class ClienteServicioImpl implements ClienteServicio{
             throw new Exception("El correo ya se encuentra registrado");
 
         }
+        StrongPasswordEncryptor spe = new StrongPasswordEncryptor();
+        cliente.setPassword(spe.encryptPassword(cliente.getPassword()));
         Cliente registro = clienteRepo.save(cliente);
         //emailServicio.enviarEmail("Registro en unicine", "Hola, debe ir al siguiente enlace para activar la cuenta", cliente.getCorreo());
         return registro;
@@ -373,6 +383,11 @@ public class ClienteServicioImpl implements ClienteServicio{
 
         return peliculas;
 
+    }
+
+    @Override
+    public List<PeliculaFuncion> listarFuncionesPelicula(String nombre) {
+        return peliculaRepo.buscarPeliculas(nombre);
     }
 
 }

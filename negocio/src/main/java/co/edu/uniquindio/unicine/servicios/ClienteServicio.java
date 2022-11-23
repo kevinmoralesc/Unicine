@@ -1,5 +1,6 @@
 package co.edu.uniquindio.unicine.servicios;
 
+import co.edu.uniquindio.unicine.dto.PeliculaFuncion;
 import co.edu.uniquindio.unicine.entidades.*;
 
 import java.time.LocalDate;
@@ -10,6 +11,7 @@ public interface ClienteServicio {
 
     //-------------------------------------------- Gestion Cliente ---------------------------------------------
 
+    List<Pelicula> listarPeliculasEstado(EstadoPelicula estadoPelicula);
     Cliente registrarCliente(Cliente cliente) throws Exception;
     Cliente activarCuentaCliente(Cliente cliente) throws Exception;
     Cliente obtenerCliente(Integer codigoCliente)throws Exception;
@@ -31,4 +33,6 @@ public interface ClienteServicio {
     boolean redimirCupon(CuponCliente cuponCliente, LocalDate fechaCompra) throws Exception;
     List<Pelicula> buscarPelicula(String nombre);
     List<Pelicula> buscarPeliculaGenero(String nombre, Genero genero);
+
+    List<PeliculaFuncion> listarFuncionesPelicula(String busquedaParam);
 }

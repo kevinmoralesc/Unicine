@@ -8,7 +8,7 @@ import java.util.List;
 public interface AdminServicio {
 
     //------------------------------------------------- Admin -------------------------------------------------
-    Administrador loginAdmin(String correo, String password) throws Exception;
+    Administrador loginAdmin(String correo, String password);
 
     void recuperarPassword(String correo) throws Exception;
 
@@ -27,6 +27,8 @@ public interface AdminServicio {
     Ciudad obtenerCiudad (Integer codigo) throws Exception;
 
     List<Ciudad> listarCiudades();
+
+    List<Pelicula> busquePeliculaNombre(String nombre);
 
 
     //--------------------------------------- Gestion Pelicula ------------------------------------------------
@@ -83,4 +85,5 @@ public interface AdminServicio {
 
     AdministradorTeatro obtenerAdminTeatro(Integer codigo) throws Exception;
 
+    Pelicula obtenerPeliculaNombre(String busquedaParam) throws Exception;
 }

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<ui:composition template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">#{busquedaBean.pelicula.nombre}</ui:define>
+
+    <ui:define name="content">
+        <div class="cotainer mt-4 mb-4">
+            <h:form id="form" styleClass="lista-busqueda">
+                <p:dataView id="lista-peliculas" var="peli" value="#{busquedaBean.peliculas}" rows="12"
+                            paginator="true" gridIcon="pi pi-th-large" listIcon="pi pi-bars">
+                    <p:dataViewGridItem>
+                        <div class="card margen-texto">
+                            <img src="#{peli.pelicula.imagenPrincipal}" alt="Imagen" class="card-img-top"/>
+                            <div class="card-body">
+                                <h5 class="card-title">#{peli.pelicula.nombre}</h5>
+                                <p class="card-text">#{peli.pelicula.sinopsis}</p>
+                                <p class="card-text">#{peli.funcion.horario.fechaInicio} hasta #{peli.funcion.horario.fechaFin}</p>
+                                <p class="card-text">#{peli.funcion.sala.teatro.ciudad.nombre} - #{peli.funcion.sala.teatro.direccion} </p>
+                                <hr/>
+                                <p:linkButton value="ver detalle" styleClass="" href="detalle_pelicula.xhtml?pelicula_id=#{peli.pelicula.codigo}"></p:linkButton>
+                            </div>
+                        </div>
+                    </p:dataViewGridItem>
+
+                    <p:dataViewListItem>
+                        <div class="row d-flex">
+                            <div class="col-lg-2 col-md-1" style="text-align: center">
+                                <img src="#{peli.pelicula.imagenPrincipal}" style="width: 200px" alt="Imagen"/>
+                            </div>
+                            <div class="col-lg-8 col-md-1 align-self-center margen-texto">
+                                <p:outputPanel>
+                                    <h:panelGrid columns="2" cellpadding="5">
+                                        <h:outputText value="Nombre:"/>
+                                        <h:outputText value="#{peli.pelicula.nombre}" style="font-weight: bold"/>
+                                        <h:outputText value="Sinopsis:"/>
+                                        <h:outputText value="#{peli.pelicula.sinopsis}"/>
+                                        <h:outputText value="Horario:"/>
+                                        <h:outputText value="Del #{peli.funcion.horario.fechaInicio} a las #{peli.funcion.horario.hora} hasta el #{peli.funcion.horario.fechaFin}:"/>
+                                        <h:outputText value="Sala:"/>
+                                        <h:outputText value="#{peli.funcion.sala.teatro.ciudad.nombre} - #{peli.funcion.sala.teatro.direccion} :"/>
+                                    </h:panelGrid>
+                                </p:outputPanel>
+                            </div>
+                            <div class="col-lg-2 col-md-1 align-self-center">
+                                <p:linkButton value="Ver detalle" styleClass="" href="detalle_pelicula.xhtml?pelicula_id=#{peli.pelicula.codigo}"></p:linkButton>
+                            </div>
+                        </div>
+                    </p:dataViewListItem>
+
+                </p:dataView>
+            </h:form>
+        </div>
+
+    </ui:define>
+</ui:composition>
+</html>

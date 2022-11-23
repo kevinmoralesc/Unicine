@@ -1,5 +1,5 @@
 .img-icono{
-    max-width: 50px;
+    max-width: 40px;
 }
 .form_busqueda{
     width: 500px;
@@ -25,6 +25,7 @@
 }
 .imagen-pelicula{
     width: 200px;
+    height: 275px;
 }
 .imagen-pelicula img{
     width: 100%;
@@ -101,6 +102,11 @@
 
 .detalle-info-pelicula .shadow{
     background: white;
+}
+
+.poster-peli{
+    width: 340px;
+    height: 420px;
 }
 
 

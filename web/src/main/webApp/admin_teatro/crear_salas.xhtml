@@ -8,7 +8,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-<ui:composition template="/WEB-INF/template.xhtml">
+<ui:composition template="/WEB-INF/template_admin.xhtml">
     <ui:define name="content">
         <h:form id="form_datatable">
             <p:toolbar>
@@ -42,7 +42,9 @@
 
 
                 <p:column headerText="">
-                    <p:commandButton value="Editar" styleClass="edit-button rounded-buttom ui-button-success" icon="pi pi-pencil" action="#{salaBean.seleccionarSala(sal)}" oncomplete="PF('crear_sala').show()" update="dialog_crear"/>
+                    <p:commandButton styleClass="edit-button rounded-buttom ui-button-success"
+                                     icon="pi pi-pencil" action="#{salaBean.seleccionarSala(sala)}"
+                                     oncomplete="PF('crear_sala').show()" update="dialog_crear"/>
                 </p:column>
 
             </p:dataTable>

@@ -2,14 +2,17 @@ package co.edu.uniquindio.unicine.servicios;
 
 import co.edu.uniquindio.unicine.entidades.*;
 import co.edu.uniquindio.unicine.repo.*;
+import org.jasypt.util.password.StrongPasswordEncryptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class AdminServicioImpl implements AdminServicio {
-
+    @Autowired
     private final AdministradorRepo adminRepo;
     private final CiudadRepo ciudadRepo;
     private final PeliculaRepo peliculaRepo;
@@ -31,13 +34,9 @@ public class AdminServicioImpl implements AdminServicio {
     //------------------------------------------------- Admin -------------------------------------------------
 
     @Override
-    public Administrador loginAdmin(String correo, String password) throws Exception {
-        Administrador administrador = adminRepo.comprobarAutenticacion(correo,password);
+    public Administrador loginAdmin(String correo, String password) {
 
-        if(administrador == null){
-            throw new Exception("Los datos de autenticación son incorrectos");
-        }
-        return administrador;
+        return adminRepo.comprobarAutenticacion(correo,password);
     }
 
     @Override
@@ -153,6 +152,16 @@ public class AdminServicioImpl implements AdminServicio {
 
     @Override
     public List<Ciudad> listarCiudades() {return ciudadRepo.findAll();}
+
+    @Override
+    public List<Pelicula> busquePeliculaNombre(String nombre) {
+        List<Pelicula> peliculas = new ArrayList<>();
+        if(nombre != null){
+            peliculas = peliculaRepo.buscarPelicula(nombre);
+        }
+
+        return peliculas;
+    }
 
     //--------------------------------------- Gestion Pelicula ------------------------------------------------
     @Override
@@ -381,5 +390,16 @@ public class AdminServicioImpl implements AdminServicio {
         }
 
         return administradorTeatro.get();
+    }
+
+    @Override
+    public Pelicula obtenerPeliculaNombre(String nombrePelicula) throws Exception{
+
+        Optional<Pelicula> guardado = peliculaRepo.obtenerPeliculaNombre(nombrePelicula);
+
+        if (guardado.isEmpty()){
+            throw new Exception("La pelicula no existe");
+        }
+        return guardado.get();
     }
 }

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition template="/WEB-INF/template_admin.xhtml">
+    <ui:define name="content">
+
+        <h:form id="crud_horario">
+
+            <p:toolbar >
+                <p:toolbarGroup>
+                    <p:commandButton value="Agregar" icon="pi pi-plus" styleClass="ui-button-success me-3"
+                                     action="#{horarioBean.crearHorarioDialigo()}" update="dialogo_crear" oncomplete="PF('crear_horario').show()"/>
+                    <p:commandButton id="btn_borrar" value="#{horarioBean.mensajeBorrar}" icon="pi pi-trash"
+                                     disabled="#{horarioBean.horariosSeleccionados.size()==0}"
+                                     styleClass="ui-button-danger"
+                                     action="#{horarioBean.eliminarHorario()}" update="crud_horario:lista,@this"/>
+                </p:toolbarGroup>
+            </p:toolbar>
+
+            <p:dataTable  id="lista" value="#{horarioBean.horarios}" var="horario" paginator="true" rows="10"
+                          rowKey="#{horario.codigo}" paginatorPosition="bottom" rowSelectMode="add"
+                          selection="#{horarioBean.horariosSeleccionados}">
+
+                <p:ajax event="rowSelect" update="crud_horario:btn_borrar"/>
+                <p:ajax event="rowUnselect" update="crud_horario:btn_borrar"/>
+                <p:ajax event="rowSelectCheckbox" update="crud_horario:btn_borrar"/>
+                <p:ajax event="rowUnselectCheckbox" update="crud_horario:btn_borrar"/>
+                <p:ajax event="toggleSelect" update="crud_horario:btn_borrar"/>
+
+                <p:column selectionMode="multiple" exportable="false" />
+
+                <p:column headerText="Código">
+                    <h:outputText value="#{horario.codigo}" />
+                </p:column>
+
+                <p:column headerText="Dia">
+                    <h:outputText value="#{horario.dia}" />
+                </p:column>
+
+                <p:column headerText="Hora">
+                    <h:outputText value="#{horario.hora}" />
+                </p:column>
+
+                <p:column headerText="Fecha Inicio">
+                    <h:outputText value="#{horario.fechaInicio}" />
+                </p:column>
+
+                <p:column headerText="Fecha fin">
+                    <h:outputText value="#{horario.fechaFin}" />
+                </p:column>
+
+                <p:column headerText="">
+                    <p:commandButton styleClass="edit-button rounded-buttom ui-button-success"
+                                     icon="pi pi-pencil" action="#{horarioBean.seleccionarHorario(horario)}"
+                                     oncomplete="PF('crear_horario').show()" update="dialogo_crear"/>
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
+
+
+        <p:dialog id="dialogo_crear" widgetVar="crear_horario" modal="true" header="#{horarioBean.mensajeCrear}" showEffect="fade">
+            <h:form>
+                <h:panelGrid columns="3" cellpadding="5">
+                    <p:outputLabel for="dia_horario" value="Dia: " />
+                    <p:inputText id="dia_horario" value="#{horarioBean.horario.dia}" required="true"/>
+                    <p:message for="dia_horario"/>
+
+                    <p:outputLabel for="hora_horario" value="Hora: " />
+                    <p:inputText id="hora_horario" value="#{horarioBean.horario.hora}" required="true" />
+                    <p:message for="hora_horario"/>
+
+                    <p:outputLabel for="fecha_inicio_horario" value="Fecha Inicio" />
+                    <p:datePicker id="fecha_inicio_horario" value="#{horarioBean.horario.fechaInicio}" required="true" monthNavigator="true" yearNavigator="true" showWeek="true" />
+                    <p:message for="fecha_inicio_horario" />
+
+                    <p:outputLabel for="fecha_fin_horario" value="Fecha Fin" />
+                    <p:datePicker id="fecha_fin_horario" value="#{horarioBean.horario.fechaFin}" required="true" monthNavigator="true" yearNavigator="true" showWeek="true" />
+                    <p:message for="fecha_fin_horario" />
+
+
+                </h:panelGrid>
+                <p:commandButton value="#{horarioBean.mensajeCrear}" action="#{horarioBean.crearHorario}" icon="pi-pi-plus-circle"
+                                 update="@form,crud_horario:lista" />
+                <p:growl for ="mensaje_bean" showDetail="true"/>
+            </h:form>
+        </p:dialog>
+    </ui:define>
+</ui:composition>
+</html>
