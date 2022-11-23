@@ -34,8 +34,8 @@ public class Persona implements Serializable {
     private String correo;
 
     @ToString.Exclude
-    @Column(nullable = false,length = 20)
-    @Length(max = 20)
+    @Column(nullable = false,length = 250)
+    @Length(max = 250)
     private String password;
 
 

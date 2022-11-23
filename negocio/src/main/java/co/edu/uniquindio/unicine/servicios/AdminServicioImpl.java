@@ -34,9 +34,16 @@ public class AdminServicioImpl implements AdminServicio {
     //------------------------------------------------- Admin -------------------------------------------------
 
     @Override
-    public Administrador loginAdmin(String correo, String password) {
+    public Administrador loginAdmin(String correo, String password) throws Exception{
+        Administrador admin = adminRepo.findByCorreo(correo).orElse(null);
 
-        return adminRepo.comprobarAutenticacion(correo,password);
+        if(admin != null){
+            StrongPasswordEncryptor spe = new StrongPasswordEncryptor();
+            if(!spe.checkPassword(password, admin.getPassword())){
+                throw new Exception("La contraseña es incorrecta");
+            }
+        }
+        return admin;
     }
 
     @Override

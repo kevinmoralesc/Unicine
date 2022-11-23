@@ -2,6 +2,7 @@ package co.edu.uniquindio.unicine.servicios;
 
 import co.edu.uniquindio.unicine.entidades.*;
 import co.edu.uniquindio.unicine.repo.*;
+import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,10 +35,14 @@ public class AdminTeatroServicioImpl implements AdminTeatroServicio {
     //------------------------------------------------- Admin Teatro -------------------------------------------------
     @Override
     public AdministradorTeatro loginAdmin(String correo, String password) throws Exception {
-        AdministradorTeatro administradorTeatro = adminTeatroRepo.findByCorreoAndPassword(correo, password).orElse(null);
+        AdministradorTeatro administradorTeatro = adminTeatroRepo.findByCorreo(correo).orElse(null);
 
         if(administradorTeatro == null){
-            throw new Exception("Los datos de autenticación son Incorrectos");
+            throw new Exception("El correo no existe");
+        }
+        StrongPasswordEncryptor spe = new StrongPasswordEncryptor();
+        if(!spe.checkPassword(password, administradorTeatro.getPassword())){
+            throw new Exception("La contraseña es incorrecta");
         }
         return administradorTeatro;
     }

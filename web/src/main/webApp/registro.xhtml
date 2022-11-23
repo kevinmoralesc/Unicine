@@ -6,39 +6,41 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-<h:head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Nuevo registro cliente</title>
-</h:head>
-<h:body>
-    <p:panel header="Registro Cliente">
-        <h:form>
-            <h:panelGrid columns="3" cellpadding="5">
-                <p:outputLabel for="nombre_cliente" value="Nombre: " />
-                <p:inputText id="nombre_cliente" value="#{clienteBean.cliente.nombre}" required="true"/>
-                <p:message for = "nombre_cliente"/>
+<ui:composition template="/WEB-INF/template.xhtml">
+    <ui:define name="content">
+        <p:panel header="Registro" styleClass="mt-3 mb-3">
+            <h:form>
+                <h:panelGrid columns="3" cellpadding="5">
+                    <p:outputLabel for="nombre_cliente" value="Nombre: " />
+                    <p:inputText id="nombre_cliente" value="#{clienteBean.cliente.nombre}" required="true"/>
+                    <p:message for = "nombre_cliente"/>
 
-                <p:outputLabel for="correo_cliente" value="Email:" />
-                <p:inputText id="correo_cliente" value="#{clienteBean.cliente.correo}" required="true" />
-                <p:message for = "correo_cliente"/>
+                    <p:outputLabel for="correo_cliente" value="Email:" />
+                    <p:inputText id="correo_cliente" value="#{clienteBean.cliente.correo}" required="true" />
+                    <p:message for = "correo_cliente"/>
 
-                <p:outputLabel for="password_cliente" value="Contraseña:" />
-                <p:password id="password_cliente" value="#{clienteBean.cliente.password}" required="true" feedback="true"/>
-                <p:message for = "password_cliente"/>
+                    <p:outputLabel for="fecha_nacimiento" value="Fecha Nacimiento" />
+                    <p:calendar id="fecha_nacimiento" value="#{clienteBean.cliente.fechaNacimiento}"  yearRange="c-100:c+100" navigator="true"/>
+                    <p:message for="fecha_nacimiento"/>
 
-                <p:outputLabel for="password_confir_cliente" value="Confirmar contraseña:" />
-                <p:password id="password_confir_cliente" value="#{clienteBean.confirmacionPassword}" required="true" />
-                <p:message for = "password_confir_cliente"/>
+                    <p:outputLabel for="password_cliente" value="Contraseña:" />
+                    <p:password id="password_cliente" value="#{clienteBean.cliente.password}" required="true" feedback="true"/>
+                    <p:message for = "password_cliente"/>
 
-                <p:outputLabel for="url_foto" value="Foto:" />
-                <p:password id="url_foto" value="#{clienteBean.cliente.urlFoto}" required="true" />
-                <p:message for = "url_foto"/>
+                    <p:outputLabel for="password_confir_cliente" value="Confirmar contraseña:" />
+                    <p:password id="password_confir_cliente" value="#{clienteBean.confirmacionPassword}" required="true" />
+                    <p:message for = "password_confir_cliente"/>
 
-            </h:panelGrid>
-            <p:commandButton value="Registrarse" action="#{clienteBean.registrarCliente}" update="@form" />
-            <p:growl for = "mensaje_bean" showDetail="true"/>
-        </h:form>
-    </p:panel>
-</h:body>
+                    <p:outputLabel for="imagen_cliente" value="Imágenes" />
+                    <p:fileUpload id="imagen_cliente" listener="#{clienteBean.subirImagen}" mode="advanced"
+                                  multiple="true" sizeLimit="1000000" fileLimit="1"
+                                  allowTypes="/(\.|\/)(gif|jpe?g|png)$/" required="true" />
+                    <p:message for = "imagen_cliente"/>
+                </h:panelGrid>
+                <p:commandButton value="Registrarse" action="#{clienteBean.registrarCliente}" update="@form" />
+                <p:growl for = "mensaje_bean" showDetail="true"/>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>
 </html>

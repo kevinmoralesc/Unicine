@@ -13,11 +13,11 @@
 
     <ui:define name="content">
         <div class="cotainer mt-4 mb-4">
-            <h:form id="form" styleClass="lista-busqueda">
+            <h:form id="form" styleClass="lista-busqueda mt-5 mb-5">
                 <p:dataView id="lista-peliculas" var="peli" value="#{busquedaBean.peliculas}" rows="12"
-                            paginator="true" gridIcon="pi pi-th-large" listIcon="pi pi-bars">
+                            paginator="true" gridIcon="pi pi-th-large" listIcon="pi pi-bars" >
                     <p:dataViewGridItem>
-                        <div class="card margen-texto">
+                        <div class="card margen-texto mt-5 mb-5">
                             <img src="#{peli.pelicula.imagenPrincipal}" alt="Imagen" class="card-img-top"/>
                             <div class="card-body">
                                 <h5 class="card-title">#{peli.pelicula.nombre}</h5>
@@ -54,6 +54,7 @@
                             </div>
                         </div>
                     </p:dataViewListItem>
+                    <p:growl for = "busqueda" showDetail="true"/>
 
                 </p:dataView>
             </h:form>

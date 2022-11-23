@@ -51,9 +51,15 @@ public class SeguridadBean implements Serializable {
         if (!correo.isEmpty() && !password.isEmpty()){
             try {
                 persona = clienteServicio.login(correo, password);
-                tipoSesion = "cliente";
-                autenticado = true;
-                return "/index?faces-redirect=true";
+                if(clienteServicio.obtenerCliente(persona.getCodigo()).isEstado() == true) {
+                    tipoSesion = "cliente";
+                    autenticado = true;
+                    return "/index?faces-redirect=true";
+                }else{
+                    FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Alerta","Por favor active la cuenta");
+                    FacesContext.getCurrentInstance().addMessage("login-bean", fm);
+                    return null;
+                }
             } catch (Exception e) {
                 FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Alerta",e.getMessage());
                 FacesContext.getCurrentInstance().addMessage("login-bean", fm);
@@ -71,10 +77,8 @@ public class SeguridadBean implements Serializable {
             try {
                 persona = adminServicio.loginAdmin(correo,password);
                 if (persona == null){
-                    System.out.println("funciono2");
                     persona = adminTeatroServicio.loginAdmin(correo,password);
                     tipoSesion = "admin_teatro";
-                    System.out.println("funciono");
                 }else {
                     tipoSesion="admin";
                 }

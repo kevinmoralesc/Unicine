@@ -13,7 +13,7 @@ public interface ClienteServicio {
 
     List<Pelicula> listarPeliculasEstado(EstadoPelicula estadoPelicula);
     Cliente registrarCliente(Cliente cliente) throws Exception;
-    Cliente activarCuentaCliente(Cliente cliente) throws Exception;
+    void activarCuentaCliente(String correo, String fecha) throws Exception;
     Cliente obtenerCliente(Integer codigoCliente)throws Exception;
 
     CuponCliente asisgnarCupon(Integer codigo, CuponCliente cuponCliente) throws Exception;

@@ -8,7 +8,7 @@ import java.util.List;
 public interface AdminServicio {
 
     //------------------------------------------------- Admin -------------------------------------------------
-    Administrador loginAdmin(String correo, String password);
+    Administrador loginAdmin(String correo, String password) throws Exception;
 
     void recuperarPassword(String correo) throws Exception;
 

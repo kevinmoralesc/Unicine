@@ -1,9 +1,9 @@
-insert into cliente values (1,"pepe@email.com","Pepe","1dsd34",1,"ruta foto");
-insert into cliente values (2,"juan@email.com","Juan","1de34",1,"ruta foto");
-insert into cliente values (3,"luis@email.com","Luis","efe34",0,"ruta foto");
-insert into cliente values (4,"maria@email.com","Maria","1fe4",1,"ruta foto");
-insert into cliente values (5,"luisa@email.com","Luisa","de3de4",1,"ruta foto");
-insert into cliente values (6,"paola@email.com","Paola","dfgrfr",1,"ruta foto");
+insert into cliente values (1,"pepe@email.com","Pepe","4DJNQw/3V/EpXMNzJqssh9FRhlCRl71biOujZnq5LMAmGf6m95Cna1m4hgiMi1LV",1,"2000-1-10");
+insert into cliente values (2,"juan@email.com","Juan","4DJNQw/3V/EpXMNzJqssh9FRhlCRl71biOujZnq5LMAmGf6m95Cna1m4hgiMi1LV",1,"2000-2-10");
+insert into cliente values (3,"luis@email.com","Luis","4DJNQw/3V/EpXMNzJqssh9FRhlCRl71biOujZnq5LMAmGf6m95Cna1m4hgiMi1LV",0,"2000-3-10");
+insert into cliente values (4,"maria@email.com","Maria","4DJNQw/3V/EpXMNzJqssh9FRhlCRl71biOujZnq5LMAmGf6m95Cna1m4hgiMi1LV",1,"2000-4-10");
+insert into cliente values (5,"luisa@email.com","Luisa","4DJNQw/3V/EpXMNzJqssh9FRhlCRl71biOujZnq5LMAmGf6m95Cna1m4hgiMi1LV",1,"2000-5-10");
+insert into cliente values (6,"paola@email.com","Paola","4DJNQw/3V/EpXMNzJqssh9FRhlCRl71biOujZnq5LMAmGf6m95Cna1m4hgiMi1LV",1,"2001-6-10");
 
 insert into cliente_telefonos values (1, "321649494");
 insert into cliente_telefonos values (1, "325858258");
@@ -17,17 +17,17 @@ insert into ciudad values (3,"Manizales");
 insert into ciudad values (4,"Cali");
 insert into ciudad values (5,"Bogota");
 
-insert into administrador_teatro values (1,"adminTeatro1@email.com","AdmninT1","grfrf");
-insert into administrador_teatro values (2,"adminTeatro2@email.com","AdmninT2","frfsee");
-insert into administrador_teatro values (3,"adminTeatro3@email.com","AdmninT3","jkfgfj");
-insert into administrador_teatro values (4,"adminTeatro4@email.com","AdmninT4","bgbtdn");
-insert into administrador_teatro values (5,"adminTeatro5@email.com","AdmninT5","ugjj365");
+insert into administrador_teatro values (1,"adminTeatro1@email.com","AdmninT1","4DJNQw/3V/EpXMNzJqssh9FRhlCRl71biOujZnq5LMAmGf6m95Cna1m4hgiMi1LV");
+insert into administrador_teatro values (2,"adminTeatro2@email.com","AdmninT2","4DJNQw/3V/EpXMNzJqssh9FRhlCRl71biOujZnq5LMAmGf6m95Cna1m4hgiMi1LV");
+insert into administrador_teatro values (3,"adminTeatro3@email.com","AdmninT3","4DJNQw/3V/EpXMNzJqssh9FRhlCRl71biOujZnq5LMAmGf6m95Cna1m4hgiMi1LV");
+insert into administrador_teatro values (4,"adminTeatro4@email.com","AdmninT4","4DJNQw/3V/EpXMNzJqssh9FRhlCRl71biOujZnq5LMAmGf6m95Cna1m4hgiMi1LV");
+insert into administrador_teatro values (5,"adminTeatro5@email.com","AdmninT5","4DJNQw/3V/EpXMNzJqssh9FRhlCRl71biOujZnq5LMAmGf6m95Cna1m4hgiMi1LV");
 
-insert into administrador values (1,"admin1@email.com","Admnin1","916165");
-insert into administrador values (2,"admin2@email.com","Admnin2","494949");
-insert into administrador values (3,"admin3@email.com","Admnin3","564949");
-insert into administrador values (4,"admin4@email.com","Admnin4","858585");
-insert into administrador values (5,"admin5@email.com","Admnin5","585858");
+insert into administrador values (1,"admin1@email.com","Admnin1","4DJNQw/3V/EpXMNzJqssh9FRhlCRl71biOujZnq5LMAmGf6m95Cna1m4hgiMi1LV");
+insert into administrador values (2,"admin2@email.com","Admnin2","4DJNQw/3V/EpXMNzJqssh9FRhlCRl71biOujZnq5LMAmGf6m95Cna1m4hgiMi1LV");
+insert into administrador values (3,"admin3@email.com","Admnin3","4DJNQw/3V/EpXMNzJqssh9FRhlCRl71biOujZnq5LMAmGf6m95Cna1m4hgiMi1LV");
+insert into administrador values (4,"admin4@email.com","Admnin4","4DJNQw/3V/EpXMNzJqssh9FRhlCRl71biOujZnq5LMAmGf6m95Cna1m4hgiMi1LV");
+insert into administrador values (5,"admin5@email.com","Admnin5","4DJNQw/3V/EpXMNzJqssh9FRhlCRl71biOujZnq5LMAmGf6m95Cna1m4hgiMi1LV");
 
 
 insert into teatro values (1,"Carrera 33 # 2-3","7314346",1,1);
