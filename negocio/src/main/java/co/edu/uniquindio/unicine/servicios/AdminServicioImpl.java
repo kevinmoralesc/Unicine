@@ -108,6 +108,8 @@ public class AdminServicioImpl implements AdminServicio {
         return administradorTeatroRepo.findByCorreo(correo).orElse(null) == null;
     }
 
+
+
     //------------------------------------------- Gestion Ciudad -----------------------------------------------
     @Override
     public Ciudad crearCiudad(Ciudad ciudad) {
@@ -408,5 +410,17 @@ public class AdminServicioImpl implements AdminServicio {
             throw new Exception("La pelicula no existe");
         }
         return guardado.get();
+    }
+
+    @Override
+    public Administrador crearAdmin(Administrador administrador) throws Exception {
+
+        boolean correoExiste = esRepetidoAdmin(administrador.getCorreo());
+
+        if(correoExiste == false){
+            throw new Exception("El correo ya esta registrado");
+        }
+        return adminRepo.save(administrador);
+
     }
 }
