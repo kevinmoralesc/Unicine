@@ -22,7 +22,6 @@ public class Pelicula implements Serializable {
     @Column(nullable = false, length = 100)
     private String nombre;
 
-    @Lob
     @Column(nullable = false)
     private String sinopsis;
 
@@ -42,7 +41,6 @@ public class Pelicula implements Serializable {
     @Column(nullable = false)
     private EstadoPelicula estado;
 
-    @Lob
     @Column(nullable = false)
     private String reparto;
 
